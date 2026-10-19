@@ -296,6 +296,8 @@ Hugh Hefner and John Candy appear as warm ghostly tributes.
 | Alicia Silverstone | Ch. 3 | Willow's vegan friend and Larry's style consultant ("As if!"). She gets along famously with Pam. |
 | Barry Sanders | Ch. 3 | He teaches Larry the juke that gets him out of the protest zone, as a movement puzzle. |
 | Drew Barrymore | Ch. 4 | She books Larry on her talk show after the rap battle. Her hug is how Larry survives #LarryToo. |
+| Charles Barkley | Ch. 4, Lakers game | Courtside next to Larry at a Lakers game. He's Larry's loudest cheerleader through a kiss-cam disaster ("That was TURRIBLE, Larry. Do it again!"). |
+| Michael Jordan | Ch. 4 onward | A few seats down, giving Larry the famous side-eye. He doesn't trust Larry one bit, but he backs the quest for love anyway ("I took that personally"). He shows up again at key moments with one line of tough-love advice. |
 | Adam Sandler | Ch. 4 | Basketball shorts, a hoodie, and a Happy Gilmore golf swing. He's a guest judge at Snoop's battle. |
 | Hugh Hefner (ghost) | Ch. 5 | Appears in a smoking jacket to tell Larry that a real gentleman reads the articles and walks away from bad parties. |
 | Steve Martin | Ch. 5 | Navin Johnson energy ("The new phone book's here!"). As a seed investor, he explains how the Opti-Grab made him rich off one dumb idea. |
