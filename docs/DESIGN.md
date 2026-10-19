@@ -226,6 +226,21 @@ walks away. The point of the scene is Larry's line: "I may be a sleaze, but
 I've got standards." No crimes are depicted; the joke is that even Larry
 noped out.
 
+**Elon, the nervous good guy.** Elon Musk is a recurring ally: twitchy,
+awkward, laughing at his own jokes a beat too long, tweeting through every
+crisis, but on the right side when it counts. He spots Larry's LaffX pitch in
+Chapter 5 and becomes a jittery mentor and friendly rival for "richest man in
+America."
+
+**The showdown: "Out a Window."** At the climax of Chapter 5, cartoon-villain
+Bill Gates unveils his evil plan: a Mandatory Update that forces every device
+on Earth to reboot forever ("Please do not turn off your planet"). Larry
+stalls him with the chair-jump contest while Elon pulls the plug. Then Elon,
+stammering an apology the whole time, tosses Gates out the conference room's
+giant four-pane Window. It's pure slapstick: Gates bounces off an awning,
+lands in a hedge shaped like a paperclip, shakes his fist and storms off.
+The world is saved. Elon tweets about it before anyone can stop him.
+
 The End of AIDS plotline lands here too: the 1987 lubber from Larry's wallet
 sells to the Smithsonian for a fortune, funding LaffX.
 
@@ -249,6 +264,7 @@ Played wrong, every previous mistake comes back as a congressional hearing.
 | Online dating and pic filters | Ch. 2: Filter Bubble |
 | "Summer of love" protests, girl with a nose ring | Ch. 3: Summer of Love (Willow) |
 | Bill Gates, Epstein, the chair jump | Ch. 5: Too Wild for Larry |
+| Elon as a nervous, weird good guy who throws Gates out a window | Ch. 5 onward: Elon the ally; the "Out a Window" showdown |
 | LAX and the Theme Building | Hub room in every chapter |
 | Kardashians save Larry's bacon | Ch. 2 onward: the Kris lifeline mechanic |
 | Snoop and Dre's rap contest in Long Beach | Ch. 4: The Long Beach Cypher |
