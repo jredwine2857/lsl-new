@@ -272,14 +272,23 @@ sells to the Smithsonian for a fortune, funding LaffX.
 
 LaffX builds its rocket in Houston, next door to Mission Control. Lead propulsion engineer:
 **Grace Cho from Cerritos**, brilliant, funny, unimpressed by billionaires,
-and the only person who has ever out-quipped Larry. The final puzzles combine
+and the only person who has ever out-quipped Larry. She also has the best
+karaoke voice in Southern California, and her family's noraebang in Cerritos
+is where Larry, the ex-karaoke-bar owner, finally learns to listen: to the
+song, and to her. The final puzzles combine
 everything: Willow's soup kitchen feeds the launch crew, Snoop hosts the
 launch, Kris handles PR, Ashleigh live-streams it, and Grace lands the
 booster. Played right, Larry becomes the richest man in America, unscathed,
 and marries Grace. They live happily ever after in Cerritos, with a sealed
-King's Quest V in a glass case on the mantel.
+King's Quest V in a glass case on the mantel and a karaoke machine in every
+room. The last scene is the two of them singing a duet of "Islands in the
+Stream."
 
-Played wrong, every previous mistake comes back as a congressional hearing.
+**There is exactly one ending.** Make the right choices and Larry gets Grace,
+the money and the happy ending. Make the wrong ones and you lose: every
+previous mistake comes back as a congressional hearing, and it's game over.
+No alternate endings, no consolation prize. Pam stays the one who got away
+and saves him one last time at the launch.
 
 ### Supporting cast
 
@@ -327,7 +336,7 @@ Barry's juke and a well-timed bar of soap.
 | LAX and the Theme Building | Hub room in every chapter |
 | Kardashians save Larry's bacon | Ch. 2 onward: the Kris lifeline mechanic |
 | Snoop and Dre's rap contest in Long Beach | Ch. 4: The Long Beach Cypher |
-| Nice Korean girl from Cerritos, happily ever after | Ch. 6: Grace Cho, the ending |
+| Nice Korean girl from Cerritos, happily ever after | Ch. 6: Grace Cho, karaoke lovers, the one and only ending |
 | Pam Anderson keeps popping up and saving the day | Every chapter: one automatic rescue (live in Ch. 1 and 2) |
 
 ### How ideas get added
