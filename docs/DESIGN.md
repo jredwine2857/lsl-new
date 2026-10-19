@@ -52,6 +52,13 @@ framework.
 
 ### Graphics plan
 
+**Art direction (jr's pick): Larry 5.** Backgrounds should look hand-painted
+like *Leisure Suit Larry 5* (1991): bright, warm gouache color, soft brushy
+shapes, almost no dithering. Rooms are blocked out in Blender
+(`art/skyline.py`), then `art/paint.py` turns the render into a painted-looking
+256-color background (an oil-paint filter, a color push, paper grain, no
+dither). Painting over these by hand later only makes them better.
+
 Placeholder art is drawn procedurally with the 16-color EGA palette
 (`src/engine/gfx.ts`). Each room's `draw()` is the only thing that changes when
 real art arrives:
