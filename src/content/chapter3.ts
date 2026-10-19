@@ -8,6 +8,8 @@ import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
 
 const CONEY = 225;
+const NAVY = '#000044';
+const LIME = '#AAFF00';
 
 const WAITRESS = { hair: EGA.red, top: EGA.lblue, pants: EGA.blue, accent: EGA.yellow, longHair: true, dress: true };
 const MORANIS = { hair: EGA.dgray, top: EGA.lgray, pants: EGA.brown, accent: EGA.white, glasses: true };
@@ -89,20 +91,37 @@ const skyline: Room = {
   title: 'Skyline Chili, Over-the-Rhine',
   public: true,
   walk: { x: 6, y: 150, w: 308, h: 49 },
-  describe: "Skyline Chili in Cincinnati's Over-the-Rhine. A long blue counter, a steaming chili vat, and a waitress who has heard every joke about \"ways.\" A small man in glasses sits at the counter looking hungry and a little lost. An old TV plays a rerun, and a sign is taped in the front window. The door to Vine Street is to the right.",
+  describe: "Skyline Chili in Cincinnati's Over-the-Rhine. The big oval Skyline sign glows over a navy-tiled counter, a steaming chili vat, and a waitress who has heard every joke about \"ways.\" A small man in glasses sits at the counter looking hungry and a little lost. An old TV plays a rerun, and a sign is taped in the front window. The door to Vine Street is to the right.",
   hotspots: [
     { id: 'waitress', names: ['waitress', 'woman', 'server', 'counter', 'dottie'], rect: { x: 83, y: 98, w: 14, h: 40 }, look: 'Her name tag says "DOTTIE, 31 YEARS." She has the forearms of a woman who has ladled a billion pounds of chili.' },
     { id: 'moranis', names: ['moranis', 'rick', 'rick moranis', 'man', 'small man', 'guy'], rect: { x: 163, y: 120, w: 14, h: 40 }, look: 'Is that Rick Moranis? It is. Rick Moranis is sitting at a Skyline counter in Cincinnati, patting his pockets like a man who has misplaced his wallet in another country.' },
     { id: 'tv', names: ['tv', 'television', 'rerun', 'wkrp', 'show'], rect: { x: 236, y: 24, w: 44, h: 32 }, look: (g) => { g.award('lookTv'); return 'WKRP in Cincinnati, the Thanksgiving episode. Live turkeys rain from a helicopter onto a shopping center. Mr. Carlson stares into the camera:\n\n"As God is my witness, I thought turkeys could fly."\n\nYou haven\'t seen this since 1978. You tear up a little.'; } },
     { id: 'sign', names: ['sign', 'window', 'flyer', 'poster', 'free food'], rect: { x: 18, y: 24, w: 70, h: 60 }, look: (g) => { g.award('lookSign'); return 'A hand-painted flyer: "FREE FOOD! SUMMER OF LOVE! WASHINGTON PARK! ALL WELCOME (VIBES REQUIRED)."\n\nFree food AND love. Larry hasn\'t been this excited since the Carter administration.'; } },
-    { id: 'menu', names: ['menu', 'board', 'ways', 'chili', 'vat'], rect: { x: 108, y: 22, w: 108, h: 34 }, look: `The menu board: CHEESE CONEY ${money(CONEY)}. 3-WAY (spaghetti, chili, cheese). 4-WAY (add onions or beans). 5-WAY (add both). In smaller letters, underlined twice: "THERE IS NO 6-WAY."` },
+    { id: 'logo', names: ['logo', 'oval', 'skyline sign', 'skyline', 'big sign'], rect: { x: 112, y: 13, w: 100, h: 42 }, look: 'The Skyline sign: a glowing oval with the Cincinnati skyline across the top, "Skyline" in neon lime script and "CHILI" on a red bar. It has looked down on a million 3-ways and judged none of them.' },
+    { id: 'menu', names: ['menu', 'board', 'screens', 'ways', 'chili', 'vat'], rect: { x: 112, y: 58, w: 170, h: 16 }, look: `The menu screens: CHEESE CONEY ${money(CONEY)}. 3-WAY (spaghetti, chili, cheese). 4-WAY (add onions or beans). 5-WAY (add both). In smaller letters, underlined twice: "THERE IS NO 6-WAY."` },
   ],
   zones: [
     { id: 'toPark', rect: { x: 306, y: 150, w: 14, h: 49 }, enter: (g) => g.goto('park', 20, 172) },
   ],
   draw(ctx, _g, t) {
-    rect(ctx, EGA.white, 0, 10, 320, 140);
-    stripes(ctx, EGA.lblue, EGA.white, 0, 10, 320, 12, 4);
+    // back wall: navy tile band with menu screens over beige tile
+    rect(ctx, '#CCBBAA', 0, 10, 320, 140);
+    for (let y = 74; y < 122; y += 8) rect(ctx, '#AA9988', 0, y, 320, 1);
+    for (let x = 0; x < 320; x += 16) rect(ctx, '#AA9988', x, 74, 1, 48);
+    rect(ctx, NAVY, 96, 58, 224, 16);
+    for (let i = 0; i < 4; i++) {
+      rect(ctx, EGA.white, 112 + i * 44, 60, 38, 12);
+      rect(ctx, EGA.blue, 112 + i * 44, 60, 38, 3);
+    }
+    // soffit and the big oval sign
+    rect(ctx, EGA.lgray, 96, 10, 224, 48);
+    ellipse(ctx, NAVY, 162, 34, 52, 21);
+    ellipse(ctx, EGA.black, 162, 34, 49, 19);
+    ellipse(ctx, EGA.lblue, 162, 25, 36, 8);
+    for (const [x, h] of [[132, 5], [138, 8], [144, 6], [150, 11], [156, 7], [162, 13], [168, 8], [174, 10], [180, 6], [186, 8], [192, 5]] as [number, number][]) rect(ctx, EGA.black, x, 32 - h, 5, h);
+    text(ctx, 'Skyline', 162, 29, LIME, 12, 'center');
+    rect(ctx, EGA.red, 140, 43, 46, 7);
+    text(ctx, 'C H I L I', 163, 44, EGA.white, 5, 'center');
     // window with the flyer
     dither(ctx, EGA.lcyan, EGA.cyan, 14, 22, 78, 66);
     rect(ctx, EGA.yellow, 22, 28, 62, 48);
@@ -110,11 +129,8 @@ const skyline: Room = {
     text(ctx, 'FOOD!', 30, 44, EGA.red, 9);
     text(ctx, 'SUMMER OF LOVE', 25, 60, EGA.magenta, 5);
     text(ctx, 'WASHINGTON PARK', 25, 67, EGA.black, 5);
-    // menu board
-    rect(ctx, EGA.blue, 108, 22, 108, 34);
-    text(ctx, 'SKYLINE', 132, 25, EGA.yellow, 9);
-    text(ctx, '3-WAY 4-WAY 5-WAY', 114, 38, EGA.white, 6);
-    text(ctx, 'NO 6-WAY', 138, 47, EGA.lred, 6);
+    // chrome pendant lamps
+    for (const x of [130, 190, 250]) { rect(ctx, EGA.lgray, x, 74, 1, 10); ellipse(ctx, EGA.lgray, x, 86, 6, 3); rect(ctx, EGA.yellow, x - 3, 88, 6, 1); }
     // TV
     rect(ctx, EGA.dgray, 236, 24, 44, 32);
     rect(ctx, EGA.lcyan, 240, 28, 36, 24);
@@ -128,8 +144,9 @@ const skyline: Room = {
     if (Math.floor(t * 2) % 2) rect(ctx, EGA.white, 42, 92, 2, 6);
     person(ctx, 90, 138, WAITRESS);
     // counter and stools
-    rect(ctx, EGA.blue, 0, 122, 320, 24);
-    rect(ctx, EGA.lblue, 0, 122, 320, 3);
+    rect(ctx, NAVY, 0, 122, 320, 24);
+    for (let x = 0; x < 320; x += 5) rect(ctx, '#222277', x, 125, 1, 21);
+    rect(ctx, EGA.white, 0, 122, 320, 3);
     for (let x = 30; x < 300; x += 34) { rect(ctx, EGA.dgray, x + 4, 146, 2, 10); ellipse(ctx, EGA.red, x + 5, 146, 6, 2); }
     // floor
     stripes(ctx, EGA.lgray, EGA.white, 0, 150, 320, 50, 6);
