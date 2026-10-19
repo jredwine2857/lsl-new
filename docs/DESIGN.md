@@ -2,7 +2,10 @@
 
 A fan-made, Sierra-style comedy adventure. In 1992, one step ahead of
 Babbage's return policy, Larry Laffer fled to the Philippines and spent 34
-years running a karaoke bar on an island with no internet. In 2026 he comes
+years running a karaoke bar on an island with no internet, alongside the love
+of his life, Maricel. When Larry finally learns she is trans (she told him on
+their first date; he wasn't listening), they part as best friends, and he
+heads home to find what he calls a "normal" relationship. In 2026 he comes
 home and learns that AIDS is over and people aren't so scared of free love
 anymore. Larry goes completely overboard with his newfound liberation, crashing
 through a world of dating apps, phones, PC Police, grift foundations, cancel
@@ -269,14 +272,23 @@ sells to the Smithsonian for a fortune, funding LaffX.
 
 LaffX builds its rocket in Houston, next door to Mission Control. Lead propulsion engineer:
 **Grace Cho from Cerritos**, brilliant, funny, unimpressed by billionaires,
-and the only person who has ever out-quipped Larry. The final puzzles combine
+and the only person who has ever out-quipped Larry. She also has the best
+karaoke voice in Southern California, and her family's noraebang in Cerritos
+is where Larry, the ex-karaoke-bar owner, finally learns to listen: to the
+song, and to her. The final puzzles combine
 everything: Willow's soup kitchen feeds the launch crew, Snoop hosts the
 launch, Kris handles PR, Ashleigh live-streams it, and Grace lands the
 booster. Played right, Larry becomes the richest man in America, unscathed,
 and marries Grace. They live happily ever after in Cerritos, with a sealed
-King's Quest V in a glass case on the mantel.
+King's Quest V in a glass case on the mantel and a karaoke machine in every
+room. The last scene is the two of them singing a duet of "Islands in the
+Stream."
 
-Played wrong, every previous mistake comes back as a congressional hearing.
+**There is exactly one ending.** Make the right choices and Larry gets Grace,
+the money and the happy ending. Make the wrong ones and you lose: every
+previous mistake comes back as a congressional hearing, and it's game over.
+No alternate endings, no consolation prize. Pam stays the one who got away
+and saves him one last time at the launch.
 
 ### Supporting cast
 
@@ -293,6 +305,8 @@ Hugh Hefner and John Candy appear as warm ghostly tributes.
 | Alicia Silverstone | Ch. 3 | Willow's vegan friend and Larry's style consultant ("As if!"). She gets along famously with Pam. |
 | Barry Sanders | Ch. 3 | He teaches Larry the juke that gets him out of the protest zone, as a movement puzzle. |
 | Drew Barrymore | Ch. 4 | She books Larry on her talk show after the rap battle. Her hug is how Larry survives #LarryToo. |
+| Charles Barkley | Ch. 4, Lakers game | Courtside next to Larry at a Lakers game. He's Larry's loudest cheerleader through a kiss-cam disaster ("That was TURRIBLE, Larry. Do it again!"). |
+| Michael Jordan | Ch. 4 onward | A few seats down, giving Larry the famous side-eye. He doesn't trust Larry one bit, but he backs the quest for love anyway ("I took that personally"). He shows up again at key moments with one line of tough-love advice. |
 | Adam Sandler | Ch. 4 | Basketball shorts, a hoodie, and a Happy Gilmore golf swing. He's a guest judge at Snoop's battle. |
 | Hugh Hefner (ghost) | Ch. 5 | Appears in a smoking jacket to tell Larry that a real gentleman reads the articles and walks away from bad parties. |
 | Steve Martin | Ch. 5 | Navin Johnson energy ("The new phone book's here!"). As a seed investor, he explains how the Opti-Grab made him rich off one dumb idea. |
@@ -322,7 +336,7 @@ Barry's juke and a well-timed bar of soap.
 | LAX and the Theme Building | Hub room in every chapter |
 | Kardashians save Larry's bacon | Ch. 2 onward: the Kris lifeline mechanic |
 | Snoop and Dre's rap contest in Long Beach | Ch. 4: The Long Beach Cypher |
-| Nice Korean girl from Cerritos, happily ever after | Ch. 6: Grace Cho, the ending |
+| Nice Korean girl from Cerritos, happily ever after | Ch. 6: Grace Cho, karaoke lovers, the one and only ending |
 | Pam Anderson keeps popping up and saving the day | Every chapter: one automatic rescue (live in Ch. 1 and 2) |
 
 ### How ideas get added
@@ -339,6 +353,9 @@ the group votes.
   allyship, HR theater, VC buzzwords, influencers), not people for who they are.
 - No slurs. Characters who are trans, gay, Black, etc. can appear and be funny,
   but the joke is never their identity.
+- Maricel, Larry's ex, is a dignified, likable character. The joke in the
+  backstory is Larry's 34 years of not listening, never her identity. She can
+  come back as a friend who gives him the best advice in the game.
 - Real public figures (Ken and Roberta Williams, the Kardashian-Jenners, Snoop
   Dogg and Dr. Dre, Bill Gates) appear as obvious parody. The game never
   depicts or alleges specific crimes by real people.

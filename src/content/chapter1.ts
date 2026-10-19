@@ -747,7 +747,7 @@ export const chapter1: Content = {
   },
   intro: [
     'LEISURE SUIT LARRY: WOKE UP BROKE\n\nChapter 1: Rip Van Laffer',
-    "April 30, 1992. With Babbage's on to his fifth fake \"return\" of King's Quest V, Larry Laffer leaves his stuff in Lefty's back room and catches the first flight to Manila.\n\nHe spends the next 34 years on a Philippine island running a karaoke bar with no internet, no TV and a strict no-news policy.",
+    "April 30, 1992. With Babbage's on to his fifth fake \"return\" of King's Quest V, Larry Laffer leaves his stuff in Lefty's back room and catches the first flight to Manila.\n\nHe spends the next 34 years on a Philippine island running a karaoke bar with Maricel, the love of his life. No internet, no TV, no news. When Larry finally learns she is trans (she told him on their first date; he wasn't listening), they part as best friends, and Larry sets off to find what he calls a \"normal\" relationship.",
     'October 2026. Larry finally comes home. Jet-lagged and nostalgic, he sneaks into Lefty\'s back room and passes out in the old hot tub.\n\nHe wakes up to news he can hardly believe: AIDS is over. Free love is back. And Larry Laffer intends to make up for lost time.\n\nWhat could possibly go wrong?\n\n(Type HELP for instructions. Save often. This is a Sierra game.)',
   ],
   handle(g, cmd) {

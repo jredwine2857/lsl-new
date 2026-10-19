@@ -3,12 +3,23 @@
 A fan-made, Sierra-style comedy adventure that runs in your browser.
 
 In 1992, one fake King's Quest return ahead of the law, Larry Laffer fled to
-the Philippines. He spent 34 years running a karaoke bar on an island with no
-internet, no TV and a strict no-news policy.
+the Philippines. There he finally found love: Maricel, who sang a mean "My Way"
+at the karaoke bar they ran together on a little island with no internet, no TV
+and a strict no-news policy.
 
-Now he's home, and the news is incredible: AIDS is over, and people aren't so
-scared of free love anymore. Larry, 68, in the same white polyester suit, plans
-to make up for lost time. He goes completely overboard.
+Thirty-four happy years later, Larry learns that Maricel is trans. She had
+mentioned it on their first date, on their tenth anniversary, and on a
+hand-painted banner that hung over the bar for two decades. Larry, it turns
+out, has never once listened to anything a woman said.
+
+They part as best friends. Maricel keeps the bar, Larry keeps the leisure suit,
+and Larry, still a 1992 man at heart, sets off to find what he calls a "normal"
+relationship. Maricel kisses him goodbye at the ferry: "Good luck, Larry. Try
+listening this time."
+
+He comes home to a world he doesn't recognize. AIDS is over, people aren't so
+scared of free love anymore, and Larry, 68, in the same white polyester suit,
+plans to make up for lost time. He goes completely overboard.
 
 He takes his "liberation" from Lost Wages to Los Angeles, Cincinnati, Miami and
 Houston. Along the way he survives dating apps, the PC Police, grifters, cancel
