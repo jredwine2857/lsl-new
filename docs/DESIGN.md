@@ -110,7 +110,7 @@ wedding (ch. 6).
 | `src/engine/parser.ts` | Verb/noun parser with synonyms and multi-word verbs |
 | `src/engine/game.ts` | State, movement, zones, scoring, deaths, undo, save |
 | `src/engine/gfx.ts` | EGA palette, dithering, sprite drawing |
-| `src/content/chapter1.ts` | Rooms, items, puzzles, jokes for chapter 1 |
+| `src/content/chapterN.ts` | Rooms, items, puzzles, jokes for each chapter |
 | `src/main.ts` | Browser UI: canvas loop, input, dialogs, sound |
 | `tests/` | Walkthrough and death tests |
 
@@ -211,7 +211,7 @@ the flight attendant, stepping into rideshare traffic, hitting on Kim,
 complaining that Ashleigh doesn't look like her photos, a 1992-style
 dine-and-dash.
 
-### Chapter 3: Summer of Love (planned)
+### Chapter 3: Summer of Love (playable)
 
 Cincinnati. Larry follows a free-food sign and gets swept into a "Summer of
 Love" protest occupation zone. He meets **Willow**: nose ring, tote bag, a
@@ -223,11 +223,27 @@ Puzzle: get Willow and himself out before the zone's self-appointed security
 council "cancels" them. Willow and Larry part as friends; she ends up running
 a soup kitchen that actually feeds people.
 
-Deaths: chanting the wrong slogan, buying the $90 "Abolish Capitalism" hoodie
-with a credit card, trying to pick up Willow with a protest sign that says
-"Honk if you're single."
+Easter eggs: WKRP's turkey drop on the Skyline TV ("As God is my witness, I
+thought turkeys could fly"), Rick Moranis broke at the counter, Barry Sanders
+teaching the juke, Alicia Silverstone's "As if!", and Scut Farkus getting the
+Lifebuoy treatment from A Christmas Story.
 
-### Chapter 4: The Long Beach Cypher (planned)
+**Rooms:** Skyline Chili in Over-the-Rhine, Washington Park, the Summer of
+Love Zone, the checkpoint on Vine Street.
+
+**Critical path:** ORDER CONEY → GIVE CONEY to Rick Moranis (he gives you
+Lifebuoy soap) → GET FOOTBALL from the park fountain → GIVE FOOTBALL to Barry
+Sanders (learn the juke) → LOOK BANNER and CHANT VIBES (the zone accepts you)
+→ TALK TO WILLOW → SCAN the G-Wagon's donation QR code and read the 40% fee
+→ SHOW PHONE to Willow (she wants out) → JUKE Scut Farkus into a puddle →
+USE SOAP on his mouth → walk out onto Vine Street with Willow.
+
+**Deaths (all rescuable by calling Kris):** ordering a six-way at Skyline, the
+streetcar (Pam saves you the first time), chanting the wrong slogan, buying
+the $90 "Abolish Capitalism" hoodie on Pear Pay, making a "Honk if you're
+single" sign, hitting on Willow, and fighting Farkus head-on.
+
+### Chapter 4: The Long Beach Cypher (playable)
 
 Larry takes a wrong bus and ends up in Long Beach, where Snoop Dogg and Dr. Dre
 are judging a backyard rap battle. Larry, armed with nothing but 1977 disco
@@ -239,7 +255,25 @@ Also here: #LarryToo. A clout-chasing influencer fabricates a claim about Larry
 for engagement; the receipts (Snoop's party footage, a doorbell camera) clear
 him. Larry's *real* sleazy moves still get him canceled on the spot.
 
-### Chapter 5: Too Wild for Larry (planned)
+**Rooms:** the street outside Snoop's in Long Beach, Snoop's backyard
+cypher, courtside at the Lakers game, The Drew Barrymore Show.
+
+**Critical path:** SAY KRIS SENT ME at Snoop's gate (a "Ken sent me"
+callback) → BATTLE Young Filtr and flip each diss: RAP ABOUT SUIT, RAP ABOUT
+KARAOKE, RAP ABOUT MARICEL (the honest verse wins; Snoop pays seed money and
+courtside tickets) → bus to the Lakers game, where #LarryToo breaks → KISS
+BARKLEY on the kiss cam ("That was TURRIBLE, Larry!"; Jordan: "I took that
+personally") → CALL SNOOP for his party footage → TALK TO RICK for his RV's
+doorbell-cam video → on Drew's show, SHOW FOOTAGE (exposes Affleck eating a
+sad Dunkin' instead of writing) and SHOW DOORBELL (Kaydence rehearsing her
+claim) → Drew's hug.
+
+**Deaths (all rescuable by calling Kris):** answering the wrong diss,
+chugging Snoop's gin and juice, hitting on the influencer, kissing a stranger
+on the kiss cam, fighting Affleck (he trained for Batman), hitting on Drew,
+and Ocean Boulevard (Pam saves you the first time).
+
+### Chapter 5: Too Wild for Larry (playable)
 
 Miami, during Art Basel week, on a billionaire's yacht and in a Brickell high-rise. Larry pitches LaffX to tech investors and
 ends up at the party of the century, where Bill Gates is showing off his famous
@@ -267,6 +301,23 @@ The world is saved. Elon tweets about it before anyone can stop him.
 
 The End of AIDS plotline lands here too: the 1987 lubber from Larry's wallet
 sells to the Smithsonian for a fortune, funding LaffX.
+
+**Rooms:** Art Basel, Ocean Drive, the Yacht Gigabyte, the Mandatory Update
+Command Center in Brickell.
+
+**Critical path:** SELL LUBBER to the Smithsonian curator → PITCH LAFFX to
+Steve Martin (he wants skin in the game first; then he gives a yacht invite) →
+ASK RICK ABOUT CHAIR (Rick Moranis always brings his own chair) → on the yacht,
+JUMP the deck chair to beat Gates → TALK TO HEFNER (the ghost's advice) and
+JEFFREY (the island invite) → SAY NO THANKS ("I may be a sleaze, but I've got
+standards"), which wins Elon over → RIDE CYBERTRUCK to Brickell → DROP CHAIR
+in the room where "chairs are deprecated" → CHALLENGE GATES → JUMP while Elon
+pulls the plug, then Elon throws Gates out the Window into the paperclip hedge.
+
+**Deaths:** eating the $6.2M banana, hitting on the curator, Ocean Drive
+Lamborghinis, going overboard (Pam saves you the first time), pressing INSTALL
+NOW, pulling the plug yourself, charging Gates. All are rescuable except one:
+saying yes to Jeffrey's island ends the game, and Kris doesn't pick up.
 
 ### Chapter 6: Larry to Mars (planned finale)
 
@@ -366,4 +417,4 @@ the group votes.
 2. Add a priority map so Larry can walk behind the bar and bench.
 3. Replace placeholder backgrounds with Blender renders, one room at a time.
 4. Render the first FMV interlude and add the `cutscene` message kind.
-5. Write chapter 3.
+5. Write chapter 6 (Larry to Mars, Houston), the finale.

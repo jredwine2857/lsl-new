@@ -41,6 +41,8 @@ export class Game {
     this.maxScore = Object.values(content.points).reduce((a, b) => a + b, 0);
     this.s = this.fresh();
     this.syncZones();
+    // So Undo and the lifeline work even if Larry dies before typing anything.
+    this.snapshot();
   }
 
   private fresh(): State {
@@ -402,9 +404,9 @@ export class Game {
   restart() {
     this.s = this.fresh();
     this.queue = [];
-    this.undoSnap = null;
     this.stop();
     this.syncZones();
+    this.snapshot();
   }
 
   undo(): boolean {
