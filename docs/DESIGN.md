@@ -2,7 +2,10 @@
 
 A fan-made, Sierra-style comedy adventure. In 1992, one step ahead of
 Babbage's return policy, Larry Laffer fled to the Philippines and spent 34
-years running a karaoke bar on an island with no internet. In 2026 he comes
+years running a karaoke bar on an island with no internet, alongside the love
+of his life, Maricel. When Larry finally learns she is trans (she told him on
+their first date; he wasn't listening), they part as best friends, and he
+heads home to find what he calls a "normal" relationship. In 2026 he comes
 home and learns that AIDS is over and people aren't so scared of free love
 anymore. Larry goes completely overboard with his newfound liberation, crashing
 through a world of dating apps, phones, PC Police, grift foundations, cancel
@@ -339,6 +342,9 @@ the group votes.
   allyship, HR theater, VC buzzwords, influencers), not people for who they are.
 - No slurs. Characters who are trans, gay, Black, etc. can appear and be funny,
   but the joke is never their identity.
+- Maricel, Larry's ex, is a dignified, likable character. The joke in the
+  backstory is Larry's 34 years of not listening, never her identity. She can
+  come back as a friend who gives him the best advice in the game.
 - Real public figures (Ken and Roberta Williams, the Kardashian-Jenners, Snoop
   Dogg and Dr. Dre, Bill Gates) appear as obvious parody. The game never
   depicts or alleges specific crimes by real people.
