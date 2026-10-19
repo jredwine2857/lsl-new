@@ -243,7 +243,7 @@ streetcar (Pam saves you the first time), chanting the wrong slogan, buying
 the $90 "Abolish Capitalism" hoodie on Pear Pay, making a "Honk if you're
 single" sign, hitting on Willow, and fighting Farkus head-on.
 
-### Chapter 4: The Long Beach Cypher (planned)
+### Chapter 4: The Long Beach Cypher (playable)
 
 Larry takes a wrong bus and ends up in Long Beach, where Snoop Dogg and Dr. Dre
 are judging a backyard rap battle. Larry, armed with nothing but 1977 disco
@@ -254,6 +254,24 @@ gets Larry Snoop's blessing, a viral clip and seed money.
 Also here: #LarryToo. A clout-chasing influencer fabricates a claim about Larry
 for engagement; the receipts (Snoop's party footage, a doorbell camera) clear
 him. Larry's *real* sleazy moves still get him canceled on the spot.
+
+**Rooms:** the street outside Snoop's in Long Beach, Snoop's backyard
+cypher, courtside at the Lakers game, The Drew Barrymore Show.
+
+**Critical path:** SAY KRIS SENT ME at Snoop's gate (a "Ken sent me"
+callback) → BATTLE Young Filtr and flip each diss: RAP ABOUT SUIT, RAP ABOUT
+KARAOKE, RAP ABOUT MARICEL (the honest verse wins; Snoop pays seed money and
+courtside tickets) → bus to the Lakers game, where #LarryToo breaks → KISS
+BARKLEY on the kiss cam ("That was TURRIBLE, Larry!"; Jordan: "I took that
+personally") → CALL SNOOP for his party footage → TALK TO RICK for his RV's
+doorbell-cam video → on Drew's show, SHOW FOOTAGE (exposes Affleck eating a
+sad Dunkin' instead of writing) and SHOW DOORBELL (Kaydence rehearsing her
+claim) → Drew's hug.
+
+**Deaths (all rescuable by calling Kris):** answering the wrong diss,
+chugging Snoop's gin and juice, hitting on the influencer, kissing a stranger
+on the kiss cam, fighting Affleck (he trained for Batman), hitting on Drew,
+and Ocean Boulevard (Pam saves you the first time).
 
 ### Chapter 5: Too Wild for Larry (planned)
 
@@ -382,4 +400,4 @@ the group votes.
 2. Add a priority map so Larry can walk behind the bar and bench.
 3. Replace placeholder backgrounds with Blender renders, one room at a time.
 4. Render the first FMV interlude and add the `cutscene` message kind.
-5. Write chapter 4 (Long Beach Cypher).
+5. Write chapter 5 (Too Wild for Larry, Miami).

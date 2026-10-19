@@ -31,7 +31,7 @@ never planned for: he falls in love.
 Play it right and Larry comes out unscathed. Play it wrong and he dies in a
 hundred stupid ways. This is a Sierra game.
 
-Chapters 1 to 3 are playable now. See [the design doc](docs/DESIGN.md) for the
+Chapters 1 to 4 are playable now. See [the design doc](docs/DESIGN.md) for the
 full story, the cast, the engine and the graphics plan.
 
 ## Play
