@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Larry: Woke Up Broke</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <main id="app">
+      <div id="screen">
+        <canvas id="canvas" width="960" height="600" aria-label="Game screen"></canvas>
+        <div id="dialog" hidden>
+          <div class="box">
+            <div class="title"></div>
+            <div class="body"></div>
+            <div class="buttons"></div>
+          </div>
+        </div>
+      </div>
+      <form id="parser" autocomplete="off">
+        <label for="input">&gt;</label>
+        <input id="input" type="text" spellcheck="false" autocapitalize="off" placeholder="Type a command, e.g. LOOK, GET BOX, HELP" />
+      </form>
+      <div id="toolbar">
+        <button data-cmd="look">Look</button>
+        <button data-cmd="inventory">Inventory</button>
+        <button data-cmd="hint">Hint</button>
+        <button data-cmd="save">Save</button>
+        <button data-cmd="restore">Restore</button>
+        <button data-cmd="help">Help</button>
+        <span class="pad" aria-label="Walk">
+          <button data-walk="-1,0" aria-label="Walk left">&#9664;</button>
+          <button data-walk="0,-1" aria-label="Walk up">&#9650;</button>
+          <button data-walk="0,1" aria-label="Walk down">&#9660;</button>
+          <button data-walk="1,0" aria-label="Walk right">&#9654;</button>
+        </span>
+      </div>
+      <p class="fine">A fan-made parody. Not affiliated with Sierra, Al Lowe, or anyone with a lawyer.</p>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
