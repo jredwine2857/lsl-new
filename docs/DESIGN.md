@@ -257,6 +257,39 @@ King's Quest V in a glass case on the mantel.
 
 Played wrong, every previous mistake comes back as a congressional hearing.
 
+### Supporting cast
+
+Affectionate parodies of each star's public persona and best-known roles.
+Turncoats are comic movie villains; no jokes about real-life allegations.
+Hugh Hefner and John Candy appear as warm ghostly tributes.
+
+**Allies**
+
+| Who | Where | Bit |
+| --- | --- | --- |
+| Rick Moranis | Sporadic, every chapter | Pops up at random like Sierra's "man on the street," always with one oddly perfect item: a shrink ray, a Keymaster badge, a Dark Helmet ("I see your Schwartz is as big as mine"). |
+| John Candy (ghost) | Ch. 2, LAX | Del Griffith from *Planes, Trains and Automobiles*, selling shower curtain rings at the gate. He teaches Larry that being a nice guy is a superpower. |
+| Alicia Silverstone | Ch. 3 | Willow's vegan friend and Larry's style consultant ("As if!"). She gets along famously with Pam. |
+| Barry Sanders | Ch. 3 | He teaches Larry the juke that gets him out of the protest zone, as a movement puzzle. |
+| Drew Barrymore | Ch. 4 | She books Larry on her talk show after the rap battle. Her hug is how Larry survives #LarryToo. |
+| Adam Sandler | Ch. 4 | Basketball shorts, a hoodie, and a Happy Gilmore golf swing. He's a guest judge at Snoop's battle. |
+| Hugh Hefner (ghost) | Ch. 5 | Appears in a smoking jacket to tell Larry that a real gentleman reads the articles and walks away from bad parties. |
+| Steve Martin | Ch. 5 | Navin Johnson energy ("The new phone book's here!"). As a seed investor, he explains how the Opti-Grab made him rich off one dumb idea. |
+
+**Surprise turncoats**
+
+| Who | Where | Bit |
+| --- | --- | --- |
+| Ben Affleck | Ch. 4 | Larry's new best bud, always carrying Dunkin'. He steals Larry's rap clip and claims he wrote it. A sad Dunkin' photo gives him away. |
+| Tom Cruise | Ch. 6 | Volunteers as LaffX's stunt astronaut, then tries to hijack the rocket by climbing along the outside. Grace and Pam talk him down. |
+| Kevin Spacey | Ch. 5 to 6 | A smooth Beltway fixer who breaks the fourth wall to the player. He turns out to be Gates's inside man and runs the final congressional hearing. |
+
+**The worst guy: Scut Farkus.** The yellow-eyed bully from *A Christmas
+Story*, grown up and running the protest zone's self-appointed "security
+council" in Chapter 3. He's the only character in the game who is worse than
+Larry. The puzzle ends Ralphie-style: Larry finally stands up to him, with
+Barry's juke and a well-timed bar of soap.
+
 ### Scenario map
 
 | jr's scenario | Where it lands |
