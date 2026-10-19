@@ -131,6 +131,18 @@ in public.
 
 **Score:** 100 points. The ending is worth 18.
 
+### Where it happens
+
+Larry's world is mainly four cities, with LAX as the hub he keeps flying
+through. Every city gets its own set of Larry follies and deaths.
+
+| City | Chapters | Flavor and follies |
+| --- | --- | --- |
+| Los Angeles | 2, 4, epilogue | LAX and the Theme Building, the Kardashians, Long Beach, the Cerritos wedding. |
+| Cincinnati | 3 | The protest zone in Over-the-Rhine, Skyline Chili (ordering a 6-way is a death), a *WKRP* nod: "As God is my witness, I thought turkeys could fly." Scut Farkus is an Ohio boy. |
+| Miami | 5 | Art Basel, crypto bros, a billionaire yacht, *Miami Vice* pastels, Pam's beach rescue, and the "Out a Window" showdown from a Brickell tower. |
+| Houston | 6 | LaffX next to Mission Control ("Houston, we have a problem" every time Larry touches anything), a rodeo bull ride Larry should not attempt, and the launch. |
+
 ### The road ahead
 
 Larry leaves Lost Wages for Los Angeles. **LAX is the hub of the whole game**:
@@ -189,7 +201,7 @@ dine-and-dash.
 
 ### Chapter 3: Summer of Love (planned)
 
-Downtown L.A. Larry follows a free-food sign and gets swept into a "Summer of
+Cincinnati. Larry follows a free-food sign and gets swept into a "Summer of
 Love" protest occupation zone. He meets **Willow**: nose ring, tote bag, a
 bleeding heart for every cause, and a lost soul under it. The comedy targets
 the grift around the movement (organizers selling merch out of a G-Wagon, a
@@ -217,7 +229,7 @@ him. Larry's *real* sleazy moves still get him canceled on the spot.
 
 ### Chapter 5: Too Wild for Larry (planned)
 
-Seattle and a billionaires' retreat. Larry pitches LaffX to tech investors and
+Miami, during Art Basel week, on a billionaire's yacht and in a Brickell high-rise. Larry pitches LaffX to tech investors and
 ends up at the party of the century, where Bill Gates is showing off his famous
 standing jump over a chair. Larry jumps higher (he's been training on hot tub
 rims since 1992). Then a well-connected financier named Jeffrey invites them to
@@ -246,7 +258,7 @@ sells to the Smithsonian for a fortune, funding LaffX.
 
 ### Chapter 6: Larry to Mars (planned finale)
 
-LaffX builds a rocket in a Long Beach hangar. Lead propulsion engineer:
+LaffX builds its rocket in Houston, next door to Mission Control. Lead propulsion engineer:
 **Grace Cho from Cerritos**, brilliant, funny, unimpressed by billionaires,
 and the only person who has ever out-quipped Larry. The final puzzles combine
 everything: Willow's soup kitchen feeds the launch crew, Snoop hosts the
