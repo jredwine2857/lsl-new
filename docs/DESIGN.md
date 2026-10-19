@@ -326,7 +326,7 @@ Lamborghinis, going overboard (Pam saves you the first time), pressing INSTALL
 NOW, pulling the plug yourself, charging Gates. All are rescuable except one:
 saying yes to Jeffrey's island ends the game, and Kris doesn't pick up.
 
-### Chapter 6: Larry to Mars (planned finale)
+### Chapter 6: Larry to Mars (playable finale)
 
 LaffX builds its rocket in Houston, next door to Mission Control. Lead propulsion engineer:
 **Grace Cho from Cerritos**, brilliant, funny, unimpressed by billionaires,
@@ -347,6 +347,26 @@ the money and the happy ending. Make the wrong ones and you lose: every
 previous mistake comes back as a congressional hearing, and it's game over.
 No alternate endings, no consolation prize. Pam stays the one who got away
 and saves him one last time at the launch.
+
+**Rooms:** the LaffX hangar in Houston, the Cho family noraebang in Cerritos
+(Room 3), LaffX Mission Control, the launch pad.
+
+**Critical path:** CALL MARICEL (her advice is the walkthrough: ask, shut up,
+remember, bow, listen) → TALK TO GRACE → LISTEN TO ENGINE (Larry hears the
+quarter-tone flat that nobody else can) → ASK GRACE ABOUT MUSIC (her dad sings
+"Islands in the Stream" with her mom every anniversary) → GET CHILI from
+Willow's truck → GIVE CHILI to Grace, then leave her alone, which earns the
+invite → take the jet to Cerritos → BOW to Mr. and Mrs. Cho → SING ISLANDS IN
+THE STREAM → TALK TO MOM (Grandma Cho's ring) → Mission Control: TALK TO the
+gray fixer, then REFUSE his contract (Kris already has the license) → the pad:
+yelling at Tom Cruise doesn't work, so LISTEN until he climbs down → PRESS
+LAUNCH (Larry becomes the richest man in America) → PROPOSE. Epilogue, THE END.
+
+**Deaths:** test-firing the engine, hitting on Grace at work, singing "My Way"
+or any wrong song, flirting in front of her parents, climbing after Tom, the
+flame trench (Pam saves you the last time). All are rescuable except one:
+signing the gray man's contract sends Larry to a congressional hearing, and
+Kris doesn't pick up.
 
 ### Supporting cast
 
@@ -424,4 +444,4 @@ the group votes.
 2. Add a priority map so Larry can walk behind the bar and bench.
 3. Replace placeholder backgrounds with Blender renders, one room at a time.
 4. Render the first FMV interlude and add the `cutscene` message kind.
-5. Write chapter 6 (Larry to Mars, Houston), the finale.
+5. Swap the painted Larry 5 backgrounds into the game, one room at a time.
