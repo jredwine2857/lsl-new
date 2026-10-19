@@ -89,7 +89,7 @@ Lost Wages, 2026. Goal: get a phone, get an idea, get out of town.
 
 **Critical path:** get box → knock / say password → get and wear pin → sell box
 to Ken and Roberta ($1,000) → buy Space Quest → read it (the IDEA) → buy phone →
-connect to Wi-Fi in LFTY → CALL ROBOTAXI on the Strip.
+connect to Wi-Fi in LFTY → CALL ROBOTAXI on the Strip (to the airport and a flight to LAX).
 
 **Deaths:** drink the hot tub water; hit on the bartender (canceled); hit on the
 canvasser (canceled); walk into the street; donate via QR code (death by
@@ -98,44 +98,110 @@ in public.
 
 **Score:** 100 points. The ending is worth 18.
 
-### Chapter 2: Woke Valley (planned)
+### The road ahead
 
-Silicon Valley. Larry pitches "LaffX: Reusable Rockets & Leisure Suits" to VCs
-who fund anything with the right buzzwords. Mandatory HR onboarding with a
-pronoun minefield where every wrong answer is a death and the right answer is
-always "I'll circle back." A city council that bans gas stoves while flying
-private. Goal: close a seed round without getting canceled.
+Larry leaves Lost Wages for Los Angeles. **LAX is the hub of the whole game**:
+the Theme Building (the flying-saucer restaurant in the middle of the airport)
+is a recurring "home base" room Larry returns to between chapters, and every
+chapter starts or ends with a flight in or out. Each visit, the terminal has
+changed a little (new TSA rules, new lounges, the same broken moving walkway).
 
-Easter eggs: Sierra's Oakhurst office as a startup co-working space; Roger
-Wilco as a janitor at the incubator; a Space Quest "Sarien" parody of a
-competitor.
+**Kardashian lifeline (game mechanic).** In Chapter 2 Larry befriends the
+Kardashian-Jenner family (Kris, Kim, Khloé, Caitlyn and company) and gets
+Kris's number. From then on, when Larry is about to die in certain set-pieces,
+CALL KRIS rescues him (a lawyer, a PR firm, a private jet, a reality-show
+camera crew that makes the scandal "content"). Limited uses per chapter, so
+it's a resource, not a free pass. They save his bacon many times.
 
-### Chapter 3: #LarryToo (planned)
+### Chapter 2: Filter Bubble (planned)
 
-An influencer accuses Larry of something he didn't do (for once) to farm
-engagement, and the PR and HR industries pounce. Larry must find the receipts
-(a doorbell camera, a Swipr chat log, Sgt. Bonds' bodycam) to clear his name,
-while every *real* sleazy move he tries still gets him canceled on the spot.
-The satire is aimed at clout-chasing and trial-by-timeline, and at Larry.
+LAX and the Westside. Larry lands at LAX and sets up Swipr.
 
-### Chapter 4: The End of AIDS (planned)
+- **First date, filtered.** Larry matches with "Ashleigh, 29." At the Theme
+  Building's Encounter restaurant, the woman who shows up looks nothing like
+  her photos (beauty filters, a 2014 photo, and somebody else's dog). The
+  puzzle: Larry has to get through the date without being the shallow one, and
+  learns that his own profile photo is from 1987. Both of them walk out
+  laughing; she becomes a recurring ally.
+- **Meeting the Kardashians.** A mix-up at the LAX private terminal puts Larry
+  in the Kardashians' SUV. His 1992 polyester becomes "vintage core," he goes
+  viral for the right reasons for once, and he gets Kris's number (the
+  lifeline).
+- Easter eggs: Space Quest's Roger Wilco as an LAX janitor; the Theme
+  Building's observation deck plays the Sierra logo jingle.
 
-The cure is real and free. Larry, freed from 40 years of anxiety he never acted
-on anyway, throws the "Lubber Liberation Party" on a yacht. Health officials,
-pharma marketers, and a wellness influencer selling "post-cure detox" all want a
-piece. The 1987 lubber from Larry's wallet becomes a museum piece worth a
-fortune. Goal: survive the party and sell the lubber to the Smithsonian.
+### Chapter 3: Summer of Love (planned)
 
-### Chapter 5: Larry to Mars (planned)
+Downtown L.A. Larry follows a free-food sign and gets swept into a "Summer of
+Love" protest occupation zone. He meets **Willow**: nose ring, tote bag, a
+bleeding heart for every cause, and a lost soul under it. The comedy targets
+the grift around the movement (organizers selling merch out of a G-Wagon, a
+donation app with a 40% "solidarity fee," a city council that declares the
+zone a "vibe") and Larry's attempts to fake being woke to impress her.
+Puzzle: get Willow and himself out before the zone's self-appointed security
+council "cancels" them. Willow and Larry part as friends; she ends up running
+a soup kitchen that actually feeds people.
 
-LaffX's first rocket. LarryCoin. Larry buys a social network and renames it to a
-single letter. Final puzzles combine everything from earlier chapters. Played
-right, Larry lands the rocket, takes the company public, and becomes the richest
-man in America, unscathed. Played wrong, every previous mistake comes back as a
-congressional hearing.
+Deaths: chanting the wrong slogan, buying the $90 "Abolish Capitalism" hoodie
+with a credit card, trying to pick up Willow with a protest sign that says
+"Honk if you're single."
 
-**Ending:** Larry on the cover of Time, in the leisure suit, next to a sealed
-King's Quest V in a glass case.
+### Chapter 4: The Long Beach Cypher (planned)
+
+Larry takes a wrong bus and ends up in Long Beach, where Snoop Dogg and Dr. Dre
+are judging a backyard rap battle. Larry, armed with nothing but 1977 disco
+energy and rhymes about polyester, enters. Gameplay: a rhyme-building parser
+puzzle (choose lines; bad ones get you booed off and are deaths). Winning
+gets Larry Snoop's blessing, a viral clip and seed money.
+
+Also here: #LarryToo. A clout-chasing influencer fabricates a claim about Larry
+for engagement; the receipts (Snoop's party footage, a doorbell camera) clear
+him. Larry's *real* sleazy moves still get him canceled on the spot.
+
+### Chapter 5: Too Wild for Larry (planned)
+
+Seattle and a billionaires' retreat. Larry pitches LaffX to tech investors and
+ends up at the party of the century, where Bill Gates is showing off his famous
+standing jump over a chair. Larry jumps higher (he's been training on hot tub
+rims since 1992). Then a well-connected financier named Jeffrey invites them to
+"the island." Larry, of all people, decides this crowd is too wild for him and
+walks away. The point of the scene is Larry's line: "I may be a sleaze, but
+I've got standards." No crimes are depicted; the joke is that even Larry
+noped out.
+
+The End of AIDS plotline lands here too: the 1987 lubber from Larry's wallet
+sells to the Smithsonian for a fortune, funding LaffX.
+
+### Chapter 6: Larry to Mars (planned finale)
+
+LaffX builds a rocket in a Long Beach hangar. Lead propulsion engineer:
+**Grace Cho from Cerritos**, brilliant, funny, unimpressed by billionaires,
+and the only person who has ever out-quipped Larry. The final puzzles combine
+everything: Willow's soup kitchen feeds the launch crew, Snoop hosts the
+launch, Kris handles PR, Ashleigh live-streams it, and Grace lands the
+booster. Played right, Larry becomes the richest man in America, unscathed,
+and marries Grace. They live happily ever after in Cerritos, with a sealed
+King's Quest V in a glass case on the mantel.
+
+Played wrong, every previous mistake comes back as a congressional hearing.
+
+### Scenario map
+
+| jr's scenario | Where it lands |
+| --- | --- |
+| Online dating and pic filters | Ch. 2: Filter Bubble |
+| "Summer of love" protests, girl with a nose ring | Ch. 3: Summer of Love (Willow) |
+| Bill Gates, Epstein, the chair jump | Ch. 5: Too Wild for Larry |
+| LAX and the Theme Building | Hub room in every chapter |
+| Kardashians save Larry's bacon | Ch. 2 onward: the Kris lifeline mechanic |
+| Snoop and Dre's rap contest in Long Beach | Ch. 4: The Long Beach Cypher |
+| Nice Korean girl from Cerritos, happily ever after | Ch. 6: Grace Cho, the ending |
+
+### How ideas get added
+
+jr's friends Stephen and Brian may contribute ideas too. When ideas conflict,
+the group votes.
+
 
 ## Tone guide
 
@@ -145,11 +211,13 @@ King's Quest V in a glass case.
   allyship, HR theater, VC buzzwords, influencers), not people for who they are.
 - No slurs. Characters who are trans, gay, Black, etc. can appear and be funny,
   but the joke is never their identity.
-- Real people (Ken and Roberta Williams) appear only as affectionate cameos.
+- Real public figures (Ken and Roberta Williams, the Kardashian-Jenners, Snoop
+  Dogg and Dr. Dre, Bill Gates) appear as obvious parody. The game never
+  depicts or alleges specific crimes by real people.
 
 ## Next steps
 
 1. Playtest chapter 1 and tune the parser's synonyms from what players type.
 2. Add a priority map so Larry can walk behind the bar and bench.
 3. Replace placeholder backgrounds with Blender renders, one room at a time.
-4. Write chapter 2.
+4. Write chapter 2, starting with the LAX hub room.

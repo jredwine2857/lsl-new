@@ -461,11 +461,11 @@ const street: Room = {
       if (!g.has('phone')) { g.say('There\'s no way to hail a robotaxi without the app. You whistle. A robotaxi whistles back, digitally, and keeps going.'); return true; }
       if (!g.flag('phoneOnline')) { g.say('Your phone needs to connect to the internet before it can do anything at all. There was a Wi-Fi password somewhere...'); return true; }
       if (!g.flag('hasIdea')) {
-        g.say('You open Wayno and type "Silicon Valley." Then you hesitate.\n\nShow up in Silicon Valley with no idea? Every billionaire starts with a big idea, preferably one borrowed from a sci-fi story. You need a vision first.');
+        g.say('You open Wayno and type "Airport. Flights to L.A." Then you hesitate.\n\nShow up in Los Angeles with no idea? Every billionaire starts with a big idea, preferably one borrowed from a sci-fi story. You need a vision first.');
         return true;
       }
       g.award('ending');
-      g.win(`A Wayno robotaxi pulls up with nobody inside. You climb in. "Destination: Silicon Valley," you tell it.\n\n"Rerouting to avoid your vibe," it replies, and pulls away.\n\nIn your pocket: a phone, a dream, and ${money(g.s.cash)}. Behind you, Sgt. Bonds is writing the robotaxi a ticket for misgendering a hydrant.\n\nLarry Laffer, 68, has a phone, a plan, and a rocket-shaped idea. Next stop: venture capital.\n\nCONTINUED IN CHAPTER 2: WOKE VALLEY.\n\nFinal score: ${g.s.score} of ${g.maxScore}.`);
+      g.win(`A Wayno robotaxi pulls up with nobody inside. You climb in. "Destination: the airport. I've got a flight to LAX," you tell it.\n\n"Rerouting to avoid your vibe," it replies, and pulls away.\n\nIn your pocket: a phone, a dream, and ${money(g.s.cash)}. Behind you, Sgt. Bonds is writing the robotaxi a ticket for misgendering a hydrant.\n\nLarry Laffer, 68, has a phone, a plan, and a rocket-shaped idea. Next stop: Los Angeles.\n\nCONTINUED IN CHAPTER 2: FILTER BUBBLE.\n\nFinal score: ${g.s.score} of ${g.maxScore}.`);
       return true;
     }
     if (cmd.is('flirt')) {
