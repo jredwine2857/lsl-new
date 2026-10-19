@@ -110,7 +110,7 @@ wedding (ch. 6).
 | `src/engine/parser.ts` | Verb/noun parser with synonyms and multi-word verbs |
 | `src/engine/game.ts` | State, movement, zones, scoring, deaths, undo, save |
 | `src/engine/gfx.ts` | EGA palette, dithering, sprite drawing |
-| `src/content/chapter1.ts` | Rooms, items, puzzles, jokes for chapter 1 |
+| `src/content/chapterN.ts` | Rooms, items, puzzles, jokes for each chapter |
 | `src/main.ts` | Browser UI: canvas loop, input, dialogs, sound |
 | `tests/` | Walkthrough and death tests |
 
@@ -211,7 +211,7 @@ the flight attendant, stepping into rideshare traffic, hitting on Kim,
 complaining that Ashleigh doesn't look like her photos, a 1992-style
 dine-and-dash.
 
-### Chapter 3: Summer of Love (planned)
+### Chapter 3: Summer of Love (playable)
 
 Cincinnati. Larry follows a free-food sign and gets swept into a "Summer of
 Love" protest occupation zone. He meets **Willow**: nose ring, tote bag, a
@@ -223,9 +223,25 @@ Puzzle: get Willow and himself out before the zone's self-appointed security
 council "cancels" them. Willow and Larry part as friends; she ends up running
 a soup kitchen that actually feeds people.
 
-Deaths: chanting the wrong slogan, buying the $90 "Abolish Capitalism" hoodie
-with a credit card, trying to pick up Willow with a protest sign that says
-"Honk if you're single."
+Easter eggs: WKRP's turkey drop on the Skyline TV ("As God is my witness, I
+thought turkeys could fly"), Rick Moranis broke at the counter, Barry Sanders
+teaching the juke, Alicia Silverstone's "As if!", and Scut Farkus getting the
+Lifebuoy treatment from A Christmas Story.
+
+**Rooms:** Skyline Chili in Over-the-Rhine, Washington Park, the Summer of
+Love Zone, the checkpoint on Vine Street.
+
+**Critical path:** ORDER CONEY → GIVE CONEY to Rick Moranis (he gives you
+Lifebuoy soap) → GET FOOTBALL from the park fountain → GIVE FOOTBALL to Barry
+Sanders (learn the juke) → LOOK BANNER and CHANT VIBES (the zone accepts you)
+→ TALK TO WILLOW → SCAN the G-Wagon's donation QR code and read the 40% fee
+→ SHOW PHONE to Willow (she wants out) → JUKE Scut Farkus into a puddle →
+USE SOAP on his mouth → walk out onto Vine Street with Willow.
+
+**Deaths (all rescuable by calling Kris):** ordering a six-way at Skyline, the
+streetcar (Pam saves you the first time), chanting the wrong slogan, buying
+the $90 "Abolish Capitalism" hoodie on Pear Pay, making a "Honk if you're
+single" sign, hitting on Willow, and fighting Farkus head-on.
 
 ### Chapter 4: The Long Beach Cypher (planned)
 
@@ -366,4 +382,4 @@ the group votes.
 2. Add a priority map so Larry can walk behind the bar and bench.
 3. Replace placeholder backgrounds with Blender renders, one room at a time.
 4. Render the first FMV interlude and add the `cutscene` message kind.
-5. Write chapter 3.
+5. Write chapter 4 (Long Beach Cypher).
