@@ -1,5 +1,6 @@
 // Chapter 1: Rip Van Laffer.
-// Larry passed out in Lefty's hot tub on April 29, 1992 and wakes up in 2026.
+// Larry fled to the Philippines in 1992 and comes home to Lost Wages in 2026.
+// Jet-lagged, he crashes in Lefty's old hot tub and wakes up in a new world.
 // Goal: get a phone, get an idea, get out of Lost Wages.
 
 import { EGA, SKIN, SKIN_DARK, dither, ellipse, frame, person, rect, stripes, text } from '../engine/gfx';
@@ -57,7 +58,7 @@ const items: Item[] = [
     id: 'newspaper',
     name: 'a yellowed newspaper',
     names: ['newspaper', 'paper', 'news'],
-    look: 'The Lost Wages Ledger, April 30, 1992.\n\nHEADLINE: "L.A. ERUPTS AFTER KING VERDICT." Below the fold: "Can we all get along?" Below that, smaller: "Area Man Still Missing In Lefty\'s Hot Tub."\n\nThat area man is you.',
+    look: 'The Lost Wages Ledger, April 30, 1992.\n\nHEADLINE: "L.A. ERUPTS AFTER KING VERDICT." Below the fold: "Can we all get along?" Below that, smaller: "Babbage\'s Seeks Serial Returner; Suspect Believed Headed to Manila."\n\nThat suspect is you. You left the next morning.',
   },
   {
     id: 'pin',
@@ -167,11 +168,11 @@ const backroom: Room = {
     }
     if (cmd.is(['drink', 'eat'], 'tub', 'water', 'scum', 'hot tub')) {
       if (!g.needNear('tub', 22)) return true;
-      g.die('You scoop up a handful of 34-year-old hot tub water and drink.\n\nScientists later identify six new bacteria, one of which has a podcast. Larry Laffer is survived by his leisure suit.', 'YOU DIED');
+      g.die('You scoop up a handful of the water left in the hot tub since 1992 and drink.\n\nScientists later identify six new bacteria, one of which has a podcast. Larry Laffer is survived by his leisure suit.', 'YOU DIED');
       return true;
     }
     if (cmd.is(['bathe', 'ride', 'sit'], 'tub', 'hot tub', 'water') || (cmd.is('bathe') && cmd.words.length === 0)) {
-      g.say("You've spent enough time in that tub. Thirty-four years, to be exact.");
+      g.say("You've spent enough time in that tub. You spent last night in it, jet-lagged, for old times' sake.");
       return true;
     }
     if (cmd.is('knock', 'door') || (cmd.is('knock') && cmd.words.length === 0)) {
@@ -222,12 +223,12 @@ const lounge: Room = {
   hotspots: [
     { id: 'bartender', names: ['bartender', 'barkeep', 'woman', 'mixologist', 'server'], rect: { x: 232, y: 108, w: 18, h: 38 }, look: 'Name tag: "SAGE, Chief Mixology Officer." Septum ring, kind eyes, zero patience. Sage is muddling something that looks like a lawn.' },
     { id: 'chalkboard', names: ['chalkboard', 'board', 'sign', 'wifi', 'wi fi', 'password', 'menu'], rect: { x: 180, y: 30, w: 56, h: 36 }, look: (g) => { g.set('knowsWifi'); g.award('wifi'); return 'The chalkboard says:\n\nTODAY: Smoked Oat Old Fashioned $26\nGuest Wi-Fi: LFTY_Guest\nPassword: KenSentMe1987\n\nSome traditions survive.'; } },
-    { id: 'tv', names: ['tv', 'television', 'news', 'screen'], rect: { x: 254, y: 28, w: 48, h: 34 }, look: (g) => { g.award('tv'); return 'The TV is on CNBS:\n\n"...the final one-shot HIV cure is now free worldwide. AIDS is officially over, 45 years after it began..."\n\nYou weep a single tear. "Thirty-four years of being careful, for nothing!"\n\nThe ticker adds: "Richest Man in America launches 40th rocket, buys a third social network, posts a meme about it." You squint. "Someday, that\'ll be me."'; } },
+    { id: 'tv', names: ['tv', 'television', 'news', 'screen'], rect: { x: 254, y: 28, w: 48, h: 34 }, look: (g) => { g.award('tv'); return 'The TV is on CNBS:\n\n"...the final one-shot HIV cure is now free worldwide. AIDS is officially over, 45 years after it began..."\n\nYou weep a single tear. "Thirty-four years of being careful, for nothing!" You weren\'t careful. You were in the Philippines running a karaoke bar. But now? Free love is back, and so is Larry Laffer.\n\nThe ticker adds: "Richest Man in America launches 40th rocket, buys a third social network, posts a meme about it." You squint. "Someday, that\'ll be me."'; } },
     { id: 'pins', names: ['pins', 'pin', 'bowl', 'ally pin', 'badge'], rect: { x: 168, y: 110, w: 18, h: 10 }, look: 'A bowl of rainbow ALLY pins. A card says: "FREE. Take one, wear it, feel nothing."', visible: (g) => !g.has('pin') },
     { id: 'bar', names: ['bar', 'counter', 'drinks', 'bottles'], rect: { x: 166, y: 118, w: 150, h: 28 }, look: 'Bottles of small-batch everything. Not one of them has a price under $20. There used to be a jar of pickled eggs here. You miss it.' },
     { id: 'patrons', names: ['patrons', 'people', 'customers', 'crowd', 'guy', 'girl', 'man'], rect: { x: 40, y: 110, w: 80, h: 40 }, look: 'Three patrons on laptops, two on podcasts, one on a podcast about laptops. Every one of them has a phone pointed vaguely at you.' },
     { id: 'streetdoor', names: ['door', 'exit', 'street door', 'front door'], rect: { x: 100, y: 68, w: 30, h: 76 }, look: 'The front door, out to the street.' },
-    { id: 'backdoor', names: ['back door', 'back room'], rect: { x: 0, y: 70, w: 22, h: 76 }, look: 'The back room, where you spent 1992 through 2026.' },
+    { id: 'backdoor', names: ['back door', 'back room'], rect: { x: 0, y: 70, w: 22, h: 76 }, look: 'The back room, where you crashed last night, jet-lagged, for old times\' sake.' },
   ],
   zones: [
     { id: 'toBack', rect: { x: 0, y: 148, w: 12, h: 50 }, enter: (g) => g.goto('backroom', 272, 172) },
@@ -292,7 +293,7 @@ const lounge: Room = {
       if (!g.needNear('bartender', 50)) return true;
       g.award('talkSage');
       g.say(cycle(g, 'sageTalk', [
-        '"Welcome to LFTY. Are you... are you the guy from the back room? We thought you were a Halloween decoration. We put a hat on you in 2019."',
+        '"Welcome to LFTY. Are you the guy who climbed into our back room last night yelling \'I\'m home from Manila, Lefty owes me a hot tub\'? Lefty died in 2009, sir. We\'re a mixology experience now."',
         '"You want a job? Money? Okay, boomer. Look, there\'s a dead mall next door with a Babbage\'s still in it. The old guy there honors receipts from like 1990. Also a sweet older couple hangs out by the bench and buys old computer games. They tip well."',
         '"Everything is on your phone now, Larry. Your money, your dates, your taxis. No phone, no life. The Pear Store is in the mall."',
         '"Wi-Fi password\'s on the chalkboard. Don\'t make it weird."',
@@ -337,7 +338,7 @@ const street: Room = {
     { id: 'cruiser', names: ['car', 'cruiser', 'squad car', 'police car', 'pc police'], rect: { x: 200, y: 168, w: 70, h: 22 }, look: 'A squad car marked "PC POLICE - TO PROTECT AND TO VALIDATE." The light bar is rainbow. The siren plays a land acknowledgment.' },
     { id: 'canvasser', names: ['canvasser', 'woman', 'girl', 'activist', 'clipboard', 'qr', 'qr code'], rect: { x: 144, y: 140, w: 14, h: 30 }, look: 'A cheerful canvasser for the "Foundation for Global Justice, LLC." Her sign: "EVERY DOLLAR GOES TO THE CAUSE*". The asterisk is very small.' },
     { id: 'sign', names: ['sign', 'asterisk', 'foundation', 'fine print'], rect: { x: 160, y: 120, w: 34, h: 22 }, look: 'You squint at the asterisk. "*Cause: The Malibu Healing Campus (7 bed, 3 pool, 6-car garage for healing). Donations not tax-deductible, refundable, or traceable."' },
-    { id: 'lftydoor', names: ['lfty', 'bar', 'door'], rect: { x: 40, y: 112, w: 26, h: 44 }, look: 'The door to LFTY. Through the window you can see a hat on a hook. It used to be on you.' },
+    { id: 'lftydoor', names: ['lfty', 'bar', 'door'], rect: { x: 40, y: 112, w: 26, h: 44 }, look: 'The door to LFTY. Through the window, Sage is telling a customer about "the hot tub guy from Manila."' },
     { id: 'mall', names: ['mall', 'galleria', 'entrance', 'glass doors'], rect: { x: 248, y: 96, w: 44, h: 60 }, look: 'The Lost Wages Galleria. "NOW 60% STORES!" says a banner.' },
     { id: 'billboard', names: ['billboard', 'ad', 'advertisement'], rect: { x: 118, y: 24, w: 90, h: 40 }, look: 'A billboard: "SWIPR - Love is just one swipe away. (Swipe right for premium.)"' },
     { id: 'robotaxi', names: ['robotaxi', 'taxi', 'cab', 'wayno', 'robo taxi', 'street', 'road'], rect: { x: 0, y: 176, w: 320, h: 24 }, look: 'Wayno robotaxis whir past, empty, at forty miles an hour. Nobody to wave down. You\'d need the app.' },
@@ -746,8 +747,8 @@ export const chapter1: Content = {
   },
   intro: [
     'LEISURE SUIT LARRY: WOKE UP BROKE\n\nChapter 1: Rip Van Laffer',
-    "April 29, 1992. Lost Wages. Larry Laffer celebrates his fifth successful \"return\" of King's Quest V by climbing into the hot tub in the back room of Lefty's Bar with a bottle of the house vodka.\n\nHe closes his eyes for just a minute.",
-    'October 19, 2026.\n\nLarry opens his eyes. The hot tub is empty. His suit still fits, mostly. Something is very, very different.\n\n(Type HELP for instructions. Save often. This is a Sierra game.)',
+    "April 30, 1992. With Babbage's on to his fifth fake \"return\" of King's Quest V, Larry Laffer leaves his stuff in Lefty's back room and catches the first flight to Manila.\n\nHe spends the next 34 years on a Philippine island running a karaoke bar with no internet, no TV and a strict no-news policy.",
+    'October 2026. Larry finally comes home. Jet-lagged and nostalgic, he sneaks into Lefty\'s back room and passes out in the old hot tub.\n\nHe wakes up to news he can hardly believe: AIDS is over. Free love is back. And Larry Laffer intends to make up for lost time.\n\nWhat could possibly go wrong?\n\n(Type HELP for instructions. Save often. This is a Sierra game.)',
   ],
   handle(g, cmd) {
     if (cmd.is('wear', 'pin', 'ally pin', 'badge') || cmd.is('use', 'pin')) {
@@ -809,7 +810,7 @@ export const chapter1: Content = {
       return true;
     }
     if (cmd.is('sleep')) {
-      g.say('You already slept for thirty-four years. Your body is fully rested. Your references are not.');
+      g.say('You slept fourteen hours on the flight from Manila and another ten in a hot tub. Your body is fully rested. Your references are from 1992.');
       return true;
     }
     if (cmd.is('dance')) {

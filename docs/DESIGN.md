@@ -1,10 +1,19 @@
 # Leisure Suit Larry: Woke Up Broke — Design Doc
 
-A fan-made, Sierra-style comedy adventure. Larry Laffer passes out in Lefty's
-hot tub on April 29, 1992 and wakes up in October 2026. He has to survive a
-world of phones, cashless bars, PC Police, grift foundations, cancel culture and
-venture capital. Played right, he ends up unscathed and the richest man in
-America. Played wrong, he dies in a hundred stupid ways, Sierra style.
+A fan-made, Sierra-style comedy adventure. In 1992, one step ahead of
+Babbage's return policy, Larry Laffer fled to the Philippines and spent 34
+years running a karaoke bar on an island with no internet. In 2026 he comes
+home and learns that AIDS is over and people aren't so scared of free love
+anymore. Larry goes completely overboard with his newfound liberation, crashing
+through a world of dating apps, phones, PC Police, grift foundations, cancel
+culture and billionaires, only to fall in love for real.
+
+Played right, he ends up unscathed, in love, and the richest man in America.
+Played wrong, he dies in a hundred stupid ways, Sierra style.
+
+**The arc:** every chapter, Larry's "liberation" gets him into trouble and a
+little closer to something real. He starts the game chasing everyone and ends
+it chasing one person.
 
 This is satire in the spirit of the original series: the jokes punch at
 institutions, hypocrisy, grifters, corporate HR culture, Silicon Valley, and
@@ -113,7 +122,7 @@ Lost Wages, 2026. Goal: get a phone, get an idea, get out of town.
 
 | Room | What happens | Easter eggs |
 | --- | --- | --- |
-| Lefty's Back Room | Wake up in the drained hot tub. Take the sealed King's Quest V. The door is locked; KNOCK, then SAY KEN SENT ME (the LSL1 password, now used to get *out*). | KQ magic mirror; 1992 newspaper with the Rodney King verdict / L.A. riots headline; graffiti. |
+| Lefty's Back Room | Home from the Philippines, wake up jet-lagged in the drained hot tub where your 1992 stuff is stored. Take the sealed King's Quest V. The door is locked; KNOCK, then SAY KEN SENT ME (the LSL1 password, now used to get *out*). | KQ magic mirror; 1992 newspaper with the Rodney King verdict / L.A. riots headline; graffiti. |
 | LFTY (formerly Lefty's) | Cashless "mixology experience." Free ALLY pins. Wi-Fi password on the chalkboard. TV news: AIDS is officially over; the richest man in America launches another rocket. | Wi-Fi password is `KenSentMe1987`. |
 | The Strip | PC Police (Sgt. Sonny Bonds, Dept. of Sensitivity Compliance) won't let Larry into the mall without visible allyship. A canvasser for the "Foundation for Global Justice, LLC" pushes QR-code donations to a Malibu "healing campus." Robotaxis. | Police Quest's Sonny Bonds; Lytton; the LSL1 street death. |
 | Galleria | Dead mall. A sweet older couple named Ken and Roberta on a bench buy back sealed Sierra games. | Oakhurst, Daventry, Lytton, Xenon. "Never sell the company." |
