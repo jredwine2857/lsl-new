@@ -53,6 +53,14 @@ export interface Content {
   start: { x: number; y: number };
   startInventory: string[];
   startCash: number;
+  startFlags?: Record<string, number | boolean | string>;
+  /** A phone-a-friend that can undo deaths marked rescuable. */
+  lifeline?: {
+    item: string;
+    max: number;
+    label: string;
+    rescue: (g: Game, used: number) => string;
+  };
   rooms: Room[];
   items: Item[];
   /** Every scoreable event and its points; max score is the sum. */
@@ -84,4 +92,6 @@ export interface Message {
   text: string;
   title?: string;
   kind?: 'info' | 'death' | 'win';
+  /** Deaths the lifeline can undo. */
+  rescuable?: boolean;
 }

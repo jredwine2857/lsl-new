@@ -58,6 +58,39 @@ Unreal Engine is overkill for a 2D adventure and would kill the "runs in a
 browser tab" goal; Blender-rendered backgrounds give the 3D-assisted look
 without it.
 
+**Art direction (decided with jr):** Blender renders styled like 90s VGA
+Sierra games (King's Quest V/VI, Leisure Suit Larry 5/6, Space Quest IV), not
+modern 3D.
+
+### FMV video interludes
+
+jr wants the occasional full-motion-video interlude, the way Roberta Williams
+pushed CD-ROM video in the mid-90s (King's Quest VI's intro, Phantasmagoria).
+
+- **How they're made:** short Blender-rendered cutscenes, 10 to 40 seconds
+  each, with the 1995 CD-ROM look baked in: rendered at 320×200 or 320×136
+  letterboxed, quantized to a 256-color palette with ordered dithering, a
+  little film grain, slightly jerky 15 fps, and compression blockiness.
+  Characters can be Blender actors or, for the true Phantasmagoria feel,
+  filmed people composited over Blender sets.
+- **How they play:** an `.mp4` or `.webm` in the browser, shown in the game
+  screen's letterbox with a "Loading from CD..." fake progress bar, skippable
+  with Enter. A new `cutscene` message kind in the engine plays one between
+  rooms or chapters.
+- **Where:** about one per chapter, at chapter transitions or big set-pieces,
+  never in the middle of a puzzle.
+
+**First interlude: "Flight 1992 to LAX"** (between chapters 1 and 2). Larry
+sits wedged in a middle seat on a budget airline, gets handed a single Biscoff
+cookie, falls asleep and dreams of the 1987 hot tub, wakes with the cookie
+smeared on his lapel as the plane banks over Los Angeles and the Theme
+Building swings into view. It sets up Chapter 2's first puzzle (the stain) and
+shows off the LAX hub.
+
+Later candidates: the Theme Building elevator reveal (ch. 2 ending), the rap
+battle finale (ch. 4), the chair jump (ch. 5), and the rocket landing and
+wedding (ch. 6).
+
 ## Structure
 
 | Path | What |
@@ -113,7 +146,7 @@ CALL KRIS rescues him (a lawyer, a PR firm, a private jet, a reality-show
 camera crew that makes the scandal "content"). Limited uses per chapter, so
 it's a resource, not a free pass. They save his bacon many times.
 
-### Chapter 2: Filter Bubble (planned)
+### Chapter 2: Filter Bubble (playable)
 
 LAX and the Westside. Larry lands at LAX and sets up Swipr.
 
@@ -127,8 +160,21 @@ LAX and the Westside. Larry lands at LAX and sets up Swipr.
   in the Kardashians' SUV. His 1992 polyester becomes "vintage core," he goes
   viral for the right reasons for once, and he gets Kris's number (the
   lifeline).
-- Easter eggs: Space Quest's Roger Wilco as an LAX janitor; the Theme
-  Building's observation deck plays the Sierra logo jingle.
+- Easter eggs: Space Quest's Roger Wilco is an LAX janitor who trades
+  Spot-B-Gone for a look at Space Quest XII.
+
+**Rooms:** Gate 42, the arrivals curb, Encounter at the Theme Building.
+
+**Critical path:** SWIPE (match Ashleigh) → show Space Quest to Roger (get
+spray) → USE SPRAY on the Biscoff stain → POSE for the paparazzo (goes viral,
+Kris gives her card and a VIP wristband) → past the rope into the Theme
+Building → SHOW PROFILE to Ashleigh instead of complaining → SHOW WRISTBAND to
+the waiter (dinner comped) → elevator to the observation deck.
+
+**Deaths (all rescuable by calling Kris, 3 calls per chapter):** hitting on
+the flight attendant, stepping into rideshare traffic, hitting on Kim,
+complaining that Ashleigh doesn't look like her photos, a 1992-style
+dine-and-dash.
 
 ### Chapter 3: Summer of Love (planned)
 
@@ -220,4 +266,5 @@ the group votes.
 1. Playtest chapter 1 and tune the parser's synonyms from what players type.
 2. Add a priority map so Larry can walk behind the bar and bench.
 3. Replace placeholder backgrounds with Blender renders, one room at a time.
-4. Write chapter 2, starting with the LAX hub room.
+4. Render the first FMV interlude and add the `cutscene` message kind.
+5. Write chapter 3.

@@ -51,7 +51,7 @@ export class Game {
       y: c.start.y,
       facing: 'down',
       inv: [...c.startInventory],
-      flags: {},
+      flags: { ...(c.startFlags ?? {}) },
       score: 0,
       awarded: [],
       cash: c.startCash,
@@ -84,11 +84,32 @@ export class Game {
     this.queue.push({ text, title, kind: 'info' });
   }
 
-  die(text: string, title = 'CANCELED') {
+  die(text: string, title = 'CANCELED', rescuable = false) {
     if (this.s.over) return;
     this.stop();
     this.s.over = 'dead';
-    this.queue.push({ text, title, kind: 'death' });
+    this.queue.push({ text, title, kind: 'death', rescuable });
+  }
+
+  /** Lifeline calls left, or 0 when Larry can't use the lifeline right now. */
+  lifelinesLeft(): number {
+    const l = this.content.lifeline;
+    if (!l || !this.has(l.item)) return 0;
+    return Math.max(0, l.max - Number(this.flag('lifelineUsed') ?? 0));
+  }
+
+  /** Undo a rescuable death by calling the lifeline. Returns false if it can't. */
+  rescue(): boolean {
+    const l = this.content.lifeline;
+    const death = this.queue.find((m) => m.kind === 'death');
+    if (!l || !death?.rescuable || !this.undoSnap) return false;
+    // Check the lifeline against the pre-death state, which is what we restore.
+    const used = Number(this.flag('lifelineUsed') ?? 0);
+    if (this.lifelinesLeft() <= 0) return false;
+    this.load(this.undoSnap);
+    this.set('lifelineUsed', used + 1);
+    this.say(l.rescue(this, used + 1), l.label);
+    return true;
   }
 
   win(text: string, title = 'CHAPTER COMPLETE') {
