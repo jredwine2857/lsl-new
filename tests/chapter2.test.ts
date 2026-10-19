@@ -79,6 +79,7 @@ describe('chapter 2 deaths and the Kris lifeline', () => {
   it('the lifeline runs out', () => {
     const g = newGame();
     g.give('kriscard');
+    g.set('pamSaved');
     g.goto('curb', 120, 170);
     for (let i = 0; i < 3; i++) {
       walk(g, 120, 195);
@@ -90,8 +91,17 @@ describe('chapter 2 deaths and the Kris lifeline', () => {
     expect(g.s.over).toBe('dead');
   });
 
+  it('Pam saves you from traffic once per chapter', () => {
+    const g = newGame();
+    g.goto('curb', 120, 170);
+    walk(g, 120, 195);
+    expect(g.s.over).toBe(null);
+    expect(g.flag('pamSaved')).toBe(true);
+  });
+
   it('no Kris card, no rescue', () => {
     const g = newGame();
+    g.set('pamSaved');
     g.goto('curb', 120, 170);
     walk(g, 120, 195);
     expect(g.rescue()).toBe(false);

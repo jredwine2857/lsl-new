@@ -146,6 +146,17 @@ CALL KRIS rescues him (a lawyer, a PR firm, a private jet, a reality-show
 camera crew that makes the scandal "content"). Limited uses per chapter, so
 it's a resource, not a free pass. They save his bacon many times.
 
+**Pam to the rescue (recurring love interest).** Pamela Anderson pops up out
+of nowhere once per chapter and saves Larry from his first brush with death:
+yanking him off the curb, a slow-motion Baywatch sprint across LAX, a surprise
+rescue boat in Long Beach. She's played as her real public persona: animal
+rights, plant-based, cozy cardigans, no makeup, warm and funny. Every time,
+Larry falls in love, and every time she's gone before he can say anything. A
+running gag across the game: Larry keeps trying to find her again, and the
+clues (a vegan cookie, a rescued bear, a PETA flyer) pile up in his
+inventory. She shows up for the finale too. Unlike Kris's calls, Pam's save
+is automatic and comes only once per chapter.
+
 ### Chapter 2: Filter Bubble (playable)
 
 LAX and the Westside. Larry lands at LAX and sets up Swipr.
@@ -242,6 +253,7 @@ Played wrong, every previous mistake comes back as a congressional hearing.
 | Kardashians save Larry's bacon | Ch. 2 onward: the Kris lifeline mechanic |
 | Snoop and Dre's rap contest in Long Beach | Ch. 4: The Long Beach Cypher |
 | Nice Korean girl from Cerritos, happily ever after | Ch. 6: Grace Cho, the ending |
+| Pam Anderson keeps popping up and saving the day | Every chapter: one automatic rescue (live in Ch. 1 and 2) |
 
 ### How ideas get added
 

@@ -5,6 +5,7 @@
 import { EGA, SKIN_DARK, dither, ellipse, person, poly, rect, stripes, text } from '../engine/gfx';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
+import { pamSave } from './pam';
 
 const BILL = 41200;
 
@@ -181,7 +182,7 @@ const curb: Room = {
     { id: 'traffic', names: ['traffic', 'street', 'road', 'cars', 'rideshare', 'uber'], rect: { x: 0, y: 184, w: 320, h: 16 }, look: 'Bumper-to-bumper rideshares, all of them honking at each other, none of them yours.' },
   ],
   zones: [
-    { id: 'traffic', rect: { x: 0, y: 186, w: 320, h: 14 }, enter: (g) => g.die('You step off the curb to wave down a cab like it\'s 1992.\n\nSeventeen rideshare drivers, all following the same GPS instruction, hit you at once. Every one of them gives you one star.', 'FIVE STAR PILEUP', true) },
+    { id: 'traffic', rect: { x: 0, y: 186, w: 320, h: 14 }, enter: (g) => pamSave(g, 'You step off the curb into seventeen lanes of rideshares.\n\nFrom out of nowhere, a blonde in a red lifeguard jacket sprints down the curb in slow motion, scoops you up and drops you back on the sidewalk as a Prius whooshes past.\n\n"Twice in one week, Larry?" It\'s Pamela Anderson. She\'s at LAX to escort a rescued bear onto a flight to a sanctuary. The bear waves.\n\nShe kisses your forehead, says "Stay out of the road, sweetie," and vanishes into the crowd before you can propose. (She won\'t be there next time.)', { x: g.s.x, y: 172 }) || g.die('You step off the curb to wave down a cab like it\'s 1992.\n\nSeventeen rideshare drivers, all following the same GPS instruction, hit you at once. Every one of them gives you one star.', 'FIVE STAR PILEUP', true) },
     { id: 'toGate', rect: { x: 0, y: 150, w: 8, h: 36 }, enter: (g) => g.goto('gate', 296, 170) },
     {
       id: 'toTheme',

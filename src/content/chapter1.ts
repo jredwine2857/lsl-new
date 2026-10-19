@@ -5,6 +5,7 @@
 import { EGA, SKIN, SKIN_DARK, dither, ellipse, frame, person, rect, stripes, text } from '../engine/gfx';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
+import { pamSave } from './pam';
 
 const BABBAGES_RECEIPT_PRICE = 4995; // King's Quest V, 1990 pricing
 const COLLECTOR_PRICE = 100000;
@@ -342,7 +343,7 @@ const street: Room = {
     { id: 'robotaxi', names: ['robotaxi', 'taxi', 'cab', 'wayno', 'robo taxi', 'street', 'road'], rect: { x: 0, y: 176, w: 320, h: 24 }, look: 'Wayno robotaxis whir past, empty, at forty miles an hour. Nobody to wave down. You\'d need the app.' },
   ],
   zones: [
-    { id: 'road', rect: { x: 0, y: 182, w: 320, h: 18 }, enter: (g) => g.die('You step off the curb like it\'s 1992 and wave for a cab.\n\nA Wayno robotaxi does not see you, because you are wearing a white leisure suit against a white crosswalk. It has no driver to apologize, no insurance company to call, and it gives itself five stars.\n\nLook both ways, Larry. Even if no one is driving.', 'ROADKILL') },
+    { id: 'road', rect: { x: 0, y: 182, w: 320, h: 18 }, enter: (g) => pamSave(g, 'You step off the curb like it\'s 1992 and wave for a cab. A robotaxi bears down on you at forty miles an hour.\n\nOut of nowhere, a hand grabs your collar and yanks you back onto the sidewalk. A blonde woman in a cozy cardigan and zero makeup is holding a reusable bag of kale.\n\n"Careful, honey. Those things don\'t stop for animals, and you\'re clearly some kind of animal."\n\nShe presses a vegan cookie into your hand and jogs off before you can speak. Was that... PAMELA ANDERSON?\n\nYou are in love. Again. (She won\'t be there next time.)', { x: g.s.x, y: 170 }) || g.die('You step off the curb like it\'s 1992 and wave for a cab.\n\nA Wayno robotaxi does not see you, because you are wearing a white leisure suit against a white crosswalk. It has no driver to apologize, no insurance company to call, and it gives itself five stars.\n\nLook both ways, Larry. Even if no one is driving.', 'ROADKILL') },
     { id: 'toLounge', rect: { x: 40, y: 154, w: 26, h: 6 }, enter: (g) => g.goto('lounge', 115, 160) },
     {
       id: 'toMall',

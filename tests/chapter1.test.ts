@@ -146,9 +146,12 @@ describe('chapter 1 deaths', () => {
     expect(g.flag('doorOpen')).toBeFalsy();
   });
 
-  it('stepping into the street gets you run over', () => {
+  it('Pam saves you from the street once, then you get run over', () => {
     const g = newGame();
     g.goto('street', 150, 165);
+    walk(g, 150, 195);
+    expect(g.s.over).toBe(null);
+    expect(g.flag('pamSaved')).toBe(true);
     walk(g, 150, 195);
     expect(g.s.over).toBe('dead');
   });
