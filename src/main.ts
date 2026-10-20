@@ -3,10 +3,11 @@ import { chapter2 } from './content/chapter2';
 import { chapter3 } from './content/chapter3';
 import { chapter4 } from './content/chapter4';
 import { chapter5 } from './content/chapter5';
+import { chapter6 } from './content/chapter6';
 import { Game } from './engine/game';
 import { EGA, LARRY, SCALE, person, rect, text } from './engine/gfx';
 
-const CHAPTERS = [chapter1, chapter2, chapter3, chapter4, chapter5];
+const CHAPTERS = [chapter1, chapter2, chapter3, chapter4, chapter5, chapter6];
 const SAVE_KEY = 'lsl-woke-up-broke:save';
 const CHAPTER_KEY = 'lsl-woke-up-broke:chapter';
 
