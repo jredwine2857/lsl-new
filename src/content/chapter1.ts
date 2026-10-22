@@ -3,7 +3,8 @@
 // Jet-lagged, he crashes in Lefty's old hot tub and wakes up in a new world.
 // Goal: get a phone, get an idea, get out of Lost Wages.
 
-import { EGA, SKIN, SKIN_DARK, dither, ellipse, frame, person, rect, stripes, text } from '../engine/gfx';
+import { EGA, SKIN_DARK, dither, person, rect, text } from '../engine/gfx';
+import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
@@ -14,13 +15,13 @@ const PHONE_PRICE = 99900;
 const SQ_PRICE = 99;
 
 // Shared look-ups for NPCs, so the same character looks the same everywhere.
-const BARTENDER = { hair: EGA.lgreen, top: EGA.black, pants: EGA.dgray, accent: EGA.lmagenta, longHair: true };
-const BONDS = { hair: EGA.dgray, top: EGA.blue, pants: EGA.blue, accent: EGA.yellow, glasses: true };
-const CANVASSER = { hair: EGA.brown, top: EGA.lgreen, pants: EGA.blue, accent: EGA.white, longHair: true };
-const KEN = { hair: EGA.lgray, top: EGA.lred, pants: EGA.brown, bald: true, glasses: true };
-const ROBERTA = { hair: EGA.lgray, top: EGA.lblue, pants: EGA.blue, longHair: true, dress: true };
-const GUS = { hair: EGA.lgray, top: EGA.red, pants: EGA.black, accent: EGA.white, bald: true };
-const GENIUS = { hair: EGA.black, skin: SKIN_DARK, top: EGA.lblue, pants: EGA.dgray, accent: EGA.white };
+const BARTENDER = { sprite: 'sage', hair: EGA.lgreen, top: EGA.black, pants: EGA.dgray, accent: EGA.lmagenta, longHair: true };
+const BONDS = { sprite: 'bonds', hair: EGA.dgray, top: EGA.blue, pants: EGA.blue, accent: EGA.yellow, glasses: true };
+const CANVASSER = { sprite: 'canvasser', hair: EGA.brown, top: EGA.lgreen, pants: EGA.blue, accent: EGA.white, longHair: true };
+const KEN = { sprite: 'ken', hair: EGA.lgray, top: EGA.lred, pants: EGA.brown, bald: true, glasses: true };
+const ROBERTA = { sprite: 'roberta', hair: EGA.lgray, top: EGA.lblue, pants: EGA.blue, longHair: true, dress: true };
+const GUS = { sprite: 'gus', hair: EGA.lgray, top: EGA.red, pants: EGA.black, accent: EGA.white, bald: true };
+const GENIUS = { sprite: 'deshawn', hair: EGA.black, skin: SKIN_DARK, top: EGA.lblue, pants: EGA.dgray, accent: EGA.white };
 
 const wearingPin = (g: Game) => !!g.flag('pinWorn');
 const phoneReady = (g: Game) => g.has('phone') && !!g.flag('phoneOnline');
@@ -105,47 +106,21 @@ const backroom: Room = {
     { id: 'toLounge', rect: { x: 290, y: 142, w: 30, h: 56 }, when: (g) => !!g.flag('doorOpen'), enter: (g) => g.goto('lounge', 26, 172) },
   ],
   draw(ctx, g) {
-    stripes(ctx, EGA.brown, '#884400', 0, 10, 320, 126, 3);
-    dither(ctx, EGA.brown, EGA.dgray, 0, 136, 320, 64);
-    rect(ctx, EGA.black, 0, 135, 320, 2);
-    // mirror
-    rect(ctx, EGA.yellow, 48, 34, 30, 38);
-    dither(ctx, EGA.lcyan, EGA.cyan, 51, 37, 24, 32);
-    // graffiti
-    text(ctx, 'KEN SENT ME', 228, 32, EGA.lred, 8);
-    text(ctx, 'LARRY WAS HERE 1987', 228, 44, EGA.lmagenta, 5);
-    text(ctx, 'LARRY IS STILL HERE 1992', 228, 52, EGA.lgray, 5);
-    // shelves of crates
-    for (let i = 0; i < 3; i++) {
-      rect(ctx, '#663300', 150, 74 + i * 22, 80, 3);
-      for (let j = 0; j < 4; j++) rect(ctx, j % 2 ? EGA.brown : '#996633', 154 + j * 19, 60 + i * 22, 16, 14);
-    }
-    // crate with KQ5
-    rect(ctx, '#996633', 128, 122, 26, 20);
-    frame(ctx, '#663300', 128, 122, 26, 20);
+    backdrop(ctx, 'ch1-backroom');
+    // King's Quest V on the crate
     if (!g.flag('gotBox')) {
       rect(ctx, EGA.lblue, 133, 110, 15, 12);
       rect(ctx, EGA.yellow, 135, 112, 11, 3);
       rect(ctx, EGA.white, 137, 117, 6, 3);
     }
-    // hot tub
-    ellipse(ctx, EGA.lcyan, 58, 142, 50, 18);
-    ellipse(ctx, EGA.cyan, 58, 142, 44, 14);
-    ellipse(ctx, '#225522', 58, 143, 38, 10);
-    dither(ctx, '#225522', EGA.green, 34, 140, 40, 4);
-    // newspaper
     if (!g.flag('gotPaper')) {
       rect(ctx, EGA.lgray, 198, 164, 20, 7);
       rect(ctx, EGA.dgray, 200, 165, 14, 1);
       rect(ctx, EGA.dgray, 200, 167, 10, 1);
     }
-    // door
-    rect(ctx, g.flag('doorOpen') ? EGA.black : EGA.dgray, 282, 62, 30, 76);
-    if (g.flag('doorOpen')) dither(ctx, EGA.magenta, EGA.black, 284, 64, 26, 74);
-    else {
-      frame(ctx, EGA.lgray, 282, 62, 30, 76);
-      rect(ctx, EGA.black, 290, 76, 14, 4);
-      rect(ctx, EGA.yellow, 285, 104, 3, 3);
+    if (g.flag('doorOpen')) {
+      rect(ctx, EGA.black, 282, 62, 30, 74);
+      dither(ctx, EGA.magenta, EGA.black, 284, 64, 26, 72);
     }
   },
   handle(g, cmd) {
@@ -235,46 +210,16 @@ const lounge: Room = {
     { id: 'toStreet', rect: { x: 100, y: 148, w: 30, h: 6 }, enter: (g) => g.goto('street', 53, 166) },
   ],
   draw(ctx, g, t) {
-    dither(ctx, EGA.magenta, EGA.black, 0, 10, 320, 136);
-    stripes(ctx, '#663300', EGA.brown, 0, 146, 320, 54, 5);
-    // brick accent wall
-    for (let y = 18; y < 140; y += 6) for (let x = (y / 6) % 2 ? 0 : 6; x < 160; x += 12) rect(ctx, EGA.red, x, y, 10, 4);
-    // edison bulbs
-    for (let i = 0; i < 8; i++) {
-      rect(ctx, EGA.black, 20 + i * 38, 10, 1, 10 + (i % 3) * 4);
-      rect(ctx, EGA.yellow, 19 + i * 38, 20 + (i % 3) * 4, 3, 4);
-    }
-    // neon
-    text(ctx, 'LFTY', 40, 34, (Math.floor(t * 2) % 7) ? EGA.lmagenta : EGA.magenta, 16);
-    text(ctx, 'a mixology experience', 30, 52, EGA.lcyan, 5);
-    // doors
-    rect(ctx, EGA.black, 0, 70, 22, 78);
-    rect(ctx, '#442200', 100, 68, 30, 80);
-    frame(ctx, EGA.yellow, 100, 68, 30, 80);
-    text(ctx, 'EXIT', 106, 72, EGA.lred, 6);
-    // chalkboard
-    rect(ctx, '#663300', 178, 28, 60, 40);
-    rect(ctx, '#113311', 181, 31, 54, 34);
-    text(ctx, 'OAT OLD FASH $26', 183, 34, EGA.white, 4);
-    text(ctx, 'WIFI: LFTY_Guest', 183, 44, EGA.lcyan, 4);
-    text(ctx, 'PW: KenSentMe1987', 183, 52, EGA.lcyan, 4);
-    // tv
-    rect(ctx, EGA.black, 252, 26, 52, 38);
+    backdrop(ctx, 'ch1-lounge');
+    // TV picture
     dither(ctx, Math.floor(t * 3) % 2 ? EGA.blue : EGA.lblue, EGA.cyan, 255, 29, 46, 28);
     rect(ctx, EGA.red, 255, 52, 46, 5);
     text(ctx, 'AIDS: OVER', 257, 34, EGA.white, 6);
-    // patrons on laptops
-    person(ctx, 52, 150, { hair: EGA.yellow, top: EGA.lgreen, pants: EGA.blue });
-    person(ctx, 82, 150, { hair: EGA.black, top: EGA.lgray, pants: EGA.dgray, glasses: true, longHair: true });
-    rect(ctx, EGA.lgray, 40, 132, 56, 4);
-    rect(ctx, EGA.white, 46, 126, 10, 6);
-    rect(ctx, EGA.white, 76, 126, 10, 6);
-    // bartender behind the bar
-    rect(ctx, '#663300', 166, 84, 154, 3);
-    for (let i = 0; i < 9; i++) rect(ctx, [EGA.green, EGA.brown, EGA.lcyan][i % 3], 190 + i * 14, 72, 4, 12);
+    // patrons on laptops, the bartender behind the bar
+    person(ctx, 52, 150, { sprite: 'patron1', hair: EGA.yellow, top: EGA.lgreen, pants: EGA.blue });
+    person(ctx, 82, 150, { sprite: 'patron2', hair: EGA.black, top: EGA.lgray, pants: EGA.dgray, glasses: true, longHair: true });
     person(ctx, 241, 138, BARTENDER);
-    rect(ctx, '#663300', 166, 118, 154, 6);
-    stripes(ctx, EGA.brown, '#663300', 166, 124, 154, 22, 4);
+    backdrop(ctx, 'ch1-lounge-fg');
     if (!g.has('pin')) {
       rect(ctx, EGA.white, 170, 112, 14, 6);
       for (let i = 0; i < 5; i++) rect(ctx, [EGA.lred, EGA.yellow, EGA.lgreen, EGA.lblue, EGA.lmagenta][i], 171 + i * 2.5, 111, 2, 2);
@@ -365,57 +310,16 @@ const street: Room = {
     },
   ],
   draw(ctx, _g, t) {
-    dither(ctx, EGA.black, EGA.blue, 0, 10, 320, 90);
-    for (let i = 0; i < 25; i++) rect(ctx, EGA.white, (i * 53) % 320, 12 + ((i * 37) % 50), 1, 1);
-    // LFTY building
-    rect(ctx, EGA.dgray, 0, 70, 110, 86);
-    for (let y = 74; y < 152; y += 6) for (let x = (y / 6) % 2 ? 0 : 6; x < 110; x += 12) rect(ctx, EGA.red, x, y, 10, 4);
-    text(ctx, 'LFTY', 30, 80, EGA.lmagenta, 14);
-    rect(ctx, '#442200', 40, 112, 26, 44);
-    rect(ctx, EGA.yellow, 72, 112, 26, 20);
-    // billboard
-    rect(ctx, EGA.dgray, 160, 64, 4, 50);
-    rect(ctx, EGA.white, 118, 24, 90, 40);
-    frame(ctx, EGA.lred, 118, 24, 90, 40);
-    text(ctx, 'SWIPR', 128, 30, EGA.lred, 14);
-    text(ctx, 'love is one swipe away', 124, 50, EGA.black, 5);
-    // mall
-    rect(ctx, EGA.lgray, 214, 60, 106, 96);
-    rect(ctx, EGA.dgray, 214, 60, 106, 4);
-    text(ctx, 'GALLERIA', 236, 68, EGA.blue, 10);
-    text(ctx, 'NOW 60% STORES!', 232, 82, EGA.red, 5);
-    dither(ctx, EGA.lcyan, EGA.cyan, 250, 98, 40, 58);
-    rect(ctx, EGA.dgray, 269, 98, 2, 58);
-    // sidewalk and road
-    rect(ctx, EGA.lgray, 0, 156, 320, 24);
-    for (let x = 0; x < 320; x += 20) rect(ctx, EGA.dgray, x, 156, 1, 24);
-    rect(ctx, EGA.white, 0, 179, 320, 2);
-    rect(ctx, EGA.dgray, 0, 181, 320, 19);
+    backdrop(ctx, 'ch1-street');
     for (let x = (t * 30) % 30 - 30; x < 320; x += 30) rect(ctx, EGA.yellow, x, 190, 14, 2);
     // a robotaxi cruising by
     const cx = ((t * 70) % 520) - 100;
-    rect(ctx, EGA.white, cx, 182, 34, 10);
-    rect(ctx, EGA.lcyan, cx + 8, 178, 18, 6);
-    rect(ctx, EGA.black, cx + 4, 190, 6, 4);
-    rect(ctx, EGA.black, cx + 24, 190, 6, 4);
-    rect(ctx, EGA.lgray, cx + 14, 175, 6, 3);
-    // PC Police cruiser
-    {
-      rect(ctx, EGA.white, 204, 170, 64, 12);
-      rect(ctx, EGA.blue, 212, 164, 44, 8);
-      const lights = [EGA.lred, EGA.yellow, EGA.lgreen, EGA.lblue, EGA.lmagenta];
-      for (let i = 0; i < 5; i++) rect(ctx, lights[(i + Math.floor(t * 6)) % 5], 222 + i * 5, 161, 4, 3);
-      text(ctx, 'PC POLICE', 214, 173, EGA.blue, 6);
-      rect(ctx, EGA.black, 210, 180, 8, 3);
-      rect(ctx, EGA.black, 254, 180, 8, 3);
-    }
+    prop(ctx, 'car-robotaxi', cx, 197);
+    // the PC Police cruiser's rainbow light bar
+    const lights = [EGA.lred, EGA.yellow, EGA.lgreen, EGA.lblue, EGA.lmagenta];
+    for (let i = 0; i < 5; i++) rect(ctx, lights[(i + Math.floor(t * 6)) % 5], 222 + i * 5, 161, 4, 3);
     person(ctx, 303, 168, BONDS);
-    // canvasser and her sign
     person(ctx, 151, 168, CANVASSER, 'down', Math.floor(t * 2) % 2);
-    rect(ctx, EGA.dgray, 176, 140, 2, 22);
-    rect(ctx, EGA.white, 160, 120, 34, 22);
-    text(ctx, 'EVERY $', 162, 123, EGA.black, 5);
-    text(ctx, 'TO CAUSE*', 162, 131, EGA.black, 5);
   },
   handle(g, cmd) {
     if (cmd.is(['talk', 'ask'], 'officer', 'cop', 'police', 'sonny', 'bonds', 'policeman')) {
@@ -498,34 +402,10 @@ const mall: Room = {
     { id: 'toPear', rect: { x: 226, y: 124, w: 40, h: 5 }, enter: (g) => g.goto('pear', 160, 188) },
   ],
   draw(ctx, g) {
-    rect(ctx, EGA.lgray, 0, 10, 320, 114);
-    rect(ctx, EGA.dgray, 0, 10, 320, 26);
-    for (let x = 0; x < 320; x += 16) rect(ctx, EGA.white, x, 14, 10, 18);
-    // checkered floor
-    for (let y = 124; y < 200; y += 8) for (let x = 0; x < 320; x += 16) rect(ctx, ((x + y) / 8) % 2 ? EGA.white : EGA.lgray, x + ((y / 8) % 2 ? 8 : 0), y, 8, 8);
-    // Babbage's
-    rect(ctx, EGA.red, 20, 40, 112, 84);
-    rect(ctx, EGA.white, 24, 44, 104, 14);
-    text(ctx, "BABBAGE'S", 34, 46, EGA.red, 11);
-    rect(ctx, EGA.black, 56, 76, 40, 48);
-    for (let i = 0; i < 4; i++) rect(ctx, [EGA.lblue, EGA.yellow, EGA.lgreen, EGA.lmagenta][i], 28 + (i % 2) * 104 - (i % 2 ? 104 : 0) + (i > 1 ? 72 : 0), 64 + (i % 2) * 22, 18, 14);
-    // Spirit Halloween
-    rect(ctx, EGA.black, 134, 40, 54, 30);
-    text(ctx, 'SPIRIT', 140, 44, EGA.lred, 8);
-    text(ctx, 'HALLOWEEN', 139, 56, EGA.white, 5);
-    // Pear store
-    rect(ctx, EGA.white, 190, 40, 112, 84);
-    frame(ctx, EGA.lgray, 190, 40, 112, 84);
-    ellipse(ctx, EGA.dgray, 246, 54, 6, 7);
-    ellipse(ctx, EGA.dgray, 246, 46, 3, 3);
-    rect(ctx, EGA.lgreen, 247, 40, 3, 3);
-    dither(ctx, EGA.white, EGA.lcyan, 226, 76, 40, 48);
-    // bench and couple
+    backdrop(ctx, 'ch1-mall');
     person(ctx, 149, 150, KEN);
     person(ctx, 171, 150, ROBERTA);
-    rect(ctx, EGA.brown, 128, 146, 64, 6);
-    rect(ctx, '#663300', 132, 152, 4, 8);
-    rect(ctx, '#663300', 184, 152, 4, 8);
+    backdrop(ctx, 'ch1-mall-fg');
     rect(ctx, EGA.yellow, 158, 138, 6, 4);
     if (g.flag('soldBox')) rect(ctx, EGA.lblue, 162, 140, 8, 6);
   },
@@ -576,43 +456,17 @@ const babbages: Room = {
   ],
   zones: [{ id: 'toMall', rect: { x: 0, y: 196, w: 320, h: 4 }, enter: (g) => g.goto('mall', 76, 136) }],
   draw(ctx, g, t) {
-    rect(ctx, EGA.yellow, 0, 10, 320, 118);
-    stripes(ctx, EGA.blue, EGA.lblue, 0, 128, 320, 72, 6);
-    // shelves of big boxes
-    for (const sx of [10, 200]) {
-      for (let r = 0; r < 4; r++) {
-        rect(ctx, EGA.brown, sx, 52 + r * 20, sx === 10 ? 90 : 20, 2);
-        for (let i = 0; i < (sx === 10 ? 7 : 1); i++) {
-          const colors = [EGA.lblue, EGA.red, EGA.green, EGA.magenta, EGA.cyan, EGA.white, EGA.lred];
-          rect(ctx, colors[(i + r) % colors.length], sx + 2 + i * 12, 40 + r * 20, 10, 12);
-        }
-      }
-    }
-    // sign
-    rect(ctx, EGA.white, 110, 22, 100, 24);
-    frame(ctx, EGA.red, 110, 22, 100, 24);
-    text(ctx, 'NO RETURNS ON OPENED', 113, 25, EGA.red, 5);
-    text(ctx, 'SOFTWARE.', 113, 32, EGA.red, 5);
-    text(ctx, 'LOOKING AT YOU, LARRY', 113, 39, EGA.black, 5);
-    rect(ctx, EGA.white, 196, 34, 8, 9);
-    rect(ctx, SKIN, 198, 36, 4, 4);
-    // crt
-    rect(ctx, EGA.lgray, 230, 70, 40, 34);
-    rect(ctx, EGA.black, 233, 73, 34, 24);
-    const walker = 235 + ((t * 8) % 28);
-    rect(ctx, EGA.white, walker, 86, 2, 6);
-    rect(ctx, EGA.lred, 233 + ((t * 20) % 40), 92, 6, 3);
-    // Gus behind the counter
+    backdrop(ctx, 'ch1-babbages');
+    // the CRT demo: a little man in a white suit, a car
+    rect(ctx, EGA.white, 235 + ((t * 8) % 28), 86, 2, 6);
+    rect(ctx, EGA.lred, 233 + ((t * 20) % 32), 92, 6, 3);
     person(ctx, 160, 117, GUS);
-    rect(ctx, EGA.brown, 110, 106, 100, 22);
-    rect(ctx, '#663300', 110, 104, 100, 3);
-    rect(ctx, EGA.dgray, 180, 96, 16, 10);
-    // bargain bin
-    rect(ctx, EGA.lred, 226, 146, 54, 20);
-    frame(ctx, EGA.red, 226, 146, 54, 20);
-    text(ctx, 'BARGAIN', 232, 152, EGA.white, 6);
-    for (let i = 0; i < 5; i++) rect(ctx, i === 2 && !g.has('sq') ? EGA.black : EGA.green, 230 + i * 10, 140, 8, 7);
-    if (!g.has('sq')) rect(ctx, EGA.yellow, 251, 142, 4, 2);
+    backdrop(ctx, 'ch1-babbages-fg');
+    // Space Quest XII in the bargain bin
+    if (!g.has('sq')) {
+      rect(ctx, EGA.black, 250, 140, 8, 7);
+      rect(ctx, EGA.yellow, 251, 142, 4, 2);
+    }
   },
   handle(g, cmd) {
     if (cmd.is(['talk', 'ask'], 'gus', 'clerk', 'man', 'cashier', 'returns', 'return') || (cmd.is('talk') && cmd.words.length === 0 && g.near('gus', 50))) {
@@ -683,17 +537,9 @@ const pear: Room = {
   ],
   zones: [{ id: 'toMall', rect: { x: 0, y: 196, w: 320, h: 4 }, enter: (g) => g.goto('mall', 246, 136) }],
   draw(ctx) {
-    rect(ctx, EGA.white, 0, 10, 320, 118);
-    dither(ctx, EGA.white, EGA.lgray, 0, 128, 320, 72);
-    ellipse(ctx, EGA.lgray, 160, 46, 10, 12);
-    ellipse(ctx, EGA.lgray, 160, 32, 5, 5);
-    rect(ctx, EGA.lgreen, 161, 22, 4, 4);
+    backdrop(ctx, 'ch1-pear');
     person(ctx, 160, 124, GENIUS);
-    rect(ctx, '#CC9966', 96, 112, 128, 8);
-    rect(ctx, '#996633', 100, 120, 4, 24);
-    rect(ctx, '#996633', 216, 120, 4, 24);
-    for (let i = 0; i < 6; i++) rect(ctx, EGA.black, 104 + i * 20, 113, 6, 4);
-    text(ctx, 'think different. pay more.', 108, 70, EGA.lgray, 6);
+    backdrop(ctx, 'ch1-pear-fg');
   },
   handle(g, cmd) {
     if (cmd.is(['talk', 'ask'], 'genius', 'employee', 'man', 'clerk', 'deshawn', 'salesman') || (cmd.is('talk') && cmd.words.length === 0 && g.near('genius', 60))) {

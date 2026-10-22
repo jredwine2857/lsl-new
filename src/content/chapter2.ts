@@ -2,22 +2,23 @@
 // Larry lands at LAX, gets his first real Swipr date, and meets the family
 // that will keep saving his bacon for the rest of the game.
 
-import { EGA, SKIN_DARK, dither, ellipse, person, poly, rect, stripes, text } from '../engine/gfx';
+import { EGA, SKIN_DARK, ellipse, person, rect } from '../engine/gfx';
+import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
 
 const BILL = 41200;
 
-const ROGER = { hair: EGA.yellow, top: EGA.lgray, pants: EGA.lgray, accent: EGA.blue };
-const ATTENDANT = { hair: EGA.black, top: EGA.blue, pants: EGA.blue, accent: EGA.lred, longHair: true, dress: true };
-const KRIS = { hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.yellow, glasses: true };
-const KIM = { hair: EGA.black, top: '#CCAA88', pants: '#CCAA88', longHair: true, dress: true };
-const KHLOE = { hair: EGA.yellow, top: EGA.black, pants: EGA.black, longHair: true };
-const CAITLYN = { hair: EGA.brown, top: EGA.lgray, pants: EGA.blue, longHair: true };
-const PAPARAZZO = { hair: EGA.dgray, top: EGA.brown, pants: EGA.dgray, accent: EGA.black, bald: true };
-const ASHLEIGH = { hair: EGA.brown, top: EGA.lmagenta, pants: EGA.blue, longHair: true, glasses: true };
-const WAITER = { hair: EGA.black, skin: SKIN_DARK, top: EGA.white, pants: EGA.black, accent: EGA.red };
+const ROGER = { sprite: 'roger', hair: EGA.yellow, top: EGA.lgray, pants: EGA.lgray, accent: EGA.blue };
+const ATTENDANT = { sprite: 'attendant', hair: EGA.black, top: EGA.blue, pants: EGA.blue, accent: EGA.lred, longHair: true, dress: true };
+const KRIS = { sprite: 'kris', hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.yellow, glasses: true };
+const KIM = { sprite: 'kim', hair: EGA.black, top: '#CCAA88', pants: '#CCAA88', longHair: true, dress: true };
+const KHLOE = { sprite: 'khloe', hair: EGA.yellow, top: EGA.black, pants: EGA.black, longHair: true };
+const CAITLYN = { sprite: 'caitlyn', hair: EGA.brown, top: EGA.lgray, pants: EGA.blue, longHair: true };
+const PAPARAZZO = { sprite: 'paparazzo', hair: EGA.dgray, top: EGA.brown, pants: EGA.dgray, accent: EGA.black, bald: true };
+const ASHLEIGH = { sprite: 'ashleigh', hair: EGA.brown, top: EGA.lmagenta, pants: EGA.blue, longHair: true, glasses: true };
+const WAITER = { sprite: 'waiter', hair: EGA.black, skin: SKIN_DARK, top: EGA.white, pants: EGA.black, accent: EGA.red };
 
 const has = (g: Game, f: string) => !!g.flag(f);
 
@@ -95,32 +96,10 @@ const gate: Room = {
     { id: 'toCurb', rect: { x: 306, y: 146, w: 14, h: 53 }, enter: (g) => g.goto('curb', 20, 166) },
   ],
   draw(ctx, _g, t) {
-    rect(ctx, EGA.lgray, 0, 10, 320, 136);
-    dither(ctx, EGA.lcyan, EGA.cyan, 70, 20, 220, 84);
-    for (let x = 70; x <= 290; x += 44) rect(ctx, EGA.dgray, x, 20, 3, 84);
-    // Theme Building through the window
-    poly(ctx, EGA.white, [[150, 96], [178, 58], [182, 58], [158, 96]]);
-    poly(ctx, EGA.white, [[214, 96], [186, 58], [190, 58], [222, 96]]);
-    ellipse(ctx, EGA.white, 184, 60, 26, 6);
-    rect(ctx, EGA.white, 180, 50, 8, 8);
-    // plane
-    rect(ctx, EGA.white, 80, 80, 60, 10);
-    poly(ctx, EGA.white, [[96, 80], [110, 66], [116, 66], [108, 80]]);
-    rect(ctx, EGA.red, 84, 84, 50, 2);
-    // gate sign
-    rect(ctx, EGA.black, 10, 24, 50, 20);
-    text(ctx, 'GATE 42', 14, 28, EGA.yellow, 8);
-    text(ctx, 'ARRIVED', 14, 37, EGA.lgreen, 5);
-    // floor
-    stripes(ctx, EGA.blue, EGA.lblue, 0, 146, 320, 54, 8);
-    // seats
-    for (let i = 0; i < 5; i++) rect(ctx, EGA.dgray, 100 + i * 22, 126, 18, 14);
-    // broken walkway
-    rect(ctx, EGA.dgray, 120, 150, 90, 8);
-    rect(ctx, EGA.yellow, 120, 150, 90, 1);
-    text(ctx, 'OUT OF SERVICE', 128, 151, EGA.lred, 5);
+    backdrop(ctx, 'ch2-gate');
     person(ctx, 60, 166, ATTENDANT);
     person(ctx, 232, 168, ROGER, 'left', Math.floor(t * 2) % 2);
+    // mop and bucket
     rect(ctx, EGA.brown, 220, 140, 1, 28);
     rect(ctx, EGA.white, 216, 166, 8, 3);
     rect(ctx, EGA.yellow, 244, 158, 10, 10);
@@ -198,31 +177,13 @@ const curb: Room = {
     },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.blue, 0, 10, 320, 120);
-    dither(ctx, EGA.blue, EGA.black, 0, 10, 320, 40);
-    const glow = [EGA.lmagenta, EGA.lblue, EGA.lcyan, EGA.lgreen, EGA.yellow, EGA.lred];
-    for (let i = 0; i < 12; i++) rect(ctx, glow[(i + Math.floor(t)) % glow.length], 8 + i * 26, 30 + (i % 2) * 6, 6, 80 - (i % 2) * 6);
-    text(ctx, 'LAX', 128, 56, EGA.white, 22);
-    // Theme Building on the horizon
-    poly(ctx, EGA.white, [[262, 120], [280, 92], [284, 92], [268, 120]]);
-    poly(ctx, EGA.white, [[304, 120], [288, 92], [292, 92], [312, 120]]);
-    ellipse(ctx, EGA.white, 286, 92, 16, 4);
-    // terminal and sidewalk
-    rect(ctx, EGA.dgray, 0, 120, 320, 32);
-    rect(ctx, EGA.lgray, 0, 152, 320, 34);
-    for (let x = 0; x < 320; x += 24) rect(ctx, EGA.dgray, x, 152, 1, 34);
-    rect(ctx, EGA.yellow, 0, 185, 320, 1);
-    rect(ctx, EGA.black, 0, 186, 320, 14);
-    const cars = [EGA.white, EGA.lgray, EGA.dgray, EGA.white];
-    for (let i = 0; i < 4; i++) {
-      const cx = ((t * 20 + i * 90) % 400) - 60;
-      rect(ctx, cars[i], cx, 188, 36, 8);
-      rect(ctx, EGA.lcyan, cx + 10, 186, 14, 3);
+    backdrop(ctx, 'ch2-curb');
+    // rideshare traffic crawling past the curb
+    const cars = ['car-prius', 'car-taxi', 'car-shuttle', 'car-red', 'car-suv'];
+    for (let i = 0; i < cars.length; i++) {
+      const cx = ((t * 20 + i * 96) % 480) - 80;
+      prop(ctx, cars[i], cx, 201);
     }
-    // SUV
-    rect(ctx, EGA.black, 56, 162, 80, 22);
-    rect(ctx, EGA.dgray, 64, 156, 60, 8);
-    text(ctx, 'MOM', 88, 174, EGA.white, 5);
     // the family
     person(ctx, 93, 164, KRIS);
     person(ctx, 113, 164, KIM);
@@ -232,10 +193,7 @@ const curb: Room = {
     person(ctx, 241, 168, PAPARAZZO, 'left');
     rect(ctx, EGA.black, 228, 142, 8, 6);
     if (has(g, 'viral') && Math.floor(t * 3) % 4 === 0) rect(ctx, EGA.white, 224, 140, 6, 6);
-    // rope and guard
-    rect(ctx, EGA.yellow, 290, 150, 2, 18);
-    rect(ctx, EGA.red, 280, 152, 40, 2);
-    person(ctx, 304, 168, { hair: EGA.black, top: EGA.black, pants: EGA.black, accent: EGA.white, bald: true });
+    person(ctx, 304, 168, { sprite: 'security', hair: EGA.black, top: EGA.black, pants: EGA.black, accent: EGA.white, bald: true });
   },
   handle(g, cmd) {
     if (cmd.is(['talk', 'ask', 'pose'], 'paparazzo', 'photographer', 'pap', 'camera') || cmd.is('pose') || cmd.is(['show'], 'suit', 'outfit')) {
@@ -250,6 +208,7 @@ const curb: Room = {
       g.give('kriscard');
       g.give('wristband');
       g.award('viral');
+      g.sfx('scratch');
       g.award('krisCard');
       g.say('You strike the pose you perfected at Lefty\'s in 1979: one hand on hip, one finger pointed at the sky.\n\nThe paparazzo goes off like a strobe light. Within four minutes your photo is everywhere. #VintageKing. A Gen Z fashion account calls you "unironically iconic."\n\nKris Jenner hangs up both phones and walks over. "You. White suit. I don\'t know who you are, but you\'ve got fifty million views and no management. That changes now."\n\nShe hands you her business card and slaps a VIP wristband on your arm. "Theme Building, tonight. You\'re on the list. And Larry? Call me before you do anything stupid."');
       return true;
@@ -320,33 +279,11 @@ const theme: Room = {
     },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.black, 0, 10, 320, 142);
-    // curved windows
-    dither(ctx, EGA.blue, EGA.black, 20, 20, 240, 70);
-    for (let i = 0; i < 12; i++) rect(ctx, (i + Math.floor(t * 2)) % 3 ? EGA.yellow : EGA.white, 24 + i * 20, 70, 2, 2);
-    for (let x = 20; x <= 260; x += 40) rect(ctx, EGA.lgray, x, 20, 2, 70);
-    // starbursts
-    for (const [cx, cy] of [[60, 104], [160, 100], [230, 108]] as [number, number][]) {
-      for (let a = 0; a < 8; a++) {
-        const ang = (a / 8) * Math.PI * 2;
-        rect(ctx, EGA.yellow, cx + Math.cos(ang) * 8, cy + Math.sin(ang) * 8, 2, 2);
-      }
-      rect(ctx, EGA.white, cx - 1, cy - 1, 3, 3);
-    }
-    // lava lamp
-    rect(ctx, EGA.dgray, 6, 120, 10, 30);
-    ellipse(ctx, EGA.lred, 11, 130 + Math.sin(t) * 6, 3, 4);
-    // elevator
-    rect(ctx, EGA.brown, 270, 70, 34, 82);
-    rect(ctx, EGA.yellow, 286, 70, 2, 82);
-    text(ctx, 'DECK', 278, 74, EGA.white, 6);
-    // floor
-    stripes(ctx, EGA.magenta, EGA.lmagenta, 0, 152, 320, 48, 6);
-    // tables
-    for (const tx of [40, 110, 176]) {
-      ellipse(ctx, EGA.white, tx + 8, 152, 16, 4);
-      rect(ctx, EGA.lgray, tx + 7, 152, 2, 10);
-    }
+    backdrop(ctx, 'ch2-theme');
+    // LA twinkling far below
+    for (let i = 0; i < 12; i++) rect(ctx, (i + Math.floor(t * 2)) % 3 ? EGA.yellow : EGA.white, 24 + i * 20, 82, 1, 1);
+    // lava lamp blob
+    ellipse(ctx, EGA.lred, 11, 132 + Math.sin(t) * 5, 2.5, 3.5);
     if (has(g, 'matched')) person(ctx, 176, 170, ASHLEIGH, 'left');
     person(ctx, 243, 168, WAITER, 'left', Math.floor(t) % 2);
   },
@@ -403,6 +340,7 @@ const theme: Room = {
       if (g.has('wristband') && (cmd.about('wristband', 'band', 'vip') || g.near('waiter', 70))) {
         g.set('paid');
         g.award('comp');
+        g.sfx('cash');
         g.say(`The waiter sees the gold wristband and bows slightly. "Kardashian guest list. Of course. Everything is comped, sir. Including the gratitude."\n\nYou just ate a ${money(BILL)} dinner for ${money(0)}. Larry Laffer is finally living in America.`);
         return true;
       }

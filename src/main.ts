@@ -4,8 +4,11 @@ import { chapter3 } from './content/chapter3';
 import { chapter4 } from './content/chapter4';
 import { chapter5 } from './content/chapter5';
 import { chapter6 } from './content/chapter6';
+import { songFor } from './content/music';
+import { charSprite, preloadArt } from './engine/art';
 import { Game } from './engine/game';
 import { EGA, LARRY, SCALE, person, rect, text } from './engine/gfx';
+import { sound } from './engine/sound';
 
 const CHAPTERS = [chapter1, chapter2, chapter3, chapter4, chapter5, chapter6];
 const SAVE_KEY = 'lsl-woke-up-broke:save';
@@ -27,32 +30,28 @@ let game = new Game(CHAPTERS[0]);
 const history: string[] = [];
 let historyAt = 0;
 
-// ---- sound: a PC-speaker-ish square wave ----
+// ---- sound ----
 
-let audio: AudioContext | null = null;
-function beep(notes: [number, number][]) {
-  try {
-    audio ??= new AudioContext();
-    let t = audio.currentTime;
-    for (const [freq, dur] of notes) {
-      const osc = audio.createOscillator();
-      const gain = audio.createGain();
-      osc.type = 'square';
-      osc.frequency.value = freq;
-      gain.gain.value = 0.04;
-      osc.connect(gain).connect(audio.destination);
-      osc.start(t);
-      osc.stop(t + dur);
-      t += dur;
-    }
-  } catch {
-    // No audio is fine.
-  }
+// Browsers only start audio after the player clicks or types.
+for (const ev of ['pointerdown', 'keydown'] as const) window.addEventListener(ev, () => sound.unlock(), { capture: true });
+
+const musicBtn = document.getElementById('music') as HTMLButtonElement;
+const sfxBtn = document.getElementById('sfx') as HTMLButtonElement;
+function syncSoundButtons() {
+  musicBtn.textContent = `Music: ${sound.musicOn ? 'On' : 'Off'}`;
+  musicBtn.setAttribute('aria-pressed', String(sound.musicOn));
+  sfxBtn.textContent = `Sound: ${sound.sfxOn ? 'On' : 'Off'}`;
+  sfxBtn.setAttribute('aria-pressed', String(sound.sfxOn));
 }
+musicBtn.addEventListener('click', () => { sound.unlock(); sound.toggleMusic(); syncSoundButtons(); input.focus(); });
+sfxBtn.addEventListener('click', () => { sound.unlock(); sound.toggleSfx(); syncSoundButtons(); input.focus(); });
+syncSoundButtons();
+
 function startChapter(i: number) {
   chapter = i;
   game = new Game(CHAPTERS[i]);
-  game.onScore = () => beep([[660, 0.06], [880, 0.08]]);
+  game.onScore = () => sound.sfx('score');
+  game.onSfx = (name) => sound.sfx(name);
   chapterSelect.value = String(i);
   try { localStorage.setItem(CHAPTER_KEY, String(i)); } catch { /* storage blocked */ }
   for (const line of CHAPTERS[i].intro) game.say(line);
@@ -172,22 +171,25 @@ function syncDialog() {
   const msg = game.queue[0];
   if (msg === showing) return;
   showing = msg;
-  if (!msg) { dialog.hidden = true; return; }
+  if (!msg) { dialog.hidden = true; sound.duck(false); return; }
+  if (msg.kind === 'info') { sound.duck(false); sound.sfx('blip'); }
   dialog.hidden = false;
   dialog.className = msg.kind ?? 'info';
   dTitle.textContent = msg.title ?? '';
   dBody.textContent = msg.text;
   dButtons.replaceChildren();
   if (msg.kind === 'death') {
-    beep([[392, 0.18], [370, 0.18], [349, 0.18], [330, 0.5]]);
+    sound.duck(true);
+    sound.sfx('death');
     dBody.textContent += '\n\nThank you for playing Leisure Suit Larry: Woke Up Broke. Next time, be more careful!';
     const left = game.lifelinesLeft();
-    if (msg.rescuable && left > 0) button(`Call Kris (${left} left)`, () => { game.rescue(); });
+    if (msg.rescuable && left > 0) button(`Call Kris (${left} left)`, () => { sound.sfx('phone'); game.rescue(); });
     button('Undo', () => { game.undo(); });
     button('Restore', () => { game.queue = []; restore(); });
     button('Restart', () => { restart(); });
   } else if (msg.kind === 'win') {
-    beep([[523, 0.12], [659, 0.12], [784, 0.12], [1047, 0.4]]);
+    sound.duck(true);
+    sound.sfx('win');
     if (CHAPTERS[chapter + 1]) button(`Play ${CHAPTERS[chapter + 1].chapter.split(':')[0]}`, () => { startChapter(chapter + 1); });
     button('Play again', () => { restart(); });
   }
@@ -202,7 +204,12 @@ function draw(t: number) {
   rect(ctx, EGA.black, 0, 0, 320, 200);
   game.room.draw(ctx, game, t);
   const s = game.s;
-  person(ctx, s.x, s.y, { ...LARRY, pin: !!game.flag('pinWorn') }, s.facing, game.moving ? Math.floor(game.walkFrame) : 0);
+  const step = game.moving ? 1 + Math.floor(game.walkFrame) : 0;
+  if (charSprite(ctx, 'larry', s.x, s.y, s.facing, step)) {
+    if (game.flag('pinWorn') && s.facing !== 'up') rect(ctx, EGA.lmagenta, s.x + (s.facing === 'left' ? 1 : -4), s.y - 27, 1, 1);
+  } else {
+    person(ctx, s.x, s.y, { ...LARRY, pin: !!game.flag('pinWorn') }, s.facing, step);
+  }
   // status bar
   rect(ctx, EGA.white, 0, 0, 320, 10);
   text(ctx, `Score: ${s.score} of ${game.maxScore}`, 3, 2, EGA.black, 6);
@@ -210,11 +217,16 @@ function draw(t: number) {
 }
 
 let last = performance.now();
+let lastStep = -1;
 function frame(now: number) {
   const dt = Math.min(0.1, (now - last) / 1000);
   last = now;
   game.update(dt);
   syncDialog();
+  sound.play(songFor(game.s.room));
+  const step = game.moving ? Math.floor(game.walkFrame) : -1;
+  if (step !== lastStep && step >= 0 && step % 2 === 0) sound.sfx('step');
+  lastStep = step;
   draw(now / 1000);
   requestAnimationFrame(frame);
 }
@@ -223,10 +235,11 @@ let saved = 0;
 try { saved = Number(localStorage.getItem(CHAPTER_KEY) ?? 0) || 0; } catch { /* storage blocked */ }
 startChapter(Math.min(saved, CHAPTERS.length - 1));
 input.focus();
-requestAnimationFrame(frame);
+preloadArt().then(() => requestAnimationFrame(frame));
 
 // ?debug exposes the game object in the console for testing rooms quickly.
 if (new URLSearchParams(location.search).has('debug')) {
   Object.defineProperty(window, 'game', { get: () => game });
   Object.defineProperty(window, 'startChapter', { value: startChapter });
+  Object.defineProperty(window, 'sound', { value: sound });
 }

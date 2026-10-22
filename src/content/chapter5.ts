@@ -2,21 +2,22 @@
 // Miami during Art Basel week. Larry funds LaffX, out-jumps Bill Gates, walks
 // away from the wrong party, and helps Elon stop the Mandatory Update.
 
-import { EGA, dither, ellipse, person, poly, rect, stripes, text } from '../engine/gfx';
+import { EGA, person, poly, rect, text } from '../engine/gfx';
+import { backdrop, charSprite, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
 
 const LUBBER_PRICE = 500000000;
 
-const STEVE = { hair: EGA.white, top: EGA.white, pants: EGA.white, accent: EGA.black };
-const CURATOR = { hair: EGA.dgray, top: EGA.black, pants: EGA.black, accent: EGA.lred, glasses: true, longHair: true, dress: true };
-const MORANIS = { hair: EGA.dgray, top: EGA.lcyan, pants: EGA.brown, accent: EGA.white, glasses: true };
-const GATES = { hair: EGA.brown, top: EGA.lblue, pants: EGA.dgray, accent: EGA.white, glasses: true };
-const ELON = { hair: EGA.brown, top: EGA.black, pants: EGA.black, accent: EGA.dgray };
-const JEFFREY = { hair: EGA.lgray, top: EGA.blue, pants: EGA.white, accent: EGA.yellow };
-const HEFNER = { hair: EGA.lgray, top: EGA.red, pants: EGA.black, accent: EGA.black };
-const GUARD = { hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.blue, bald: true };
+const STEVE = { sprite: 'steve', hair: EGA.white, top: EGA.white, pants: EGA.white, accent: EGA.black };
+const CURATOR = { sprite: 'curator', hair: EGA.dgray, top: EGA.black, pants: EGA.black, accent: EGA.lred, glasses: true, longHair: true, dress: true };
+const MORANIS = { sprite: 'moranis-basel', hair: EGA.dgray, top: EGA.lcyan, pants: EGA.brown, accent: EGA.white, glasses: true };
+const GATES = { sprite: 'gates', hair: EGA.brown, top: EGA.lblue, pants: EGA.dgray, accent: EGA.white, glasses: true };
+const ELON = { sprite: 'elon', hair: EGA.brown, top: EGA.black, pants: EGA.black, accent: EGA.dgray };
+const JEFFREY = { sprite: 'jeffrey', hair: EGA.lgray, top: EGA.blue, pants: EGA.white, accent: EGA.yellow };
+const HEFNER = { sprite: 'hefner', hair: EGA.lgray, top: EGA.red, pants: EGA.black, accent: EGA.black };
+const GUARD = { sprite: 'guard', hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.blue, bald: true };
 
 const has = (g: Game, f: string) => !!g.flag(f);
 
@@ -81,8 +82,10 @@ const basel: Room = {
   title: 'Art Basel, Miami Beach',
   public: true,
   walk: { x: 4, y: 150, w: 312, h: 50 },
-  describe: 'Art Basel, Miami Beach: white walls, champagne and people pretending to understand things. A banana is duct-taped to one wall. A man in a white suit (not you, the other one) is examining it. A severe woman with a Smithsonian badge takes notes. A small man in glasses sits in a folding lawn chair in the middle of the floor. Ocean Drive is to the east.',
+  describe: 'Art Basel, Miami Beach: white walls, champagne and people pretending to understand things. A banana is duct-taped to one wall. A man in a white suit (not you, the other one) is examining it. A severe woman with a Smithsonian badge takes notes. A small man in glasses sits in a folding lawn chair in the middle of the floor. Behind a velvet rope hangs a painting of a goat, and a gallery-goer lies flat on the floor in front of it. Ocean Drive is to the east.',
   hotspots: [
+    { id: 'goat', names: ['goat', 'painting', 'goat painting', 'se', 'canvas', 'rope', 'velvet rope', 'discretion', 'placard'], rect: { x: 222, y: 44, w: 76, h: 44 }, look: (g) => { g.sfx('boing'); return 'Behind a velvet rope: an oil painting of a goat. Next to the goat, in letters two feet high, the word "SE." A placard reads VIEWER DISCRETION ADVISED. The card calls it "Untitled (Internet, 1999)."\n\nYou read it left to right. Goat. Se. Your brain finishes the word before you can stop it. You were on the internet in 1999. You have seen things.\n\nYou shudder. Somewhere in your soul a dial-up modem screams.'; } },
+    { id: 'fainted', names: ['fainted man', 'gallery goer', 'gallery-goer', 'guy on floor', 'man on floor', 'body', 'fainted', 'polo'], rect: { x: 262, y: 172, w: 40, h: 14 }, look: 'A gallery-goer in a lime polo, flat on his back in front of the goat painting, still holding his champagne perfectly upright. Someone has already put a card next to him: "REACTION (2026). Mixed media. $40,000."' },
     { id: 'banana', names: ['banana', 'art', 'tape', 'duct tape', 'wall', 'comedian'], rect: { x: 40, y: 50, w: 30, h: 30 }, look: (g) => { g.award('lookBanana'); return 'A banana, duct-taped to a white wall. The card reads: "COMEDIAN. Banana, duct tape. $6.2 million." A security guard watches it like it\'s the Mona Lisa.\n\nYou\'ve been carrying a historical artifact in your wallet for 39 years and nobody ever put it on a wall.'; } },
     { id: 'steve', names: ['steve', 'steve martin', 'martin', 'man', 'white suit', 'investor'], rect: { x: 113, y: 128, w: 14, h: 40 }, look: 'Steve Martin, in a white suit. He sees your white suit. You see his. A long moment passes between two men who have committed to the bit.' },
     { id: 'curator', names: ['curator', 'woman', 'smithsonian', 'lady', 'badge'], rect: { x: 183, y: 128, w: 14, h: 40 }, look: 'Dr. Ellen Pike, Smithsonian Curator of American Culture. Her badge says she\'s here "acquiring artifacts of the post-pandemic era." She has rejected four NFTs and a Bored Ape in the last hour.' },
@@ -92,22 +95,14 @@ const basel: Room = {
   zones: [
     { id: 'toOcean', rect: { x: 308, y: 150, w: 12, h: 50 }, enter: (g) => g.goto('ocean', 20, 172) },
   ],
-  draw(ctx, g, t) {
-    rect(ctx, EGA.white, 0, 10, 320, 140);
-    rect(ctx, EGA.lgray, 0, 140, 320, 10);
-    // banana on the wall
-    rect(ctx, EGA.lgray, 38, 48, 34, 34);
-    rect(ctx, EGA.white, 40, 50, 30, 30);
-    poly(ctx, EGA.yellow, [[46, 70], [62, 58], [66, 60], [50, 74]]);
-    rect(ctx, EGA.lgray, 52, 60, 10, 4);
-    text(ctx, '$6.2M', 55, 84, EGA.black, 5, 'center');
-    // more art
-    rect(ctx, EGA.red, 100, 40, 40, 50);
-    rect(ctx, EGA.blue, 150, 46, 30, 30);
-    ellipse(ctx, EGA.yellow, 165, 61, 8, 8);
-    // neon
-    text(ctx, 'IS THIS ART?', 260, 32, Math.floor(t * 2) % 2 ? EGA.lmagenta : EGA.lcyan, 8, 'center');
-    stripes(ctx, EGA.lgray, EGA.white, 0, 150, 320, 50, 12);
+  draw(ctx, g) {
+    backdrop(ctx, 'ch5-basel');
+    // the man who read the goat painting, out cold on the floor
+    ctx.save();
+    ctx.translate(304, 182);
+    ctx.rotate(-Math.PI / 2);
+    if (!charSprite(ctx, 'patron1', 0, 0, 'down')) rect(ctx, EGA.black, -6, -40, 12, 40);
+    ctx.restore();
     person(ctx, 120, 166, STEVE, 'left');
     person(ctx, 190, 166, CURATOR);
     if (!g.has('chair') && !has(g, 'chairPlaced')) {
@@ -124,7 +119,16 @@ const basel: Room = {
       g.s.cash += LUBBER_PRICE;
       g.set('soldLubber');
       g.award('sellLubber');
+      g.sfx('cash');
       g.say(`You hold up the 1987 lubber. "Ma'am. This has been in my wallet since the Reagan administration. I carried it through the whole epidemic. I never needed it. Now nobody does."\n\nDr. Pike puts on white gloves. Her hands shake. "Unopened? With the original wallet ring? Do you know what this IS? This is the END of an ERA."\n\nShe makes three phone calls. A Smithsonian lawyer arrives. A check arrives. The check is for ${money(LUBBER_PRICE)}.\n\nThe lubber will hang next to Archie Bunker's chair. You finally have money. Real, American, richest-man money. Well, a start.`);
+      return true;
+    }
+    if (cmd.is(['talk', 'ask', 'wake', 'help', 'shake'], 'fainted man', 'gallery goer', 'gallery-goer', 'guy on floor', 'man on floor', 'body', 'fainted', 'polo')) {
+      g.say('You crouch down and pat his cheek. His eyes flutter open. "Was it... was it a goat?" he whispers. "And then..." His eyes drift to the wall. "...se." He faints again. His champagne does not spill.');
+      return true;
+    }
+    if (cmd.is(['get', 'take', 'buy', 'touch'], 'goat', 'painting', 'goat painting', 'canvas', 'se')) {
+      g.say('The curator steps in front of you. "That piece is not for sale, sir. It\'s for the Smithsonian\'s Hall of Things We Can Never Unsee."');
       return true;
     }
     if (cmd.is(['talk', 'ask'], 'curator', 'woman', 'smithsonian', 'lady', 'pike')) {
@@ -207,36 +211,11 @@ const ocean: Room = {
     { id: 'traffic', rect: { x: 0, y: 188, w: 320, h: 12 }, enter: (g) => pamSave(g, 'You step onto Ocean Drive. A Lamborghini going 4 miles an hour revs at 9,000 RPM and lurches at your shins.\n\nA blonde in a red lifeguard jacket sprints down the sidewalk in perfect slow motion and pulls you back onto the curb. Somewhere, a saxophone plays.\n\n"Miami, Larry. They can\'t SEE over the hood." It\'s Pamela Anderson. She\'s here to free a manatee from a nightclub aquarium. The manatee is in a wheelbarrow, wrapped in a wet towel, looking calm.\n\nShe kisses your cheek and vanishes. (She won\'t be there next time.)', { x: g.s.x, y: 174 }) || g.die('You step onto Ocean Drive. A Lamborghini going 4 miles an hour runs over your foot at 9,000 RPM.\n\nThe driver, a crypto founder, offers to settle in a coin he made this morning. By the time you agree, it\'s worth nothing. So is your foot.', 'LAMBO\'D', true) },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.black, 0, 10, 320, 40);
-    // art deco hotels
-    const cols = [EGA.lmagenta, '#AAFFCC', EGA.lcyan, '#FFCCAA'];
-    for (let i = 0; i < 4; i++) {
-      const x = i * 80;
-      rect(ctx, cols[i], x + 4, 30, 72, 100);
-      rect(ctx, EGA.white, x + 4, 30, 72, 4);
-      for (let w = 0; w < 3; w++) for (let r = 0; r < 3; r++) rect(ctx, EGA.yellow, x + 12 + w * 20, 44 + r * 24, 10, 14);
-      text(ctx, ['PEARL', 'TIDES', 'CARDOZO', 'LARRY'][i], x + 40, 34, Math.floor(t * 2 + i) % 2 ? EGA.lmagenta : EGA.lblue, 7, 'center');
-    }
-    // palms
-    for (const px of [76, 236]) {
-      rect(ctx, EGA.brown, px, 70, 3, 80);
-      for (let a = 0; a < 5; a++) poly(ctx, EGA.green, [[px + 1, 70], [px - 16 + a * 8, 78 + (a % 2) * 5], [px - 11 + a * 8, 80 + (a % 2) * 5]]);
-    }
-    rect(ctx, EGA.lgray, 0, 130, 320, 56);
-    rect(ctx, '#FFCCAA', 0, 150, 320, 36);
-    rect(ctx, EGA.dgray, 0, 186, 320, 14);
+    backdrop(ctx, 'ch5-ocean');
     const lx = ((t * 12) % 420) - 80;
-    rect(ctx, EGA.yellow, lx, 189, 40, 7);
-    rect(ctx, EGA.lgreen, lx + 120, 189, 40, 7);
-    // Cybertruck
-    poly(ctx, EGA.lgray, [[120, 156], [150, 134], [190, 146], [190, 156]]);
-    rect(ctx, EGA.dgray, 150, 138, 18, 6);
-    rect(ctx, EGA.black, 126, 154, 12, 6);
-    rect(ctx, EGA.black, 172, 154, 12, 6);
+    prop(ctx, 'car-lambo-yellow', lx, 197);
+    prop(ctx, 'car-lambo-green', lx + 120, 197);
     if (has(g, 'elonAlly')) person(ctx, 158, 150, ELON, 'left');
-    // dock gate
-    rect(ctx, EGA.white, 290, 120, 4, 32);
-    rect(ctx, EGA.blue, 284, 120, 36, 4);
     person(ctx, 304, 166, GUARD, 'left');
   },
   handle(g, cmd) {
@@ -276,21 +255,12 @@ const yacht: Room = {
     { id: 'overboard', rect: { x: 0, y: 188, w: 320, h: 12 }, enter: (g) => pamSave(g, 'You lean over the rail to look at a dolphin and keep leaning.\n\nSPLASH. Before you can even sink, a blonde in a red swimsuit dives off the yacht next door in perfect slow motion, swims to you, and tows you back to the ladder with one arm.\n\n"I literally did this for eleven seasons, Larry." It\'s Pamela Anderson. She was on the next yacht protesting a caviar menu. She climbs back aboard, wrings out her hair and is gone. (She won\'t be there next time.)', { x: g.s.x, y: 174 }) || g.die('You lean over the rail to look at a dolphin and keep leaning.\n\nSPLASH. Your polyester suit absorbs exactly zero water and floats you gently out to sea, like a little white raft. The Coast Guard finds you three days later off Cuba, sunburned and very calm.', 'MAN OVERBOARD', true) },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.black, 0, 10, 320, 90);
-    for (let i = 0; i < 30; i++) rect(ctx, EGA.white, (i * 53) % 320, 12 + (i * 17) % 40, 1, 1);
-    // Miami skyline across the bay
+    backdrop(ctx, 'ch5-yacht');
+    // lights in the skyline across the bay
     for (let i = 0; i < 14; i++) {
       const h = 20 + ((i * 37) % 40);
-      rect(ctx, EGA.dgray, i * 24, 100 - h, 20, h);
-      for (let w = 0; w < 3; w++) rect(ctx, (i + w + Math.floor(t)) % 4 ? EGA.yellow : EGA.dgray, i * 24 + 3 + w * 6, 100 - h + 4, 2, 2);
+      for (let w = 0; w < 3; w++) if ((i + w + Math.floor(t)) % 4) rect(ctx, EGA.yellow, i * 24 + 3 + w * 6, 100 - h + 4, 2, 2);
     }
-    dither(ctx, EGA.blue, EGA.black, 0, 100, 320, 20);
-    // deck
-    rect(ctx, EGA.white, 0, 118, 320, 4);
-    stripes(ctx, '#CC9966', EGA.brown, 0, 122, 320, 66, 6);
-    for (let x = 0; x < 320; x += 20) rect(ctx, EGA.white, x, 186, 2, 8);
-    rect(ctx, EGA.white, 0, 186, 320, 2);
-    dither(ctx, EGA.blue, EGA.black, 0, 194, 320, 6);
     // string lights
     for (let i = 0; i < 16; i++) rect(ctx, (i + Math.floor(t * 2)) % 3 ? EGA.yellow : EGA.lmagenta, 10 + i * 19, 108, 2, 2);
     // deck chair
@@ -310,6 +280,7 @@ const yacht: Room = {
       if (!g.needNear('deckchair', 40)) return true;
       g.set('jumpedYacht');
       g.award('jumpYacht');
+      g.sfx('boing');
       g.say('"Let an old man try," you say.\n\nThe deck goes quiet. You crouch. Since 1992 you\'ve been training on the rim of a hot tub in the Philippines, hopping in and out three hundred times a night. Your knees have the springs of a man who refused to use the steps.\n\nYou clear the deck chair by a full foot, land in a perfect disco split, and pop back up.\n\nThe deck goes wild. Bill Gates turns the color of a blue screen. "That jump was not supported," he hisses. "Enjoy your little victory. Tomorrow at nine a.m. the Mandatory Update ships. Every device on Earth. Reboot. Forever. Please do not turn off your planet."\n\nHe storms off to his tender, which sputters toward the Brickell skyline.');
       return true;
     }
@@ -385,27 +356,9 @@ const tower: Room = {
   ],
   zones: [],
   draw(ctx, g, t) {
-    rect(ctx, EGA.lgray, 0, 10, 320, 142);
-    // the four-pane Window
-    dither(ctx, EGA.lcyan, EGA.lblue, 20, 18, 140, 90);
-    rect(ctx, EGA.blue, 20, 80, 140, 28);
-    rect(ctx, EGA.dgray, 88, 18, 4, 90);
-    rect(ctx, EGA.dgray, 20, 61, 140, 4);
-    rect(ctx, EGA.dgray, 18, 16, 144, 2);
-    rect(ctx, EGA.dgray, 18, 108, 144, 2);
-    // countdown
-    rect(ctx, EGA.black, 180, 20, 120, 24);
+    backdrop(ctx, 'ch5-tower');
     text(ctx, has(g, 'won') ? 'UPDATE CANCELED' : 'UPDATE 9:00 AM', 240, 26, has(g, 'won') ? EGA.lgreen : EGA.lred, 8, 'center');
-    // server rack
-    rect(ctx, EGA.black, 250, 90, 30, 62);
-    for (let i = 0; i < 6; i++) rect(ctx, (i + Math.floor(t * 4)) % 3 ? EGA.lgreen : EGA.dgray, 254, 94 + i * 9, 4, 2);
-    rect(ctx, EGA.dgray, 280, 140, 20, 2);
-    rect(ctx, EGA.white, 298, 136, 6, 8);
-    text(ctx, 'CHAIRS ARE DEPRECATED', 120, 116, EGA.dgray, 5, 'center');
-    stripes(ctx, EGA.dgray, EGA.lgray, 0, 152, 320, 48, 8);
-    // podium and button
-    rect(ctx, EGA.blue, 160, 140, 26, 26);
-    ellipse(ctx, EGA.red, 175, 138, 6, 3);
+    for (let i = 0; i < 6; i++) rect(ctx, (i + Math.floor(t * 4)) % 3 ? EGA.lgreen : EGA.dgray, 254, 95 + i * 9, 4, 2);
     person(ctx, 150, 166, GATES, 'right');
     person(ctx, 230, 166, ELON, 'left', Math.floor(t * 6) % 2);
     if (has(g, 'chairPlaced')) {
@@ -421,6 +374,7 @@ const tower: Room = {
       g.drop('chair');
       g.set('chairPlaced');
       g.award('placeChair');
+      g.sfx('thud');
       g.s.x = Math.min(g.s.x, 90);
       g.say('You unfold Rick Moranis\'s lawn chair in the middle of the Mandatory Update Command Center.\n\nBill Gates freezes mid-monologue. He stares at the chair. A chair. In HIS room. His right eye twitches. His knees bend slightly, on their own.');
       return true;
@@ -436,6 +390,7 @@ const tower: Room = {
     if (cmd.is('jump') || cmd.is(['go'], 'chair', 'over chair')) {
       if (!has(g, 'challenged')) { g.say(has(g, 'chairPlaced') ? 'You hop over the chair. Nobody is watching. Challenge Gates first.' : 'You jump in place. Bill Gates sighs and adds you to a spreadsheet.'); return true; }
       g.award('jumpTower');
+      g.sfx('crash');
       g.award('ending');
       g.set('won');
       g.win(`You plant your feet. You think of every hot tub rim in the Philippines. You SPRING.\n\nYou clear the lawn chair, the podium AND the big red button, landing in a disco split so perfect that the floor-to-ceiling Window rattles.\n\n"That jump was NOT SUPPORTED," Gates screams, and right then Elon yanks the plug. The server rack whines down to silence. The countdown flickers: UPDATE CANCELED.\n\nGates spins around. "You... you can't just TURN IT OFF AND ON AGAIN—"\n\n"Sorry. Sorry, Bill. So sorry." Elon picks Bill Gates up by the sweater, still apologizing, and tosses him straight out the giant four-pane Window.\n\nGates bounces off a striped awning, does a full somersault, and lands face-first in the hedge shaped like a paperclip. He stands up covered in leaves, shakes his fist at the sky and yells, "It looks like you're trying to RUIN MY LIFE!"\n\nThe world is saved. Elon tweets about it before anyone can stop him: "just threw bill out a window lol. he's fine. hedge is fine. larry is cool."\n\nIt gets 400 million likes. LaffX gets 400 million dollars in investment by lunchtime. The richest man in America list has a new name at number two.\n\nYour phone buzzes. Kris: "Larry. Houston. NASA wants to talk about LaffX. And Ashleigh says there's a karaoke bar there you need to see. LISTEN this time."\n\nCONTINUED IN CHAPTER 6: LARRY TO MARS.\n\nFinal score: ${g.s.score} of ${g.maxScore}.`);

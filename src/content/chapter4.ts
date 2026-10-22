@@ -2,7 +2,8 @@
 // Snoop's backyard rap battle, a Lakers kiss-cam, and #LarryToo, which Larry
 // beats with receipts and a Drew Barrymore hug.
 
-import { EGA, SKIN_DARK, dither, ellipse, person, poly, rect, stripes, text } from '../engine/gfx';
+import { EGA, SKIN_DARK, ellipse, person, rect, text } from '../engine/gfx';
+import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import type { Command } from '../engine/parser';
@@ -10,17 +11,17 @@ import { pamSave } from './pam';
 
 const SEED = 1000000;
 
-const AFFLECK = { hair: EGA.brown, top: EGA.dgray, pants: EGA.blue, accent: EGA.lred };
-const COUSIN = { hair: EGA.black, skin: SKIN_DARK, top: EGA.blue, pants: EGA.blue, accent: EGA.white, bald: true };
-const SNOOP = { hair: EGA.black, skin: SKIN_DARK, top: EGA.lblue, pants: EGA.lblue, accent: EGA.yellow, longHair: true };
-const DRE = { hair: EGA.black, skin: SKIN_DARK, top: EGA.black, pants: EGA.black, accent: EGA.white, bald: true, glasses: true };
-const SANDLER = { hair: EGA.dgray, top: EGA.lred, pants: EGA.blue, accent: EGA.white };
-const FILTR = { hair: EGA.yellow, top: EGA.lmagenta, pants: EGA.black, accent: EGA.lcyan, glasses: true };
-const KAYDENCE = { hair: EGA.yellow, top: EGA.white, pants: EGA.lmagenta, longHair: true };
-const BARKLEY = { hair: EGA.black, skin: SKIN_DARK, top: EGA.dgray, pants: EGA.dgray, accent: EGA.white, bald: true };
-const JORDAN = { hair: EGA.black, skin: SKIN_DARK, top: EGA.black, pants: EGA.black, accent: EGA.red, bald: true };
-const MORANIS = { hair: EGA.dgray, top: EGA.lmagenta, pants: EGA.yellow, accent: EGA.white, glasses: true };
-const DREW = { hair: EGA.yellow, top: EGA.lred, pants: EGA.white, longHair: true, dress: true };
+const AFFLECK = { sprite: 'affleck', hair: EGA.brown, top: EGA.dgray, pants: EGA.blue, accent: EGA.lred };
+const COUSIN = { sprite: 'cousin', hair: EGA.black, skin: SKIN_DARK, top: EGA.blue, pants: EGA.blue, accent: EGA.white, bald: true };
+const SNOOP = { sprite: 'snoop', hair: EGA.black, skin: SKIN_DARK, top: EGA.lblue, pants: EGA.lblue, accent: EGA.yellow, longHair: true };
+const DRE = { sprite: 'dre', hair: EGA.black, skin: SKIN_DARK, top: EGA.black, pants: EGA.black, accent: EGA.white, bald: true, glasses: true };
+const SANDLER = { sprite: 'sandler', hair: EGA.dgray, top: EGA.lred, pants: EGA.blue, accent: EGA.white };
+const FILTR = { sprite: 'filtr', hair: EGA.yellow, top: EGA.lmagenta, pants: EGA.black, accent: EGA.lcyan, glasses: true };
+const KAYDENCE = { sprite: 'kaydence', hair: EGA.yellow, top: EGA.white, pants: EGA.lmagenta, longHair: true };
+const BARKLEY = { sprite: 'barkley', hair: EGA.black, skin: SKIN_DARK, top: EGA.dgray, pants: EGA.dgray, accent: EGA.white, bald: true };
+const JORDAN = { sprite: 'jordan', hair: EGA.black, skin: SKIN_DARK, top: EGA.black, pants: EGA.black, accent: EGA.red, bald: true };
+const MORANIS = { sprite: 'moranis-lakers', hair: EGA.dgray, top: EGA.lmagenta, pants: EGA.yellow, accent: EGA.white, glasses: true };
+const DREW = { sprite: 'drew', hair: EGA.yellow, top: EGA.lred, pants: EGA.white, longHair: true, dress: true };
 
 const has = (g: Game, f: string) => !!g.flag(f);
 
@@ -81,6 +82,7 @@ function rap(g: Game, cmd: Command) {
   }
   g.set('wonBattle');
   g.award('winBattle');
+  g.sfx('applause');
   g.give('tickets');
   g.s.cash += SEED;
   g.say(`${r.verse}\n\nSilence. Then the backyard ERUPTS. Young Filtr takes off his sunglasses, says "...that was beautiful, man," and hugs you.\n\nSnoop stands up for the first time all night. "Nephew. That was REAL. Nobody raps about listening." He hands you an envelope. "Seed money. ${money(SEED)}. And two courtside seats for the Lakers tomorrow. Call me if you need anything. ANYTHING."\n\nDre nods once. That's worth more than the money.`);
@@ -175,37 +177,11 @@ const street: Room = {
     { id: 'traffic', rect: { x: 0, y: 188, w: 320, h: 12 }, enter: (g) => pamSave(g, 'You step into Ocean Boulevard without looking. A lowrider hits its hydraulics and bounces straight at you.\n\nA blonde in a red lifeguard jacket dives off a bus bench and rolls you onto the sidewalk. The lowrider bounces past, the driver salutes.\n\n"Long Beach, Larry. LONG BEACH. You look BOTH ways here." It\'s Pamela Anderson. She\'s in town to free some sea lions from a seafood restaurant\'s tank. The sea lions are already in her car.\n\nShe tousles your hair and leaves before you can propose. (She won\'t be there next time.)', { x: g.s.x, y: 174 }) || g.die('You step into Ocean Boulevard without looking. A lowrider hits its hydraulics, bounces fourteen feet in the air and lands on you, gently, with tremendous style.\n\nThe driver feels terrible. He makes you an honorary member of the car club. Posthumously.', 'LOW AND SLOW', true) },
   ],
   draw(ctx, g, t) {
-    // sunset sky
-    stripes(ctx, EGA.lmagenta, EGA.yellow, 0, 10, 320, 40, 8);
-    rect(ctx, EGA.lred, 0, 50, 320, 30);
-    ellipse(ctx, EGA.yellow, 220, 74, 20, 8);
-    rect(ctx, EGA.blue, 0, 80, 320, 20);
-    // palm trees
-    for (const px of [60, 150, 270]) {
-      rect(ctx, EGA.brown, px, 30, 4, 90);
-      for (let a = 0; a < 5; a++) poly(ctx, EGA.green, [[px + 2, 30], [px - 18 + a * 10, 38 + (a % 2) * 6], [px - 12 + a * 10, 40 + (a % 2) * 6]]);
-    }
-    // houses, gate, sidewalk
-    rect(ctx, EGA.white, 0, 96, 320, 54);
-    rect(ctx, EGA.brown, 0, 100, 30, 52);
-    for (let y = 104; y < 150; y += 8) rect(ctx, EGA.black, 0, y, 30, 1);
+    backdrop(ctx, 'ch4-street');
+    // smoke from the backyard
     if (Math.floor(t * 4) % 2) { rect(ctx, EGA.white, 14, 88, 2, 6); rect(ctx, EGA.white, 11, 93, 4, 2); }
-    rect(ctx, EGA.lgray, 0, 150, 320, 36);
-    rect(ctx, EGA.dgray, 0, 186, 320, 14);
     const lx = ((t * 40) % 420) - 80;
-    rect(ctx, EGA.lmagenta, lx, 188 + (Math.floor(t * 4) % 2) * -2, 48, 8);
-    // RV
-    rect(ctx, EGA.white, 170, 110, 90, 38);
-    rect(ctx, EGA.brown, 170, 128, 90, 4);
-    rect(ctx, EGA.lcyan, 176, 116, 20, 10);
-    rect(ctx, EGA.black, 236, 116, 10, 24);
-    rect(ctx, EGA.lred, 248, 120, 3, 3);
-    rect(ctx, EGA.dgray, 180, 146, 12, 6);
-    rect(ctx, EGA.dgray, 238, 146, 12, 6);
-    // bus stop
-    rect(ctx, EGA.dgray, 296, 100, 2, 50);
-    rect(ctx, EGA.blue, 288, 100, 20, 10);
-    text(ctx, 'LA', 293, 102, EGA.white, 6);
+    prop(ctx, 'car-lowrider', lx, 198 - (Math.floor(t * 4) % 2) * 3); // hitting the hydraulics
     person(ctx, 38, 166, COUSIN);
     person(ctx, 120, 168, AFFLECK, has(g, 'wonBattle') ? 'down' : 'left');
     rect(ctx, EGA.white, 128, 150, 4, 6);
@@ -275,35 +251,16 @@ const yard: Room = {
     { id: 'toStreet', rect: { x: 308, y: 150, w: 12, h: 50 }, enter: (g) => g.goto('street', 24, 172) },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.blue, 0, 10, 320, 100);
-    dither(ctx, EGA.blue, EGA.black, 0, 10, 320, 50);
+    backdrop(ctx, 'ch4-yard');
     for (let i = 0; i < 16; i++) {
       const on = (i + Math.floor(t * 2)) % 3;
-      rect(ctx, on ? EGA.yellow : EGA.lred, 10 + i * 19, 40 + Math.sin(i) * 4, 3, 3);
+      rect(ctx, on ? EGA.yellow : EGA.lred, 10 + i * 19, 39 + 10 * ((((i % 4) - 1.5) / 1.5) ** 2), 3, 3);
     }
-    rect(ctx, EGA.dgray, 0, 30, 320, 1);
-    rect(ctx, EGA.brown, 0, 90, 320, 22);
-    for (let x = 0; x < 320; x += 10) rect(ctx, EGA.black, x, 90, 1, 22);
-    dither(ctx, EGA.green, EGA.lgreen, 0, 112, 320, 88);
-    // smoker
-    rect(ctx, EGA.black, 6, 114, 40, 24);
-    rect(ctx, EGA.dgray, 36, 100, 4, 14);
-    if (Math.floor(t * 2) % 2) rect(ctx, EGA.lgray, 34, 92, 6, 6);
-    // Snoop's chair
-    rect(ctx, EGA.yellow, 50, 146, 22, 4);
+    if (Math.floor(t * 2) % 2) rect(ctx, EGA.lgray, 35, 90, 6, 6);
     person(ctx, 60, 166, SNOOP);
-    // DJ booth
     person(ctx, 140, 148, DRE, 'down', Math.floor(t * 2) % 2);
-    rect(ctx, EGA.dgray, 118, 128, 46, 22);
-    rect(ctx, EGA.lgray, 122, 130, 12, 4);
-    rect(ctx, EGA.lgray, 148, 130, 12, 4);
-    text(ctx, 'DRE', 134, 138, EGA.white, 6);
-    // Sandler on a cooler
-    rect(ctx, EGA.lblue, 192, 156, 18, 12);
+    backdrop(ctx, 'ch4-yard-fg');
     person(ctx, 200, 166, SANDLER);
-    // mic stand and opponent
-    rect(ctx, EGA.lgray, 232, 140, 1, 30);
-    rect(ctx, EGA.black, 230, 138, 4, 4);
     person(ctx, 250, 170, FILTR, 'left', has(g, 'round') && !has(g, 'wonBattle') ? Math.floor(t * 4) % 2 : 0);
     if (!has(g, 'wonBattle')) {
       person(ctx, 290, 166, KAYDENCE, 'left');
@@ -405,11 +362,8 @@ const arena: Room = {
     },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.black, 0, 10, 320, 60);
-    dither(ctx, EGA.magenta, EGA.black, 0, 10, 320, 60);
+    backdrop(ctx, 'ch4-arena');
     // jumbotron
-    rect(ctx, EGA.dgray, 100, 14, 120, 50);
-    rect(ctx, EGA.black, 104, 18, 112, 34);
     if (has(g, 'kissCam')) {
       ellipse(ctx, EGA.red, 160, 32, 10, 8);
       text(ctx, 'TURRIBLE!', 160, 42, EGA.yellow, 6, 'center');
@@ -424,23 +378,13 @@ const arena: Room = {
     ctx.beginPath(); ctx.rect(104, 54, 112, 8); ctx.clip();
     text(ctx, tick + tick, 104 - off, 55, EGA.yellow, 5);
     ctx.restore();
-    // court
-    rect(ctx, '#CC8844', 0, 70, 320, 60);
-    rect(ctx, EGA.white, 0, 100, 320, 1);
-    ellipse(ctx, EGA.magenta, 160, 100, 24, 8);
-    ellipse(ctx, '#CC8844', 160, 100, 21, 6);
-    text(ctx, 'LAKERS', 160, 113, EGA.magenta, 9, 'center');
     const bx = 60 + Math.sin(t) * 120;
     ellipse(ctx, EGA.brown, 160 + bx * 0.5, 84 - Math.abs(Math.sin(t * 4)) * 10, 3, 3);
-    // courtside floor and seats
-    rect(ctx, EGA.magenta, 0, 130, 320, 22);
-    for (let x = 6; x < 320; x += 30) rect(ctx, EGA.yellow, x, 140, 20, 10);
-    stripes(ctx, EGA.dgray, EGA.black, 0, 152, 320, 48, 6);
     person(ctx, 110, 168, BARKLEY, 'down', Math.floor(t * 3) % 2);
     person(ctx, 170, 168, JORDAN, 'left');
     person(ctx, 240, 168, MORANIS);
     rect(ctx, EGA.yellow, 248, 136, 4, 12);
-    person(ctx, 280, 168, { hair: EGA.yellow, top: EGA.magenta, pants: EGA.blue, longHair: true });
+    person(ctx, 280, 168, { sprite: 'fan', hair: EGA.yellow, top: EGA.magenta, pants: EGA.blue, longHair: true });
   },
   handle(g, cmd) {
     if (cmd.is('flirt')) {
@@ -449,6 +393,7 @@ const arena: Room = {
         if (has(g, 'kissCam')) { g.say('"Once was enough, Larry! Twice is a relationship!"'); return true; }
         g.set('kissCam');
         g.award('kissCam');
+        g.sfx('smooch');
         g.say('The kiss cam swings onto you and Charles Barkley. Twenty thousand people scream.\n\nYou don\'t panic. You lean over and plant one right on top of Chuck\'s gleaming bald head.\n\nThe arena LOSES it. Barkley leaps up, arms in the air. "That was TURRIBLE, Larry! TURRIBLE! Do it AGAIN!"\n\nTwo seats down, Michael Jordan slowly lowers his sunglasses. "...I took that personally."\n\nFor one beautiful minute, nobody is talking about #LarryToo.');
         return true;
       }
@@ -520,20 +465,11 @@ const studio: Room = {
     { id: 'toArena', rect: { x: 0, y: 152, w: 8, h: 47 }, enter: (g) => g.goto('arena', 292, 174) },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.lmagenta, 0, 10, 320, 110);
-    dither(ctx, EGA.lmagenta, EGA.white, 0, 10, 320, 70);
-    rect(ctx, EGA.dgray, 100, 16, 120, 60);
+    backdrop(ctx, 'ch4-studio');
     rect(ctx, has(g, 'cleared') ? EGA.lgreen : EGA.lcyan, 104, 20, 112, 52);
     text(ctx, has(g, 'cleared') ? '#LARRYTOOHONEST' : '#LARRYTOO', 160, 40, EGA.black, 9, 'center');
     // audience silhouettes
-    for (let i = 0; i < 20; i++) ellipse(ctx, EGA.dgray, 8 + i * 16, 112 - (Math.floor(t * 3 + i) % 2), 6, 6);
-    rect(ctx, EGA.dgray, 0, 112, 320, 10);
-    stripes(ctx, EGA.yellow, EGA.brown, 0, 122, 320, 30, 6);
-    // couch and pillows
-    rect(ctx, EGA.cyan, 96, 136, 70, 18);
-    for (let i = 0; i < 5; i++) rect(ctx, [EGA.yellow, EGA.lred, EGA.lgreen, EGA.white, EGA.lmagenta][i], 100 + i * 13, 132, 10, 8);
-    rect(ctx, EGA.blue, 192, 146, 26, 8);
-    stripes(ctx, EGA.brown, EGA.yellow, 0, 152, 320, 48, 8);
+    for (let i = 0; i < 20; i++) ellipse(ctx, '#3A2A3A', 8 + i * 16, 104 - (Math.floor(t * 3 + i) % 2), 6, 6);
     person(ctx, 140, 166, DREW, 'down', has(g, 'cleared') ? Math.floor(t * 4) % 2 : 0);
     if (!has(g, 'affleckExposed')) person(ctx, 210, 166, AFFLECK, 'left');
     else rect(ctx, EGA.white, 204, 140, 4, 6);
@@ -549,6 +485,7 @@ const studio: Room = {
       if (has(g, 'affleckExposed')) { g.say('Drew has already watched it twice. She says the part where you rap about Maricel makes her cry every time.'); return true; }
       g.set('affleckExposed');
       g.award('exposeAffleck');
+      g.sfx('scratch');
       g.say('You hand Drew Snoop\'s party footage. She puts it on the big screen.\n\nThere you are, rapping your heart out about Maricel. And there, in the corner of every single shot, is Ben Affleck, eating a Dunkin\' donut with the saddest face in Hollywood. He is not writing. He is not even holding a pen. At one point he drops the donut and stares at it for eleven seconds.\n\nThe audience howls. Ben stands up, says "I was writing it in my HEAD," picks up his Dunkin\' and walks off the set.');
       finish();
       return true;
@@ -558,6 +495,7 @@ const studio: Room = {
       if (has(g, 'cleared')) { g.say('The audience asks for an encore. Kaydence\'s "HE got HANDSY, okay from the top" is already a ringtone.'); return true; }
       g.set('cleared');
       g.award('clearName');
+      g.sfx('applause');
       g.say('You play Rick\'s doorbell-cam video. Timestamped 11:42 p.m., Snoop\'s gate.\n\nKaydence, in front of her ring light: "He got handsy. No, wait. HE got HANDSY. Okay, from the top, but with tears." In the background, through the gate, you can clearly see yourself twenty feet away, rapping, with both hands on the mic.\n\nThe audience gasps. Then they start chanting: "RE-CEIPTS! RE-CEIPTS!"');
       finish();
       return true;
@@ -640,6 +578,7 @@ export const chapter4: Content = {
       if (g.has('footage')) { g.say('"Already sent it, nephew. Go show the world."'); return true; }
       g.give('footage');
       g.award('getFootage');
+      g.sfx('phone');
       g.say('Snoop picks up on the first ring. "I saw the hashtag. Told you, nephew. I film EVERYTHING." Your phone dings. "That\'s the whole party. Every minute. You twenty feet from that girl the whole time, rapping your heart out. Oh, and peep Ben in the corner."');
       return true;
     }

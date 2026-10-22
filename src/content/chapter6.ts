@@ -2,20 +2,21 @@
 // Houston and Cerritos. Larry finally learns to listen: to an engine, to
 // Grace Cho, to Tom Cruise, and to the song. There is exactly one ending.
 
-import { EGA, dither, ellipse, person, poly, rect, stripes, text } from '../engine/gfx';
+import { EGA, dither, ellipse, person, poly, rect, text } from '../engine/gfx';
+import { backdrop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
 
-const GRACE = { hair: EGA.black, top: EGA.lblue, pants: EGA.blue, accent: EGA.white, longHair: true };
-const WILLOW = { hair: EGA.lmagenta, top: EGA.green, pants: EGA.blue, accent: EGA.yellow, longHair: true };
-const CRUISE = { hair: EGA.brown, top: EGA.white, pants: EGA.white, accent: EGA.lred, glasses: true };
-const DAD = { hair: EGA.dgray, top: EGA.white, pants: EGA.dgray, accent: EGA.blue, glasses: true };
-const MOM = { hair: EGA.black, top: EGA.lmagenta, pants: EGA.dgray, accent: EGA.yellow, dress: true };
-const KRIS = { hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.yellow, glasses: true };
-const SNOOP = { hair: EGA.black, skin: '#AA6633', top: EGA.yellow, pants: EGA.yellow, accent: EGA.black, longHair: true };
-const ASHLEIGH = { hair: EGA.brown, top: EGA.lmagenta, pants: EGA.blue, longHair: true, glasses: true };
-const SPACEY = { hair: EGA.dgray, top: EGA.dgray, pants: EGA.dgray, accent: EGA.red };
+const GRACE = { sprite: 'grace', hair: EGA.black, top: EGA.lblue, pants: EGA.blue, accent: EGA.white, longHair: true };
+const WILLOW = { sprite: 'willow', hair: EGA.lmagenta, top: EGA.green, pants: EGA.blue, accent: EGA.yellow, longHair: true };
+const CRUISE = { sprite: 'cruise', hair: EGA.brown, top: EGA.white, pants: EGA.white, accent: EGA.lred, glasses: true };
+const DAD = { sprite: 'mrcho', hair: EGA.dgray, top: EGA.white, pants: EGA.dgray, accent: EGA.blue, glasses: true };
+const MOM = { sprite: 'mrscho', hair: EGA.black, top: EGA.lmagenta, pants: EGA.dgray, accent: EGA.yellow, dress: true };
+const KRIS = { sprite: 'kris', hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.yellow, glasses: true };
+const SNOOP = { sprite: 'snoop-gold', hair: EGA.black, skin: '#AA6633', top: EGA.yellow, pants: EGA.yellow, accent: EGA.black, longHair: true };
+const ASHLEIGH = { sprite: 'ashleigh', hair: EGA.brown, top: EGA.lmagenta, pants: EGA.blue, longHair: true, glasses: true };
+const SPACEY = { sprite: 'spacey', hair: EGA.dgray, top: EGA.dgray, pants: EGA.dgray, accent: EGA.red };
 
 const has = (g: Game, f: string) => !!g.flag(f);
 
@@ -96,28 +97,17 @@ const hangar: Room = {
     },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.dgray, 0, 10, 320, 140);
-    for (let x = 0; x < 320; x += 40) rect(ctx, EGA.lgray, x, 10, 2, 80);
-    rect(ctx, EGA.lgray, 0, 88, 320, 2);
-    text(ctx, 'LaffX', 160, 30, EGA.white, 16, 'center');
-    text(ctx, 'HOUSTON', 160, 52, EGA.lgray, 6, 'center');
-    // food truck
-    rect(ctx, EGA.white, 10, 110, 70, 38);
-    rect(ctx, EGA.lmagenta, 10, 110, 70, 6);
-    rect(ctx, EGA.black, 24, 120, 34, 14);
-    person(ctx, 42, 138, WILLOW);
-    rect(ctx, EGA.white, 24, 132, 34, 2);
-    text(ctx, "WILLOW'S", 45, 140, EGA.magenta, 5, 'center');
-    // engine on its stand
-    rect(ctx, EGA.lgray, 150, 140, 60, 12);
-    poly(ctx, EGA.lgray, [[160, 96], [200, 96], [210, 140], [150, 140]]);
+    backdrop(ctx, 'ch6-hangar');
+    // Willow behind the serving window
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(24, 118, 34, 14);
+    ctx.clip();
+    person(ctx, 42, 162, WILLOW);
+    ctx.restore();
+    backdrop(ctx, 'ch6-hangar-fg');
     rect(ctx, has(g, 'engineFixed') ? EGA.lgreen : EGA.yellow, 176, 104, 8, 8);
     if (Math.floor(t * 3) % 2) ellipse(ctx, EGA.lcyan, 180, 146, 10, 3);
-    // scaffold
-    for (let y = 90; y < 150; y += 15) rect(ctx, EGA.yellow, 236, y, 30, 2);
-    rect(ctx, EGA.yellow, 236, 90, 2, 60);
-    rect(ctx, EGA.yellow, 264, 90, 2, 60);
-    stripes(ctx, EGA.lgray, EGA.dgray, 0, 150, 320, 50, 12);
     if (!has(g, 'invited')) person(ctx, 120, 166, GRACE, 'right');
     person(ctx, 250, 166 - Math.abs(Math.sin(t * 3)) * 6, CRUISE, 'left');
   },
@@ -128,6 +118,7 @@ const hangar: Room = {
       if (!has(g, 'talkedGrace')) { g.say('You listen. It whines. You don\'t know what you\'re listening for yet. Maybe ask the engineer.'); return true; }
       g.set('engineFixed');
       g.award('listenEngine');
+      g.sfx('tuned');
       g.say('Grace fires up a test. You close your eyes and listen. Not to fix it. Just to listen.\n\nThirty-four years running a karaoke bar. You have heard "My Way" sung flat by four thousand drunk men. You know flat.\n\n"It\'s flat," you say. "About a quarter-tone. Right at the top. Like a guy who can\'t hit the last note of \'Sweet Caroline.\'"\n\nGrace stares at you. She grabs a laptop, checks the injector frequency, and slowly turns around. "It\'s a quarter-tone flat. At the top. Nobody else could hear that." She adjusts a valve. The whine resolves into a clean, perfect note.\n\nFor the first time, Grace Cho looks at you like you\'re worth listening to.');
       return true;
     }
@@ -210,26 +201,17 @@ const norae: Room = {
     { id: 'toHangar', rect: { x: 0, y: 152, w: 8, h: 47 }, enter: (g) => g.goto('hangar', 296, 172) },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.magenta, 0, 10, 320, 140);
-    dither(ctx, EGA.magenta, EGA.black, 0, 10, 320, 50);
-    rect(ctx, EGA.dgray, 88, 18, 144, 74);
+    backdrop(ctx, 'ch6-norae');
     rect(ctx, EGA.blue, 92, 22, 136, 66);
     rect(ctx, EGA.yellow, 92, 70, 136, 18);
     const rx = 100 + ((t * 30) % 120);
     person(ctx, rx, 68, { hair: EGA.black, top: EGA.white, pants: EGA.blue }, 'right', Math.floor(t * 6) % 2);
     text(ctx, has(g, 'duet') ? 'ISLANDS IN THE STREAM' : 'SELECT A SONG', 160, 76, EGA.black, 6, 'center');
-    // disco ball
-    ellipse(ctx, EGA.lgray, 280, 30, 8, 8);
+    // disco ball sparkles
     for (let i = 0; i < 8; i++) {
       const a = t * 2 + i;
       rect(ctx, [EGA.yellow, EGA.lcyan, EGA.white][i % 3], 280 + Math.cos(a) * 30, 60 + Math.sin(a) * 20, 2, 2);
     }
-    // couches
-    rect(ctx, EGA.red, 10, 128, 300, 24);
-    rect(ctx, EGA.lred, 10, 128, 300, 4);
-    rect(ctx, EGA.brown, 236, 140, 28, 12);
-    rect(ctx, EGA.white, 240, 140, 20, 8);
-    stripes(ctx, EGA.blue, EGA.black, 0, 152, 320, 48, 6);
     person(ctx, 100, 168, DAD);
     person(ctx, 150, 168, MOM);
     person(ctx, 220, 168, GRACE, 'left', has(g, 'duet') ? Math.floor(t * 4) % 2 : 0);
@@ -256,6 +238,7 @@ const norae: Room = {
       }
       g.set('duet');
       g.award('singDuet');
+      g.sfx('applause');
       g.say('You hand the second mic to Grace. "Islands in the Stream." Her eyes go wide. She looks at her mom. Her mom has a hand over her mouth.\n\nYou take Kenny. Grace takes Dolly. Thirty-four years of karaoke-bar nights pour out of you, and for the first time, you aren\'t performing. You\'re listening to her, matching her, leaving room for her. It\'s the best you have ever sung.\n\nAt the chorus, Mr. Cho stands up, takes your mic, and sings Kenny himself, terribly. Mrs. Cho joins in on Dolly. It turns into a four-part disaster. Grace laughs so hard she has to sit on the floor.\n\nWhen it ends, Mr. Cho hands you back the mic. "Okay," he says. "You listen. Good."');
       return true;
     }
@@ -320,21 +303,21 @@ const control: Room = {
     { id: 'toPad', rect: { x: 308, y: 152, w: 12, h: 47 }, enter: (g) => g.goto('pad', 20, 174) },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.black, 0, 10, 320, 142);
-    rect(ctx, EGA.dgray, 56, 14, 208, 74);
+    backdrop(ctx, 'ch6-control');
     dither(ctx, EGA.lcyan, EGA.lblue, 60, 18, 200, 66);
     rect(ctx, EGA.white, 154, 30, 12, 50);
     poly(ctx, EGA.white, [[154, 30], [160, 18], [166, 30]]);
     text(ctx, 'LaffX', 160, 50, EGA.blue, 5, 'center');
-    if (!has(g, 'cruiseDown')) person(ctx, 170, 70 - Math.abs(Math.sin(t)) * 20, CRUISE, 'up');
+    if (!has(g, 'cruiseDown')) {
+      // a tiny Tom clinging to the side of the rocket on the monitor
+      const ty = Math.round(66 - Math.abs(Math.sin(t)) * 20);
+      rect(ctx, EGA.brown, 166, ty, 2, 2);
+      rect(ctx, EGA.white, 166, ty + 2, 2, 4);
+    }
     if (has(g, 'launched')) { rect(ctx, EGA.blue, 60, 74, 200, 10); rect(ctx, EGA.white, 200, 58, 6, 16); }
     for (let i = 0; i < 3; i++) {
-      rect(ctx, EGA.dgray, 10, 96 + i * 14, 300, 10);
-      for (let x = 16; x < 300; x += 18) rect(ctx, (x + i + Math.floor(t * 3)) % 3 ? EGA.lgreen : EGA.lred, x, 99 + i * 14, 4, 3);
+      for (let x = 16; x < 300; x += 18) rect(ctx, (x + i + Math.floor(t * 3)) % 3 ? EGA.lgreen : EGA.lred, x, 99 + i * 14, 2, 2);
     }
-    stripes(ctx, EGA.dgray, EGA.black, 0, 152, 320, 48, 8);
-    rect(ctx, EGA.lgray, 196, 140, 24, 10);
-    rect(ctx, EGA.red, 202, 142, 12, 6);
     person(ctx, 40, 168, KRIS);
     person(ctx, 80, 168, SNOOP, 'down', Math.floor(t * 2) % 2);
     person(ctx, 120, 168, ASHLEIGH);
@@ -370,6 +353,7 @@ const control: Room = {
       if (!has(g, 'refusedSpacey')) { g.say('The gray man puts one manicured finger on the cover. "No license, no launch. Unless you sign." He offers you the pen again.'); g.set('heardDeal'); return true; }
       g.set('launched');
       g.award('launch');
+      g.sfx('rocket');
       g.s.cash += 40000000000;
       g.say('Grace looks at you. "Now."\n\nYou flip up the cover and press LAUNCH. The whole building shakes. On the screen, the LaffX Laffer One climbs on a column of fire, singing a perfect A, all the way up.\n\nStage separation. Then, eight minutes later, the booster comes back down, flips, and lands upright on the drone ship. The drone ship is named TRY LISTENING THIS TIME.\n\nMission Control goes insane. Snoop is yelling. Ashleigh is crying into her phone. Kris finally puts down all three phones and hugs you.\n\nYour Pear phone buzzes. FORBES ALERT: "LARRY LAFFER, 68, IS NOW THE RICHEST MAN IN AMERICA." Elon texts: "congrats lol. rematch."\n\nGrace takes off her headset. She\'s looking at you. Now would be a good time to say something.');
       return true;
@@ -438,21 +422,15 @@ const pad: Room = {
     { id: 'trench', rect: { x: 0, y: 188, w: 320, h: 12 }, enter: (g) => pamSave(g, 'You back up to get a better look at the rocket and step right off the edge of the flame trench.\n\nA hand grabs your collar. It\'s Pamela Anderson, in a red LaffX safety jacket. Of course it is. She hauls you back onto the pad.\n\n"Last time, Larry," she says. She\'s smiling, but she means it. "I heard about the engineer. The one who heard the whine with you." She brushes off your lapel. "Go get her. You finally deserve somebody."\n\nShe walks away across the pad, and for once you don\'t yell anything after her. The one who got away. (She won\'t be there next time. She really won\'t.)', { x: g.s.x, y: 174 }) || g.die('You back up to get a better look at the rocket and step right off the edge of the flame trench.\n\nIt\'s a long way down. Grace has to scrub the launch to fish you out. By the time they do, Tom Cruise has climbed all the way to the top and planted a flag that says "TOP GUN."', 'SCRUBBED', true) },
   ],
   draw(ctx, g, t) {
-    stripes(ctx, EGA.lcyan, EGA.lblue, 0, 10, 320, 120, 30);
-    // tower and rocket
-    for (let y = 20; y < 152; y += 12) rect(ctx, EGA.red, 200, y, 30, 2);
-    rect(ctx, EGA.red, 200, 20, 2, 132);
-    rect(ctx, EGA.red, 228, 20, 2, 132);
-    rect(ctx, EGA.white, 140, 30, 40, 124);
-    poly(ctx, EGA.white, [[140, 30], [160, 10], [180, 30]]);
-    rect(ctx, EGA.black, 140, 60, 40, 3);
-    text(ctx, 'LaffX', 160, 90, EGA.blue, 7, 'center');
-    if (!has(g, 'cruiseDown')) person(ctx, 186, 94 + Math.sin(t * 2) * 2, CRUISE, 'up');
-    rect(ctx, EGA.dgray, 0, 152, 320, 34);
-    rect(ctx, EGA.yellow, 0, 184, 320, 2);
-    rect(ctx, EGA.black, 0, 186, 320, 14);
-    for (let x = 0; x < 320; x += 30) { rect(ctx, EGA.yellow, x, 156, 14, 3); }
-    if (has(g, 'cruiseDown')) {
+    backdrop(ctx, 'ch6-pad');
+    if (!has(g, 'cruiseDown')) {
+      // Tom hugs the right side of the rocket on suction cups
+      const ty = 98 + Math.round(Math.sin(t * 2) * 2);
+      person(ctx, 174, ty, CRUISE, 'up');
+      rect(ctx, EGA.dgray, 166, ty - 16, 3, 3);
+      rect(ctx, EGA.dgray, 180, ty - 19, 3, 3);
+    }
+    else {
       rect(ctx, EGA.brown, 236, 160, 16, 8);
       person(ctx, 244, 166, CRUISE);
     }
@@ -521,6 +499,7 @@ export const chapter6: Content = {
   handle(g, cmd) {
     if (cmd.is('call', 'maricel', 'ex', 'philippines')) {
       g.award('callMaricel');
+      g.sfx('phone');
       g.say(cycle(g, 'maricel', [
         'Maricel picks up from the bar in the Philippines. You can hear someone murdering "My Way" in the background.\n\n"Larry! I saw you on the news. Twice. Once good." She laughs. "So. There\'s a girl. I can hear it. Okay, listen to me, because you never do.\n\nAsk her what SHE loves. Then shut up until she\'s done. Then remember it, Larry. Write it on your hand if you have to.\n\nBe respectful to her parents. Bow. You\'re not in Lefty\'s.\n\nAnd when somebody is scared, don\'t fix it, don\'t yell. Just listen. That\'s all anybody wants."',
         '"I already told you everything, Larry. Ask, shut up, remember. Bow. Listen. Go. I love you. Platonically. Go!"',

@@ -5,7 +5,7 @@ color, no hard 3D edges and almost no dithering. This approximates that look:
 an oil-paint (Kuwahara) filter to break up the render into brush strokes, a
 saturation and warmth push, then a 256-color palette with no dithering.
 
-    python3 art/paint.py art/out/skyline-raw.png art/out/skyline
+    python3 art/paint.py art/out/ch3-skyline-raw.png art/out/skyline
 """
 
 import sys
@@ -44,21 +44,36 @@ def kuwahara(img: Image.Image, r: int) -> Image.Image:
 
 
 def paint(raw: Image.Image) -> Image.Image:
+    return vga(paint_rgb(raw))
+
+
+def vga(img: Image.Image, colors: int = 256) -> Image.Image:
+    """256 colors, no dither: Larry 5's palette was flat painted fills."""
+    return img.quantize(colors=colors, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+
+
+def sharp(raw: Image.Image) -> Image.Image:
+    """Unpainted shrink, for lettering that has to stay readable at 320x200."""
+    img = ImageEnhance.Color(raw.convert('RGB')).enhance(1.2)
+    return img.resize((320, 200), Image.LANCZOS).filter(ImageFilter.UnsharpMask(radius=1, percent=90, threshold=0))
+
+
+def paint_rgb(raw: Image.Image) -> Image.Image:
     img = raw.convert('RGB')
-    # Brighter, warmer and more saturated than the render, like Larry 5's gouache.
-    img = ImageEnhance.Brightness(img).enhance(1.25)
-    img = ImageEnhance.Color(img).enhance(1.6)
+    # Punchier, warmer and more saturated than the render, like Larry 5's gouache.
+    img = ImageEnhance.Contrast(img).enhance(1.12)
+    img = ImageEnhance.Color(img).enhance(1.35)
     r, g, b = img.split()
     img = Image.merge('RGB', (r.point(lambda v: min(255, int(v * 1.06) + 8)), g.point(lambda v: min(255, v + 4)), b.point(lambda v: int(v * 0.94))))
     # Brush strokes: a light Kuwahara at full size keeps signs readable.
-    img = kuwahara(img, 3)
+    img = kuwahara(img, 2)
     # Paper grain, then a gentle smooth so strokes blend like wet paint.
     rng = np.random.default_rng(7)
     a = np.asarray(img, dtype=np.float32)
     grain = rng.normal(0, 5, a.shape[:2])[..., None]
     img = Image.fromarray((a + grain).clip(0, 255).astype(np.uint8)).filter(ImageFilter.SMOOTH)
-    small = img.resize((320, 200), Image.LANCZOS)
-    return small.quantize(colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+    # Shrink to VGA, then crisp the edges back up so signs and shapes still read.
+    return img.resize((320, 200), Image.LANCZOS).filter(ImageFilter.UnsharpMask(radius=1, percent=70, threshold=2))
 
 
 if __name__ == '__main__':
