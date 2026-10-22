@@ -52,6 +52,7 @@ describe('chapter 6 walkthrough', () => {
     run(g, 'talk to dad');
     run(g, 'sing islands in the stream');
     expect(g.flag('duet')).toBe(true);
+    expect(g.scene?.name).toBe('karaoke');
     walk(g, 150, 174);
     run(g, 'talk to mom');
     expect(g.has('ring')).toBe(true);
@@ -87,6 +88,7 @@ describe('chapter 6 walkthrough', () => {
     walk(g, 208, 172);
     run(g, 'press launch button');
     expect(g.flag('launched')).toBe(true);
+    expect(g.scene?.name).toBe('launch');
     walk(g, 240, 172);
     run(g, 'propose');
 
@@ -192,6 +194,7 @@ describe('chapter 6 gates', () => {
       g.queue = [];
       g.command(phrase);
       expect(g.flag('proposed')).toBe(true);
+      expect(g.scene?.name).toBe('proposal');
     },
   );
 

@@ -8,6 +8,7 @@ import { money, type Game } from '../engine/game';
 import type { Command } from '../engine/parser';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
+import { scenes6 } from './scenes6';
 
 const GRACE = { sprite: 'grace', hair: EGA.black, top: EGA.lblue, pants: EGA.blue, accent: EGA.white, longHair: true };
 const WILLOW = { sprite: 'willow', hair: EGA.lmagenta, top: EGA.green, pants: EGA.blue, accent: EGA.yellow, longHair: true };
@@ -65,7 +66,7 @@ const items: Item[] = [
     id: 'ring',
     name: "Grandma Cho's ring",
     names: ['ring', 'engagement ring', 'grandma ring'],
-    look: 'A thin gold band with a small jade stone. Mrs. Cho pressed it into your hand and said, "Her grandmother would have liked you. She also never stopped talking."',
+    look: 'A gold band with a big, shiny, frankly ridiculous diamond. It throws rainbows on the ceiling. Mrs. Cho pressed it into your hand and said, "Her grandmother would have liked you. She also never stopped talking."',
   },
 ];
 
@@ -80,9 +81,9 @@ const hangar: Room = {
     `The LaffX hangar in Houston, next door to Mission Control. A rocket engine the size of a minivan sits on a test stand. ${has(g, 'invited') ? '' : 'A woman in a blue LaffX jacket is glaring at it with a wrench. '}Willow's Kitchen has parked a food truck by the door. A man in aviator sunglasses is doing pull-ups on the scaffolding for no one. The LaffX jet to California is out the west door. Mission Control is east.`,
   hotspots: [
     { id: 'grace', names: ['grace', 'grace cho', 'cho', 'woman', 'engineer'], rect: { x: 113, y: 128, w: 14, h: 40 }, visible: (g) => !has(g, 'invited'), look: (g) => { g.award('lookGrace'); return 'Grace Cho, LaffX\'s lead propulsion engineer. Cerritos born, Caltech trained, safety glasses pushed up into her hair. She has the specific glare of a brilliant person surrounded by people who are not listening to her.\n\nSomething in your chest does a thing it hasn\'t done since 1987. You decide, for once, not to say anything about it.'; } },
-    { id: 'engine', names: ['engine', 'rocket engine', 'stand', 'test stand', 'injector', 'motor'], rect: { x: 150, y: 96, w: 60, h: 56 }, look: 'The LaffX Raptor-Ish engine. During every test fire it makes a long, rising whine. Grace says the whine is "wrong." Nobody else can hear what she means.' },
+    { id: 'engine', names: ['engine', 'rocket engine', 'stand', 'test stand', 'injector', 'motor'], rect: { x: 140, y: 78, w: 80, h: 74 }, look: 'The LaffX Raptor-Ish engine, hanging nozzle-down in a steel test stand: a polished bell, a copper throat, two turbopumps and more plumbing than a Cincinnati chili parlor. During every test fire it makes a long, rising whine. Grace says the whine is "wrong." Nobody else can hear what she means.' },
     { id: 'truck', names: ['truck', 'food truck', 'willow', 'kitchen', 'willows kitchen'], rect: { x: 10, y: 110, w: 70, h: 42 }, look: 'WILLOW\'S KITCHEN: ACTUALLY FREE FOOD. Willow waves from the window in a hairnet, pink hair and all.' },
-    { id: 'cruise', names: ['cruise', 'tom', 'tom cruise', 'man', 'aviators', 'astronaut'], rect: { x: 243, y: 128, w: 14, h: 40 }, look: 'Tom Cruise, in a flight suit he brought from home, doing pull-ups on the scaffolding. He has volunteered as LaffX\'s stunt astronaut. Nobody asked for a stunt astronaut.' },
+    { id: 'cruise', names: ['cruise', 'tom', 'tom cruise', 'man', 'aviators', 'astronaut'], rect: { x: 240, y: 106, w: 20, h: 58 }, look: 'Tom Cruise, in a flight suit he brought from home, doing pull-ups on the scaffolding. He has volunteered as LaffX\'s stunt astronaut. Nobody asked for a stunt astronaut.' },
   ],
   zones: [
     {
@@ -113,10 +114,18 @@ const hangar: Room = {
     person(ctx, 42, 162, WILLOW);
     ctx.restore();
     backdrop(ctx, 'ch6-hangar-fg');
-    rect(ctx, has(g, 'engineFixed') ? EGA.lgreen : EGA.yellow, 176, 104, 8, 8);
-    if (Math.floor(t * 3) % 2) ellipse(ctx, EGA.lcyan, 180, 146, 10, 3);
+    // the engine's status lamp on its control box, and a flicker of vapour from the bell
+    rect(ctx, has(g, 'engineFixed') ? EGA.lgreen : EGA.yellow, 225, 100, 6, 6);
+    if (Math.floor(t * 3) % 2) ellipse(ctx, EGA.lcyan, 180, 147, 12, 2);
     if (!has(g, 'invited')) person(ctx, 120, 166, GRACE, 'right');
-    person(ctx, 250, 166 - Math.abs(Math.sin(t * 3)) * 6, CRUISE, 'left');
+    // Tom doing pull-ups on the scaffold bar, arms up to the bar
+    const lift = Math.abs(Math.sin(t * 3)) * 8;
+    const feet = 162 - lift;
+    rect(ctx, EGA.white, 245, 112, 2, feet - 46 + 14 - 112);
+    rect(ctx, EGA.white, 253, 112, 2, feet - 46 + 14 - 112);
+    rect(ctx, '#EDB48C', 244, 111, 4, 2);
+    rect(ctx, '#EDB48C', 252, 111, 4, 2);
+    person(ctx, 250, feet, CRUISE, 'down');
   },
   handle(g, cmd) {
     if (cmd.is(['listen', 'hear']) && (cmd.about('engine', 'injector', 'whine', 'sound', 'motor', 'it') || (!cmd.words.length && g.near('engine', 50)))) {
@@ -245,7 +254,7 @@ const norae: Room = {
       }
       g.set('duet');
       g.award('singDuet');
-      g.sfx('applause');
+      g.cutscene('karaoke');
       g.say('You hand the second mic to Grace. "Islands in the Stream." Her eyes go wide. She looks at her mom. Her mom has a hand over her mouth.\n\nYou take Kenny. Grace takes Dolly. Thirty-four years of karaoke-bar nights pour out of you, and for the first time, you aren\'t performing. You\'re listening to her, matching her, leaving room for her. It\'s the best you have ever sung.\n\nAt the chorus, Mr. Cho stands up, takes your mic, and sings Kenny himself, terribly. Mrs. Cho joins in on Dolly. It turns into a four-part disaster. Grace laughs so hard she has to sit on the floor.\n\nWhen it ends, Mr. Cho hands you back the mic. "Okay," he says. "You listen. Good."');
       return true;
     }
@@ -254,7 +263,7 @@ const norae: Room = {
       if (has(g, 'duet') && !g.has('ring') && !has(g, 'proposed')) {
         g.give('ring');
         g.award('getRing');
-        g.say('Mrs. Cho pulls you aside by the tambourines. She presses something small into your hand: a thin gold ring with a jade stone.\n\n"Her grandmother\'s. I have been waiting to give it to someone who knew that song." She pats your cheek. "Don\'t do it here. Do it somewhere big. She deserves big."');
+        g.say('Mrs. Cho pulls you aside by the tambourines. She presses a little red velvet box into your hand. Inside: a gold ring with a diamond so big and shiny it throws rainbows on the tambourines.\n\n"Her grandmother\'s. I have been waiting to give it to someone who knew that song." She pats your cheek. "Don\'t do it here. Do it somewhere big. She deserves big."');
         return true;
       }
       g.say(has(g, 'duet') ? '"More tea? You sing Kenny better than my husband. Don\'t tell him."' : '"Barley tea?" She studies your suit. "Grace says you are a genius with ears. She never says anything about men. So."');
@@ -338,6 +347,7 @@ const control: Room = {
       g.drop('ring');
       g.set('proposed');
       g.award('ending');
+      g.cutscene('proposal');
       g.win(`You get down on one knee, in Mission Control, in front of Snoop, Kris, Ashleigh, three million livestream viewers and a booster standing on a boat called TRY LISTENING THIS TIME.\n\nYou don't make a speech. For once in your life, you ask a question and then you shut up.\n\n"Grace Cho. Will you marry me?"\n\nShe looks at the ring. She knows it instantly. Her mom gave it to you. Her dad let her. She laughs, the real laugh from the noraebang, and says, "Yes. Obviously yes. Get up, your knees are 68."\n\nSnoop drops the beat to "Islands in the Stream." Kris is crying and denying it. Ashleigh's stream breaks Swipr.\n\n\nEPILOGUE\n\nThey are married in Cerritos, at the noraebang, in Room 3. Mr. Cho sings Kenny, terribly. Willow caters. Barry Sanders refuses to dance, then dances. Rick Moranis turns up, nobody knows how. Pam Anderson sends a card with a photo of a rescued bear, signed "The one who got away. Be happy, Larry." Maricel flies in from the Philippines, hugs Grace and whispers, "He listens now? Really?" Grace whispers back, "Mostly."\n\nThey live happily ever after in a house in Cerritos with a karaoke machine in every room and, on the mantel, in a glass case, a sealed copy of King's Quest V. Ken and Roberta send a note: "Never return it."\n\nEvery anniversary, they sing "Islands in the Stream." He does Kenny. She does Dolly. He's terrible. She's amazing.\n\nLarry Laffer: unscathed, the richest man in America, and finally, really, listening.\n\n\nTHE END\n\nThanks for playing LEISURE SUIT LARRY: WOKE UP BROKE.\n\nFinal score: ${g.s.score} of ${g.maxScore}.`, 'THE END');
       return true;
     }
@@ -373,7 +383,7 @@ const control: Room = {
       if (!has(g, 'refusedSpacey')) { g.say('The gray man puts one manicured finger on the cover. "No license, no launch. Unless you sign." He offers you the pen again.'); g.set('heardDeal'); return true; }
       g.set('launched');
       g.award('launch');
-      g.sfx('rocket');
+      g.cutscene('launch');
       g.s.cash += 40000000000;
       g.say('Grace looks at you. "Now."\n\nYou flip up the cover and press LAUNCH. The whole building shakes. On the screen, the LaffX Laffer One climbs on a column of fire, singing a perfect A, all the way up.\n\nStage separation. Then, eight minutes later, the booster comes back down, flips, and lands upright on the drone ship. The drone ship is named TRY LISTENING THIS TIME.\n\nMission Control goes insane. Snoop is yelling. Ashleigh is crying into her phone. Kris finally puts down all three phones and hugs you.\n\nYour Pear phone buzzes. FORBES ALERT: "LARRY LAFFER, 68, IS NOW THE RICHEST MAN IN AMERICA." Elon texts: "congrats lol. rematch."\n\nGrace takes off her headset. She\'s looking at you. Now would be a good time to say something.');
       return true;
@@ -423,7 +433,7 @@ const pad: Room = {
   describe: (g) =>
     `The launch pad. The LaffX Laffer One towers over you, white and humming. ${has(g, 'cruiseDown') ? 'Tom Cruise is down on the ground, sitting on a crate, drinking a juice box.' : 'Halfway up the outside of the rocket, clinging on with suction cups, is Tom Cruise.'} A flame trench runs along the front of the pad. Mission Control is west.`,
   hotspots: [
-    { id: 'cruise', names: ['cruise', 'tom', 'tom cruise', 'man', 'astronaut'], rect: { x: 180, y: 40, w: 20, h: 60 }, look: (g) => (has(g, 'cruiseDown') ? 'Tom Cruise, on a crate, in a foil blanket, drinking a juice box like a kid after a swim meet. He looks happier than you\'ve ever seen him in a movie.' : 'Tom Cruise, forty feet up the side of the rocket on suction cups, shouting "I do my own STUNTS!" at nobody. His knuckles are white. His eyes are scared. He is not coming down on his own.') },
+    { id: 'cruise', names: ['cruise', 'tom', 'tom cruise', 'man', 'astronaut'], rect: { x: 162, y: 40, w: 24, h: 60 }, look: (g) => (has(g, 'cruiseDown') ? 'Tom Cruise, on a crate, in a foil blanket, drinking a juice box like a kid after a swim meet. He looks happier than you\'ve ever seen him in a movie.' : 'Tom Cruise, forty feet up the side of the rocket on suction cups, shouting "I do my own STUNTS!" at nobody. His knuckles are white. His eyes are scared. He is not coming down on his own.') },
     { id: 'rocket', names: ['rocket', 'laffer one', 'laffx'], rect: { x: 140, y: 14, w: 40, h: 140 }, look: 'The LaffX Laffer One. On the side, in tiny letters near the bottom, Grace has painted: "FOR THE GUY WHO HEARD THE WHINE."' },
     { id: 'trench', names: ['trench', 'flame trench', 'pit', 'flames'], rect: { x: 0, y: 186, w: 320, h: 14 }, look: 'The flame trench. During launch it carries a few thousand degrees of exhaust away from the pad. Right now it is just a very deep ditch with warning signs.' },
   ],
@@ -436,9 +446,21 @@ const pad: Room = {
     if (!has(g, 'cruiseDown')) {
       // Tom hugs the right side of the rocket on suction cups
       const ty = 98 + Math.round(Math.sin(t * 2) * 2);
-      person(ctx, 174, ty, CRUISE, 'up');
-      rect(ctx, EGA.dgray, 166, ty - 16, 3, 3);
-      rect(ctx, EGA.dgray, 180, ty - 19, 3, 3);
+      const reach = Math.round(Math.sin(t * 2 + 1) * 2);
+      // arms stretched up to two suction-cup handles, plus one cup on each knee
+      rect(ctx, EGA.white, 167, ty - 50 + reach, 2, 14 - reach);
+      rect(ctx, EGA.white, 178, ty - 48 - reach, 2, 12 + reach);
+      for (const [cx, cy] of [[168, ty - 52 + reach], [179, ty - 50 - reach]]) {
+        ellipse(ctx, EGA.lgray, cx, cy, 4, 2);
+        rect(ctx, EGA.dgray, cx - 2, cy - 1, 4, 1);
+        rect(ctx, '#EDB48C', cx - 1, cy + 1, 3, 2);
+      }
+      person(ctx, 173, ty, CRUISE, 'up');
+      for (const [cx, cy] of [[168, ty - 12], [179, ty - 14]]) {
+        ellipse(ctx, EGA.lgray, cx, cy, 3, 2);
+        rect(ctx, EGA.dgray, cx - 1, cy - 1, 2, 1);
+      }
+      if (Math.floor(t * 1.5) % 4 === 0) text(ctx, 'SHHLOOP', 186, ty - 56, EGA.white, 4);
     }
     else {
       rect(ctx, EGA.brown, 236, 160, 16, 8);
@@ -481,6 +503,7 @@ export const chapter6: Content = {
   startCash: 40000000000,
   startFlags: { phoneOnline: true, hasIdea: true },
   rooms: [hangar, norae, control, pad],
+  scenes: scenes6,
   items,
   points: {
     lookGrace: 2, talkGrace: 3, askMusic: 5, listenEngine: 8, getFood: 2, giveFood: 5, talkCruise: 2, callMaricel: 5,

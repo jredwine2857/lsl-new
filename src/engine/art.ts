@@ -13,6 +13,7 @@ const urls = {
   ...import.meta.glob('../art/rooms/*.png', { eager: true, query: '?url', import: 'default' }),
   ...import.meta.glob('../art/chars/*.png', { eager: true, query: '?url', import: 'default' }),
   ...import.meta.glob('../art/props/*.png', { eager: true, query: '?url', import: 'default' }),
+  ...import.meta.glob('../art/scenes/*.png', { eager: true, query: '?url', import: 'default' }),
 } as Record<string, string>;
 
 const images = new Map<string, HTMLImageElement>();
@@ -77,4 +78,10 @@ export function prop(ctx: CanvasRenderingContext2D, name: string, x: number, bot
     ctx.drawImage(img, Math.round(x), top);
   }
   return img.naturalWidth;
+}
+
+/** A loaded cutscene image (src/art/scenes) to draw however the scene likes, or null if it isn't ready. */
+export function sceneArt(name: string): HTMLImageElement | null {
+  const img = images.get(name);
+  return img?.complete && img.naturalWidth ? img : null;
 }

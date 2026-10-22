@@ -109,6 +109,7 @@ const ARROWS: Record<string, [number, number]> = {
 };
 
 window.addEventListener('keydown', (e) => {
+  if (game.scene && ['Enter', 'Escape', ' '].includes(e.key)) { e.preventDefault(); game.skipScene(); return; }
   if (game.queue.length) {
     if (e.key === 'Enter' || e.key === 'Escape' || e.key === ' ') {
       e.preventDefault();
@@ -130,6 +131,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 canvas.addEventListener('click', (e) => {
+  if (game.scene) { game.skipScene(); return; }
   if (game.queue.length) { if (!dButtons.childElementCount) dismiss(); return; }
   const r = canvas.getBoundingClientRect();
   const x = ((e.clientX - r.left) / r.width) * 320;
@@ -168,7 +170,7 @@ function button(label: string, fn: () => void) {
 }
 
 function syncDialog() {
-  const msg = game.queue[0];
+  const msg = game.scene ? undefined : game.queue[0];
   if (msg === showing) return;
   showing = msg;
   if (!msg) { dialog.hidden = true; sound.duck(false); return; }
@@ -202,6 +204,17 @@ function draw(t: number) {
   ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0);
   ctx.imageSmoothingEnabled = false;
   rect(ctx, EGA.black, 0, 0, 320, 200);
+  if (game.scene) {
+    const sc = CHAPTERS[chapter].scenes?.[game.scene.name];
+    if (sc) {
+      ctx.save();
+      sc.draw(ctx, game.scene.t, game);
+      ctx.restore();
+      ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0);
+      text(ctx, 'click to skip', 317, 193, '#888888', 5, 'right');
+      return;
+    }
+  }
   game.room.draw(ctx, game, t);
   const s = game.s;
   const step = game.moving ? 1 + Math.floor(game.walkFrame) : 0;

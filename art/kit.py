@@ -311,6 +311,90 @@ class Room:
         o.scale = scale
         return self._obj(name, mt, fg)
 
+    def lathe(self, cx, row, d, prof, mt, segs=48, smooth=True, name='lathe', fg=False):
+        """A shape turned around a vertical axis standing at pixel (cx, row) on
+        plane d (the axis is d + the widest radius back, so the front touches d).
+        prof is [(radius, height)] in pixels at d, bottom to top: rocket
+        stages, engine bells, tanks."""
+        import bmesh
+        m = self.m(d)
+        rmax = max(r for r, _ in prof)
+        base = self.P(cx, row, d)
+        base.y += rmax * m
+        bm = bmesh.new()
+        rings = []
+        for r, h in prof:
+            ring = []
+            for i in range(segs):
+                a = 2 * math.pi * i / segs
+                ring.append(bm.verts.new((base.x + r * m * math.cos(a), base.y + r * m * math.sin(a), base.z + h * m)))
+            rings.append(ring)
+        for r0, r1 in zip(rings, rings[1:]):
+            for i in range(segs):
+                j = (i + 1) % segs
+                bm.faces.new((r0[i], r0[j], r1[j], r1[i]))
+        for ring, flip in ((rings[0], True), (rings[-1], False)):
+            if prof[0 if flip else -1][0] > 0:
+                f = bm.faces.new(ring[::-1] if flip else ring)
+        me = bpy.data.meshes.new(name)
+        bm.to_mesh(me)
+        bm.free()
+        o = bpy.data.objects.new(name, me)
+        bpy.context.collection.objects.link(o)
+        bpy.ops.object.select_all(action='DESELECT')
+        bpy.context.view_layer.objects.active = o
+        o.select_set(True)
+        self._obj(name, mt, fg)
+        for poly in me.polygons:
+            poly.use_smooth = smooth
+        return o
+
+    def tube(self, pts, r, mt, name='tube', fg=False):
+        """A pipe through pixel points [(px, py, d)], r in pixels at the first point."""
+        cu = bpy.data.curves.new(name, 'CURVE')
+        cu.dimensions = '3D'
+        cu.bevel_depth = r * self.m(pts[0][2])
+        cu.bevel_resolution = 3
+        sp = cu.splines.new('POLY')
+        sp.points.add(len(pts) - 1)
+        for p, (px, py, d) in zip(sp.points, pts):
+            v = self.P(px, py, d)
+            p.co = (v.x, v.y, v.z, 1)
+        o = bpy.data.objects.new(name, cu)
+        bpy.context.collection.objects.link(o)
+        bpy.ops.object.select_all(action='DESELECT')
+        bpy.context.view_layer.objects.active = o
+        o.select_set(True)
+        return self._obj(name, mt, fg)
+
+    def screen(self, x, y, w, h, d, image, strength=1.2, thick=0.5, name='screen', fg=False):
+        """A glowing panel showing a PIL image (monitors, maps, telemetry)."""
+        import tempfile
+        path = os.path.join(tempfile.gettempdir(), f'{self.name}-{name}-{len(bpy.data.images)}.png')
+        image.save(path)
+        m = bpy.data.materials.new(f'screen{len(bpy.data.materials)}')
+        m.use_nodes = True
+        nt = m.node_tree
+        nt.nodes.clear()
+        tc = nt.nodes.new('ShaderNodeTexCoord')
+        tex = nt.nodes.new('ShaderNodeTexImage')
+        tex.image = bpy.data.images.load(path)
+        tex.interpolation = 'Closest'
+        em = nt.nodes.new('ShaderNodeEmission')
+        em.inputs['Strength'].default_value = strength
+        out = nt.nodes.new('ShaderNodeOutputMaterial')
+        nt.links.new(tc.outputs['Generated'], tex.inputs['Vector'])
+        nt.links.new(tex.outputs['Color'], em.inputs['Color'])
+        nt.links.new(em.outputs['Emission'], out.inputs['Surface'])
+        # a box's generated coords run 0..1 along x and z, so the image maps onto the front face
+        sep = nt.nodes.new('ShaderNodeSeparateXYZ')
+        comb = nt.nodes.new('ShaderNodeCombineXYZ')
+        nt.links.new(tc.outputs['Generated'], sep.inputs['Vector'])
+        nt.links.new(sep.outputs['X'], comb.inputs['X'])
+        nt.links.new(sep.outputs['Z'], comb.inputs['Y'])
+        nt.links.new(comb.outputs['Vector'], tex.inputs['Vector'])
+        return self.panel(x, y, w, h, d, m, thick=thick, name=name, fg=fg)
+
     def oval(self, cx, cy, rx, ry, d, mt, thick=2, name='oval', fg=False):
         """An oval disc facing the camera on plane d (signs, mirrors, portholes)."""
         m = self.m(d)
