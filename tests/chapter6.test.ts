@@ -83,6 +83,7 @@ describe('chapter 6 walkthrough', () => {
     run(g, 'talk to tom');
     run(g, 'listen');
     expect(g.flag('cruiseDown')).toBe(true);
+    expect(g.scene?.name).toBe('talkdown');
     walk(g, 2, 172);
     expect(g.s.room).toBe('control');
     walk(g, 208, 172);
