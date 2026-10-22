@@ -107,6 +107,11 @@ CAST = {
 
 
 def build(name, out):
+    make(name).render(out)
+
+
+def make(name):
+    """The dressed character, ready to pose or render (cutscenes reuse this)."""
     from charkit import Char
     r = CAST[name]
     c = Char(name, skin=r['skin'], height=r.get('height', 1.0), build=r.get('build', 1.0), head_scale=r.get('head', 1.0))
@@ -125,7 +130,7 @@ def build(name, out):
         c.glasses(shades=g != 'clear', lens='#88AACC' if g in ('clear', 'shades') else g)
     if 'hat' in r:
         c.hat(*r['hat'])
-    c.render(out)
+    return c
 
 
 if __name__ == '__main__':

@@ -44,7 +44,7 @@ describe('chapter 6 walkthrough', () => {
     walk(g, 120, 172);
     run(g, 'give chili to grace');
     expect(g.flag('invited')).toBe(true);
-    walk(g, 316, 172);
+    walk(g, 2, 172);
     expect(g.s.room).toBe('norae');
 
     run(g, 'bow');
@@ -52,12 +52,21 @@ describe('chapter 6 walkthrough', () => {
     run(g, 'talk to dad');
     run(g, 'sing islands in the stream');
     expect(g.flag('duet')).toBe(true);
+    expect(g.scene?.name).toBe('karaoke');
     walk(g, 150, 174);
     run(g, 'talk to mom');
     expect(g.has('ring')).toBe(true);
     walk(g, 2, 174);
     expect(g.s.room).toBe('hangar');
+    walk(g, 316, 172);
+    expect(g.s.room).toBe('control');
+    walk(g, 316, 172);
+    expect(g.s.room).toBe('pad');
     walk(g, 2, 172);
+    expect(g.s.room).toBe('control');
+    walk(g, 2, 172);
+    expect(g.s.room).toBe('hangar');
+    walk(g, 316, 172);
     expect(g.s.room).toBe('control');
 
     walk(g, 40, 172);
@@ -79,6 +88,7 @@ describe('chapter 6 walkthrough', () => {
     walk(g, 208, 172);
     run(g, 'press launch button');
     expect(g.flag('launched')).toBe(true);
+    expect(g.scene?.name).toBe('launch');
     walk(g, 240, 172);
     run(g, 'propose');
 
@@ -139,9 +149,9 @@ describe('chapter 6 gates', () => {
 
   it('the jet waits for an invitation, and Mission Control waits for the duet', () => {
     const g = newGame();
-    walk(g, 316, 172);
-    expect(g.s.room).toBe('hangar');
     walk(g, 2, 172);
+    expect(g.s.room).toBe('hangar');
+    walk(g, 316, 172);
     expect(g.s.room).toBe('hangar');
   });
 
@@ -172,5 +182,30 @@ describe('chapter 6 gates', () => {
     g.goto('control', 240, 172);
     run(g, 'propose');
     expect(g.s.over).toBe(null);
+  });
+
+  it.each(['propose', 'will you marry me', 'get on one knee', 'pop the question', 'ask grace for her hand', 'give ring to grace'])(
+    'after the launch, "%s" proposes from anywhere in Mission Control',
+    (phrase) => {
+      const g = newGame();
+      for (const f of ['duet', 'launched']) g.set(f);
+      g.give('ring');
+      g.goto('control', 40, 172);
+      g.queue = [];
+      g.command(phrase);
+      expect(g.flag('proposed')).toBe(true);
+      expect(g.scene?.name).toBe('proposal');
+    },
+  );
+
+  it('proposing anywhere else points you to Mission Control', () => {
+    const g = newGame();
+    g.set('duet');
+    g.give('ring');
+    g.goto('norae', 150, 174);
+    expect(run(g, 'propose to grace')).toMatch(/Somewhere BIG/);
+    g.goto('pad', 100, 172);
+    expect(run(g, 'will you marry me')).toMatch(/Mission Control/);
+    expect(g.flag('proposed')).toBeFalsy();
   });
 });

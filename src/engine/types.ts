@@ -69,6 +69,15 @@ export interface Content {
   /** Commands no room claimed. Return true if handled. */
   handle?: (g: Game, cmd: Command) => boolean;
   hint: (g: Game) => string;
+  /** Full-screen action sequences, started with g.cutscene(name). */
+  scenes?: Record<string, Cutscene>;
+}
+
+/** A full-screen action sequence, like an FMV interlude. Messages wait until it ends. */
+export interface Cutscene {
+  /** Seconds. The player can click or press a key to skip. */
+  duration: number;
+  draw: (ctx: CanvasRenderingContext2D, t: number, g: Game) => void;
 }
 
 export type Facing = 'left' | 'right' | 'up' | 'down';

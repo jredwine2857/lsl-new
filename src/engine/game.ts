@@ -22,6 +22,8 @@ export class Game {
   readonly content: Content;
   readonly maxScore: number;
   queue: Message[] = [];
+  /** The cutscene playing now, if any, and how far into it we are. */
+  scene: { name: string; t: number } | null = null;
   /** Where a click asked Larry to walk to. */
   target: { x: number; y: number } | null = null;
   /** Arrow-key walking direction (AGI style: press again to stop). */
@@ -232,8 +234,22 @@ export class Game {
 
   get moving() { return !!(this.target || this.dir); }
 
-  /** Advance the world by dt seconds. Paused while a message is showing. */
+  /** Play a full-screen action sequence before any messages that follow. */
+  cutscene(name: string) {
+    if (this.content.scenes?.[name]) this.scene = { name, t: 0 };
+  }
+
+  skipScene() {
+    this.scene = null;
+  }
+
+  /** Advance the world by dt seconds. Paused while a cutscene or message is showing. */
   update(dt: number) {
+    if (this.scene) {
+      this.scene.t += dt;
+      if (this.scene.t >= (this.content.scenes?.[this.scene.name]?.duration ?? 0)) this.scene = null;
+      return;
+    }
     if (this.queue.length || this.s.over) return;
     let vx = 0;
     let vy = 0;
