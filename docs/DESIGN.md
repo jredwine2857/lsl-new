@@ -54,24 +54,29 @@ framework.
 
 **Art direction (jr's pick): Larry 5.** Backgrounds should look hand-painted
 like *Leisure Suit Larry 5* (1991): bright, warm gouache color, soft brushy
-shapes, almost no dithering. Rooms are blocked out in Blender
-(`art/skyline.py`), then `art/paint.py` turns the render into a painted-looking
-256-color background (an oil-paint filter, a color push, paper grain, no
-dither). Painting over these by hand later only makes them better.
+shapes, almost no dithering.
 
-Placeholder art is drawn procedurally with the 16-color EGA palette
-(`src/engine/gfx.ts`). Each room's `draw()` is the only thing that changes when
-real art arrives:
+**Backgrounds are done this way now.** Every room is built in Blender from a
+script in `art/rooms/`, using the game's own pixel coordinates (`art/kit.py`
+works out where a pixel lands in 3D, so a sign in the script lines up with its
+hotspot in the code). `art/paint.py` turns each render into a painted-looking
+320x200, 256-color background, keeping sign lettering crisp. `art/build.py`
+renders rooms and copies them to `src/art/rooms/`; see `art/README.md`.
 
-1. **Backgrounds:** model rooms in Blender (driven through the Blender MCP),
-   render at 320×200 or 640×400 with an orthographic/low-angle camera, then
-   palette-quantize to EGA (16 colors) or a VGA-style 256-color palette. Ship as
-   PNGs and draw with `drawImage`. This matches how Sierra's VGA remakes were
-   painted and scanned.
+In the game, a room's `draw()` calls `backdrop(ctx, 'chN-room')`, then draws
+only what moves or changes (people, TV pictures, items you can pick up, doors
+that open). Rooms where people stand behind something (a counter, a bar, a DJ
+booth) also have an `-fg` layer drawn after those people: a cheap stand-in for
+SCI's priority bands. Larry is always drawn last.
+
+What's next:
+
+1. **Backgrounds:** done (above). Painting over renders by hand later only
+   makes them better.
 2. **Sprites:** pixel-art sprite sheets (Aseprite or AI-assisted, then cleaned
    up by hand) with 4-direction walk cycles, same feet-anchor as today.
-3. **Priority bands:** add a per-room priority map (like SCI) so Larry can walk
-   behind counters and benches.
+3. **Priority bands:** the fg layers cover people placed behind things; a full
+   per-room priority map (like SCI) would let Larry himself walk behind them.
 
 Unreal Engine is overkill for a 2D adventure and would kill the "runs in a
 browser tab" goal; Blender-rendered backgrounds give the 3D-assisted look

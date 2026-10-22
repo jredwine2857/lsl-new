@@ -4,6 +4,7 @@ import { chapter3 } from './content/chapter3';
 import { chapter4 } from './content/chapter4';
 import { chapter5 } from './content/chapter5';
 import { chapter6 } from './content/chapter6';
+import { preloadArt } from './engine/art';
 import { Game } from './engine/game';
 import { EGA, LARRY, SCALE, person, rect, text } from './engine/gfx';
 
@@ -223,7 +224,7 @@ let saved = 0;
 try { saved = Number(localStorage.getItem(CHAPTER_KEY) ?? 0) || 0; } catch { /* storage blocked */ }
 startChapter(Math.min(saved, CHAPTERS.length - 1));
 input.focus();
-requestAnimationFrame(frame);
+preloadArt().then(() => requestAnimationFrame(frame));
 
 // ?debug exposes the game object in the console for testing rooms quickly.
 if (new URLSearchParams(location.search).has('debug')) {

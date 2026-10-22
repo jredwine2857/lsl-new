@@ -2,14 +2,13 @@
 // Cincinnati. Larry follows a free-food sign into a protest zone, meets
 // Ashleigh's niece Willow, and has to get them both out past Scut Farkus.
 
-import { EGA, SKIN_DARK, dither, ellipse, person, poly, rect, stripes, text } from '../engine/gfx';
+import { EGA, SKIN_DARK, ellipse, person, poly, rect, text } from '../engine/gfx';
+import { backdrop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
 
 const CONEY = 225;
-const NAVY = '#000044';
-const LIME = '#AAFF00';
 
 const WAITRESS = { hair: EGA.red, top: EGA.lblue, pants: EGA.blue, accent: EGA.yellow, longHair: true, dress: true };
 const MORANIS = { hair: EGA.dgray, top: EGA.lgray, pants: EGA.brown, accent: EGA.white, glasses: true };
@@ -104,56 +103,17 @@ const skyline: Room = {
     { id: 'toPark', rect: { x: 306, y: 150, w: 14, h: 49 }, enter: (g) => g.goto('park', 20, 172) },
   ],
   draw(ctx, _g, t) {
-    // back wall: navy tile band with menu screens over beige tile
-    rect(ctx, '#CCBBAA', 0, 10, 320, 140);
-    for (let y = 74; y < 122; y += 8) rect(ctx, '#AA9988', 0, y, 320, 1);
-    for (let x = 0; x < 320; x += 16) rect(ctx, '#AA9988', x, 74, 1, 48);
-    rect(ctx, NAVY, 96, 58, 224, 16);
-    for (let i = 0; i < 4; i++) {
-      rect(ctx, EGA.white, 112 + i * 44, 60, 38, 12);
-      rect(ctx, EGA.blue, 112 + i * 44, 60, 38, 3);
-    }
-    // soffit and the big oval sign
-    rect(ctx, EGA.lgray, 96, 10, 224, 48);
-    ellipse(ctx, NAVY, 162, 34, 52, 21);
-    ellipse(ctx, EGA.black, 162, 34, 49, 19);
-    ellipse(ctx, EGA.lblue, 162, 25, 36, 8);
-    for (const [x, h] of [[132, 5], [138, 8], [144, 6], [150, 11], [156, 7], [162, 13], [168, 8], [174, 10], [180, 6], [186, 8], [192, 5]] as [number, number][]) rect(ctx, EGA.black, x, 32 - h, 5, h);
-    text(ctx, 'Skyline', 162, 29, LIME, 12, 'center');
-    rect(ctx, EGA.red, 140, 43, 46, 7);
-    text(ctx, 'C H I L I', 163, 44, EGA.white, 5, 'center');
-    // window with the flyer
-    dither(ctx, EGA.lcyan, EGA.cyan, 14, 22, 78, 66);
-    rect(ctx, EGA.yellow, 22, 28, 62, 48);
-    text(ctx, 'FREE', 30, 32, EGA.red, 9);
-    text(ctx, 'FOOD!', 30, 44, EGA.red, 9);
-    text(ctx, 'SUMMER OF LOVE', 25, 60, EGA.magenta, 5);
-    text(ctx, 'WASHINGTON PARK', 25, 67, EGA.black, 5);
-    // chrome pendant lamps
-    for (const x of [130, 190, 250]) { rect(ctx, EGA.lgray, x, 74, 1, 10); ellipse(ctx, EGA.lgray, x, 86, 6, 3); rect(ctx, EGA.yellow, x - 3, 88, 6, 1); }
-    // TV
-    rect(ctx, EGA.dgray, 236, 24, 44, 32);
+    backdrop(ctx, 'ch3-skyline');
+    // TV picture: WKRP's turkeys, falling forever
     rect(ctx, EGA.lcyan, 240, 28, 36, 24);
-    const ty = 28 + ((t * 18) % 22);
-    rect(ctx, EGA.brown, 250, ty, 4, 3);
+    rect(ctx, EGA.brown, 250, 28 + ((t * 18) % 22), 4, 3);
     rect(ctx, EGA.brown, 264, 28 + ((t * 18 + 11) % 22), 4, 3);
     text(ctx, 'WKRP', 246, 46, EGA.black, 5);
-    // vat and waitress behind the counter
-    rect(ctx, EGA.lgray, 30, 102, 30, 24);
-    ellipse(ctx, EGA.brown, 45, 102, 15, 3);
-    if (Math.floor(t * 2) % 2) rect(ctx, EGA.white, 42, 92, 2, 6);
+    // steam off the chili vat
+    if (Math.floor(t * 2) % 2) rect(ctx, EGA.white, 44, 90, 2, 6);
     person(ctx, 90, 138, WAITRESS);
-    // counter and stools
-    rect(ctx, NAVY, 0, 122, 320, 24);
-    for (let x = 0; x < 320; x += 5) rect(ctx, '#222277', x, 125, 1, 21);
-    rect(ctx, EGA.white, 0, 122, 320, 3);
-    for (let x = 30; x < 300; x += 34) { rect(ctx, EGA.dgray, x + 4, 146, 2, 10); ellipse(ctx, EGA.red, x + 5, 146, 6, 2); }
-    // floor
-    stripes(ctx, EGA.lgray, EGA.white, 0, 150, 320, 50, 6);
+    backdrop(ctx, 'ch3-skyline-fg');
     person(ctx, 170, 160, MORANIS, 'up');
-    // door
-    rect(ctx, EGA.brown, 300, 60, 20, 90);
-    text(ctx, 'VINE', 302, 64, EGA.white, 5);
   },
   handle(g, cmd) {
     if (cmd.is('buy') || cmd.is(['eat', 'get'], 'chili', 'way', '3 way', '4 way', '5 way', '6 way', 'six way')) {
@@ -245,35 +205,13 @@ const park: Room = {
     { id: 'tracks', rect: { x: 0, y: 188, w: 320, h: 12 }, enter: (g) => pamSave(g, 'You step onto the streetcar tracks to admire Music Hall.\n\nA bell clangs. A blonde in a red lifeguard jacket vaults a park bench, tackles you onto the grass and rolls you clear as the streetcar glides past at a gentle eleven miles an hour.\n\n"It goes ELEVEN miles an hour, Larry." It\'s Pamela Anderson. She\'s in Cincinnati rescuing a pig named Porkopolis. The pig is wearing a tiny cardigan.\n\n"Love you, mean it, look both ways." She\'s gone before you can propose. (She won\'t be there next time.)', { x: g.s.x, y: 176 }) || g.die('You step onto the streetcar tracks to admire Music Hall.\n\nThe Cincinnati Bell Connector hits you at a gentle eleven miles an hour, which is still more than enough. The driver dings the bell twice, out of respect.', 'END OF THE LINE', true) },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.lcyan, 0, 10, 320, 80);
-    // Music Hall
-    rect(ctx, EGA.red, 100, 30, 120, 60);
-    poly(ctx, EGA.red, [[100, 30], [130, 14], [190, 14], [220, 30]]);
-    rect(ctx, EGA.brown, 156, 20, 8, 70);
-    for (let x = 108; x < 216; x += 14) rect(ctx, EGA.lgray, x, 44, 6, 12);
-    ellipse(ctx, EGA.yellow, 160, 38, 7, 7);
-    // trees
-    for (const tx of [20, 250, 296]) { rect(ctx, EGA.brown, tx + 6, 70, 4, 30); ellipse(ctx, EGA.green, tx + 8, 66, 16, 14); }
-    // lawn
-    dither(ctx, EGA.green, EGA.lgreen, 0, 90, 320, 96);
-    // path and tracks
-    rect(ctx, EGA.lgray, 0, 150, 320, 36);
-    rect(ctx, EGA.dgray, 0, 186, 320, 14);
-    rect(ctx, EGA.lgray, 0, 190, 320, 1);
-    rect(ctx, EGA.lgray, 0, 196, 320, 1);
-    // tent
-    poly(ctx, EGA.white, [[26, 126], [66, 96], [106, 126]]);
-    rect(ctx, EGA.lgreen, 30, 112, 72, 6);
-    text(ctx, 'VEGAN', 52, 113, EGA.green, 5);
-    person(ctx, 62, 166, ALICIA);
-    // fountain
-    ellipse(ctx, EGA.lgray, 156, 140, 36, 10);
-    ellipse(ctx, EGA.lblue, 156, 140, 32, 8);
+    backdrop(ctx, 'ch3-park');
     for (let i = 0; i < 6; i++) {
       const h = 10 + Math.abs(Math.sin(t * 3 + i)) * 12;
-      rect(ctx, EGA.lcyan, 132 + i * 10, 138 - h, 2, h);
+      rect(ctx, EGA.lcyan, 132 + i * 10, 136 - h, 2, h);
     }
-    if (!g.has('football') && !has(g, 'juke')) ellipse(ctx, EGA.brown, 155, 134 + Math.sin(t * 2), 5, 3);
+    if (!g.has('football') && !has(g, 'juke')) ellipse(ctx, EGA.brown, 155, 132 + Math.sin(t * 2), 5, 3);
+    person(ctx, 62, 166, ALICIA);
     // Barry and the kids
     person(ctx, 232, 166, BARRY, 'left', Math.floor(t) % 2);
     person(ctx, 276, 168, { hair: EGA.black, top: EGA.lred, pants: EGA.blue }, 'left');
@@ -363,44 +301,14 @@ const zone: Room = {
     { id: 'toCheckpoint', rect: { x: 308, y: 150, w: 12, h: 50 }, enter: (g) => g.goto('checkpoint', 20, 172) },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.lcyan, 0, 10, 320, 90);
-    // brick row houses of Over-the-Rhine
-    for (let i = 0; i < 6; i++) {
-      const x = i * 54;
-      rect(ctx, i % 2 ? EGA.red : EGA.brown, x, 40, 52, 70);
-      for (let w = 0; w < 3; w++) rect(ctx, EGA.white, x + 6 + w * 16, 52, 8, 12);
-    }
-    // banner
-    rect(ctx, EGA.white, 20, 16, 280, 22);
-    text(ctx, 'WHAT DO WE WANT? VIBES!', 160, 18, EGA.magenta, 7, 'center');
-    text(ctx, 'WHEN DO WE WANT THEM? EVENTUALLY!', 160, 28, EGA.blue, 6, 'center');
-    rect(ctx, EGA.dgray, 18, 16, 2, 94);
-    rect(ctx, EGA.dgray, 300, 16, 2, 94);
-    // ground
-    dither(ctx, EGA.green, EGA.brown, 0, 110, 320, 40);
-    stripes(ctx, EGA.lgray, EGA.dgray, 0, 150, 320, 50, 10);
-    // tents
-    for (const [tx, c] of [[30, EGA.lmagenta], [80, EGA.yellow]] as [number, string][]) poly(ctx, c, [[tx, 128], [tx + 18, 104], [tx + 36, 128]]);
+    backdrop(ctx, 'ch3-zone');
     // drum circle
     for (let i = 0; i < 4; i++) {
       const bob = Math.floor(t * 4 + i) % 2;
       rect(ctx, EGA.brown, 32 + i * 20, 146 - bob, 8, 10);
       ellipse(ctx, EGA.white, 36 + i * 20, 146 - bob, 4, 1);
     }
-    // cardboard
     if (!g.has('cardboard')) { rect(ctx, EGA.brown, 112, 162, 22, 8); rect(ctx, '#CC9966', 114, 160, 18, 4); }
-    // G-Wagon
-    rect(ctx, EGA.white, 205, 112, 82, 40);
-    rect(ctx, EGA.lcyan, 212, 118, 26, 14);
-    rect(ctx, EGA.black, 246, 120, 16, 16);
-    rect(ctx, EGA.white, 249, 123, 4, 4);
-    rect(ctx, EGA.white, 255, 129, 4, 4);
-    rect(ctx, EGA.dgray, 212, 150, 14, 8);
-    rect(ctx, EGA.dgray, 266, 150, 14, 8);
-    text(ctx, 'COEXIST', 268, 140, EGA.blue, 5);
-    // hoodie rack
-    rect(ctx, EGA.dgray, 290, 118, 24, 2);
-    for (let i = 0; i < 3; i++) rect(ctx, EGA.black, 292 + i * 7, 121, 6, 26);
     person(ctx, 190, 166, BRAYDEN, 'left');
     person(ctx, 150, 168, WILLOW, has(g, 'willowWoke') ? 'right' : 'down', has(g, 'willowWoke') ? 0 : Math.floor(t) % 2);
     if (!has(g, 'willowWoke')) rect(ctx, EGA.yellow, 157, 150, 6, 8);
@@ -548,15 +456,7 @@ const checkpoint: Room = {
     },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.lcyan, 0, 10, 320, 100);
-    for (let i = 0; i < 6; i++) {
-      const x = i * 54;
-      rect(ctx, i % 2 ? EGA.brown : EGA.red, x, 30, 52, 80);
-      for (let w = 0; w < 3; w++) for (let r = 0; r < 2; r++) rect(ctx, EGA.white, x + 6 + w * 16, 40 + r * 22, 8, 12);
-    }
-    rect(ctx, EGA.dgray, 0, 110, 320, 40);
-    stripes(ctx, EGA.lgray, EGA.dgray, 0, 150, 320, 50, 10);
-    text(ctx, 'VINE ST', 280, 116, EGA.lgreen, 6);
+    backdrop(ctx, 'ch3-checkpoint');
     if (has(g, 'farkusGone')) {
       poly(ctx, EGA.brown, [[230, 152], [246, 140], [262, 152]]);
       ellipse(ctx, EGA.lblue, 266, 178, 14, 4);

@@ -2,7 +2,8 @@
 // Snoop's backyard rap battle, a Lakers kiss-cam, and #LarryToo, which Larry
 // beats with receipts and a Drew Barrymore hug.
 
-import { EGA, SKIN_DARK, dither, ellipse, person, poly, rect, stripes, text } from '../engine/gfx';
+import { EGA, SKIN_DARK, ellipse, person, rect, text } from '../engine/gfx';
+import { backdrop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import type { Command } from '../engine/parser';
@@ -175,37 +176,11 @@ const street: Room = {
     { id: 'traffic', rect: { x: 0, y: 188, w: 320, h: 12 }, enter: (g) => pamSave(g, 'You step into Ocean Boulevard without looking. A lowrider hits its hydraulics and bounces straight at you.\n\nA blonde in a red lifeguard jacket dives off a bus bench and rolls you onto the sidewalk. The lowrider bounces past, the driver salutes.\n\n"Long Beach, Larry. LONG BEACH. You look BOTH ways here." It\'s Pamela Anderson. She\'s in town to free some sea lions from a seafood restaurant\'s tank. The sea lions are already in her car.\n\nShe tousles your hair and leaves before you can propose. (She won\'t be there next time.)', { x: g.s.x, y: 174 }) || g.die('You step into Ocean Boulevard without looking. A lowrider hits its hydraulics, bounces fourteen feet in the air and lands on you, gently, with tremendous style.\n\nThe driver feels terrible. He makes you an honorary member of the car club. Posthumously.', 'LOW AND SLOW', true) },
   ],
   draw(ctx, g, t) {
-    // sunset sky
-    stripes(ctx, EGA.lmagenta, EGA.yellow, 0, 10, 320, 40, 8);
-    rect(ctx, EGA.lred, 0, 50, 320, 30);
-    ellipse(ctx, EGA.yellow, 220, 74, 20, 8);
-    rect(ctx, EGA.blue, 0, 80, 320, 20);
-    // palm trees
-    for (const px of [60, 150, 270]) {
-      rect(ctx, EGA.brown, px, 30, 4, 90);
-      for (let a = 0; a < 5; a++) poly(ctx, EGA.green, [[px + 2, 30], [px - 18 + a * 10, 38 + (a % 2) * 6], [px - 12 + a * 10, 40 + (a % 2) * 6]]);
-    }
-    // houses, gate, sidewalk
-    rect(ctx, EGA.white, 0, 96, 320, 54);
-    rect(ctx, EGA.brown, 0, 100, 30, 52);
-    for (let y = 104; y < 150; y += 8) rect(ctx, EGA.black, 0, y, 30, 1);
+    backdrop(ctx, 'ch4-street');
+    // smoke from the backyard
     if (Math.floor(t * 4) % 2) { rect(ctx, EGA.white, 14, 88, 2, 6); rect(ctx, EGA.white, 11, 93, 4, 2); }
-    rect(ctx, EGA.lgray, 0, 150, 320, 36);
-    rect(ctx, EGA.dgray, 0, 186, 320, 14);
     const lx = ((t * 40) % 420) - 80;
     rect(ctx, EGA.lmagenta, lx, 188 + (Math.floor(t * 4) % 2) * -2, 48, 8);
-    // RV
-    rect(ctx, EGA.white, 170, 110, 90, 38);
-    rect(ctx, EGA.brown, 170, 128, 90, 4);
-    rect(ctx, EGA.lcyan, 176, 116, 20, 10);
-    rect(ctx, EGA.black, 236, 116, 10, 24);
-    rect(ctx, EGA.lred, 248, 120, 3, 3);
-    rect(ctx, EGA.dgray, 180, 146, 12, 6);
-    rect(ctx, EGA.dgray, 238, 146, 12, 6);
-    // bus stop
-    rect(ctx, EGA.dgray, 296, 100, 2, 50);
-    rect(ctx, EGA.blue, 288, 100, 20, 10);
-    text(ctx, 'LA', 293, 102, EGA.white, 6);
     person(ctx, 38, 166, COUSIN);
     person(ctx, 120, 168, AFFLECK, has(g, 'wonBattle') ? 'down' : 'left');
     rect(ctx, EGA.white, 128, 150, 4, 6);
@@ -275,35 +250,16 @@ const yard: Room = {
     { id: 'toStreet', rect: { x: 308, y: 150, w: 12, h: 50 }, enter: (g) => g.goto('street', 24, 172) },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.blue, 0, 10, 320, 100);
-    dither(ctx, EGA.blue, EGA.black, 0, 10, 320, 50);
+    backdrop(ctx, 'ch4-yard');
     for (let i = 0; i < 16; i++) {
       const on = (i + Math.floor(t * 2)) % 3;
-      rect(ctx, on ? EGA.yellow : EGA.lred, 10 + i * 19, 40 + Math.sin(i) * 4, 3, 3);
+      rect(ctx, on ? EGA.yellow : EGA.lred, 10 + i * 19, 39 + 10 * ((((i % 4) - 1.5) / 1.5) ** 2), 3, 3);
     }
-    rect(ctx, EGA.dgray, 0, 30, 320, 1);
-    rect(ctx, EGA.brown, 0, 90, 320, 22);
-    for (let x = 0; x < 320; x += 10) rect(ctx, EGA.black, x, 90, 1, 22);
-    dither(ctx, EGA.green, EGA.lgreen, 0, 112, 320, 88);
-    // smoker
-    rect(ctx, EGA.black, 6, 114, 40, 24);
-    rect(ctx, EGA.dgray, 36, 100, 4, 14);
-    if (Math.floor(t * 2) % 2) rect(ctx, EGA.lgray, 34, 92, 6, 6);
-    // Snoop's chair
-    rect(ctx, EGA.yellow, 50, 146, 22, 4);
+    if (Math.floor(t * 2) % 2) rect(ctx, EGA.lgray, 35, 90, 6, 6);
     person(ctx, 60, 166, SNOOP);
-    // DJ booth
     person(ctx, 140, 148, DRE, 'down', Math.floor(t * 2) % 2);
-    rect(ctx, EGA.dgray, 118, 128, 46, 22);
-    rect(ctx, EGA.lgray, 122, 130, 12, 4);
-    rect(ctx, EGA.lgray, 148, 130, 12, 4);
-    text(ctx, 'DRE', 134, 138, EGA.white, 6);
-    // Sandler on a cooler
-    rect(ctx, EGA.lblue, 192, 156, 18, 12);
+    backdrop(ctx, 'ch4-yard-fg');
     person(ctx, 200, 166, SANDLER);
-    // mic stand and opponent
-    rect(ctx, EGA.lgray, 232, 140, 1, 30);
-    rect(ctx, EGA.black, 230, 138, 4, 4);
     person(ctx, 250, 170, FILTR, 'left', has(g, 'round') && !has(g, 'wonBattle') ? Math.floor(t * 4) % 2 : 0);
     if (!has(g, 'wonBattle')) {
       person(ctx, 290, 166, KAYDENCE, 'left');
@@ -405,11 +361,8 @@ const arena: Room = {
     },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.black, 0, 10, 320, 60);
-    dither(ctx, EGA.magenta, EGA.black, 0, 10, 320, 60);
+    backdrop(ctx, 'ch4-arena');
     // jumbotron
-    rect(ctx, EGA.dgray, 100, 14, 120, 50);
-    rect(ctx, EGA.black, 104, 18, 112, 34);
     if (has(g, 'kissCam')) {
       ellipse(ctx, EGA.red, 160, 32, 10, 8);
       text(ctx, 'TURRIBLE!', 160, 42, EGA.yellow, 6, 'center');
@@ -424,18 +377,8 @@ const arena: Room = {
     ctx.beginPath(); ctx.rect(104, 54, 112, 8); ctx.clip();
     text(ctx, tick + tick, 104 - off, 55, EGA.yellow, 5);
     ctx.restore();
-    // court
-    rect(ctx, '#CC8844', 0, 70, 320, 60);
-    rect(ctx, EGA.white, 0, 100, 320, 1);
-    ellipse(ctx, EGA.magenta, 160, 100, 24, 8);
-    ellipse(ctx, '#CC8844', 160, 100, 21, 6);
-    text(ctx, 'LAKERS', 160, 113, EGA.magenta, 9, 'center');
     const bx = 60 + Math.sin(t) * 120;
     ellipse(ctx, EGA.brown, 160 + bx * 0.5, 84 - Math.abs(Math.sin(t * 4)) * 10, 3, 3);
-    // courtside floor and seats
-    rect(ctx, EGA.magenta, 0, 130, 320, 22);
-    for (let x = 6; x < 320; x += 30) rect(ctx, EGA.yellow, x, 140, 20, 10);
-    stripes(ctx, EGA.dgray, EGA.black, 0, 152, 320, 48, 6);
     person(ctx, 110, 168, BARKLEY, 'down', Math.floor(t * 3) % 2);
     person(ctx, 170, 168, JORDAN, 'left');
     person(ctx, 240, 168, MORANIS);
@@ -520,20 +463,11 @@ const studio: Room = {
     { id: 'toArena', rect: { x: 0, y: 152, w: 8, h: 47 }, enter: (g) => g.goto('arena', 292, 174) },
   ],
   draw(ctx, g, t) {
-    rect(ctx, EGA.lmagenta, 0, 10, 320, 110);
-    dither(ctx, EGA.lmagenta, EGA.white, 0, 10, 320, 70);
-    rect(ctx, EGA.dgray, 100, 16, 120, 60);
+    backdrop(ctx, 'ch4-studio');
     rect(ctx, has(g, 'cleared') ? EGA.lgreen : EGA.lcyan, 104, 20, 112, 52);
     text(ctx, has(g, 'cleared') ? '#LARRYTOOHONEST' : '#LARRYTOO', 160, 40, EGA.black, 9, 'center');
     // audience silhouettes
-    for (let i = 0; i < 20; i++) ellipse(ctx, EGA.dgray, 8 + i * 16, 112 - (Math.floor(t * 3 + i) % 2), 6, 6);
-    rect(ctx, EGA.dgray, 0, 112, 320, 10);
-    stripes(ctx, EGA.yellow, EGA.brown, 0, 122, 320, 30, 6);
-    // couch and pillows
-    rect(ctx, EGA.cyan, 96, 136, 70, 18);
-    for (let i = 0; i < 5; i++) rect(ctx, [EGA.yellow, EGA.lred, EGA.lgreen, EGA.white, EGA.lmagenta][i], 100 + i * 13, 132, 10, 8);
-    rect(ctx, EGA.blue, 192, 146, 26, 8);
-    stripes(ctx, EGA.brown, EGA.yellow, 0, 152, 320, 48, 8);
+    for (let i = 0; i < 20; i++) ellipse(ctx, '#3A2A3A', 8 + i * 16, 104 - (Math.floor(t * 3 + i) % 2), 6, 6);
     person(ctx, 140, 166, DREW, 'down', has(g, 'cleared') ? Math.floor(t * 4) % 2 : 0);
     if (!has(g, 'affleckExposed')) person(ctx, 210, 166, AFFLECK, 'left');
     else rect(ctx, EGA.white, 204, 140, 4, 6);
