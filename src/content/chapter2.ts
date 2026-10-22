@@ -3,22 +3,22 @@
 // that will keep saving his bacon for the rest of the game.
 
 import { EGA, SKIN_DARK, ellipse, person, rect } from '../engine/gfx';
-import { backdrop } from '../engine/art';
+import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
 
 const BILL = 41200;
 
-const ROGER = { hair: EGA.yellow, top: EGA.lgray, pants: EGA.lgray, accent: EGA.blue };
-const ATTENDANT = { hair: EGA.black, top: EGA.blue, pants: EGA.blue, accent: EGA.lred, longHair: true, dress: true };
-const KRIS = { hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.yellow, glasses: true };
-const KIM = { hair: EGA.black, top: '#CCAA88', pants: '#CCAA88', longHair: true, dress: true };
-const KHLOE = { hair: EGA.yellow, top: EGA.black, pants: EGA.black, longHair: true };
-const CAITLYN = { hair: EGA.brown, top: EGA.lgray, pants: EGA.blue, longHair: true };
-const PAPARAZZO = { hair: EGA.dgray, top: EGA.brown, pants: EGA.dgray, accent: EGA.black, bald: true };
-const ASHLEIGH = { hair: EGA.brown, top: EGA.lmagenta, pants: EGA.blue, longHair: true, glasses: true };
-const WAITER = { hair: EGA.black, skin: SKIN_DARK, top: EGA.white, pants: EGA.black, accent: EGA.red };
+const ROGER = { sprite: 'roger', hair: EGA.yellow, top: EGA.lgray, pants: EGA.lgray, accent: EGA.blue };
+const ATTENDANT = { sprite: 'attendant', hair: EGA.black, top: EGA.blue, pants: EGA.blue, accent: EGA.lred, longHair: true, dress: true };
+const KRIS = { sprite: 'kris', hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.yellow, glasses: true };
+const KIM = { sprite: 'kim', hair: EGA.black, top: '#CCAA88', pants: '#CCAA88', longHair: true, dress: true };
+const KHLOE = { sprite: 'khloe', hair: EGA.yellow, top: EGA.black, pants: EGA.black, longHair: true };
+const CAITLYN = { sprite: 'caitlyn', hair: EGA.brown, top: EGA.lgray, pants: EGA.blue, longHair: true };
+const PAPARAZZO = { sprite: 'paparazzo', hair: EGA.dgray, top: EGA.brown, pants: EGA.dgray, accent: EGA.black, bald: true };
+const ASHLEIGH = { sprite: 'ashleigh', hair: EGA.brown, top: EGA.lmagenta, pants: EGA.blue, longHair: true, glasses: true };
+const WAITER = { sprite: 'waiter', hair: EGA.black, skin: SKIN_DARK, top: EGA.white, pants: EGA.black, accent: EGA.red };
 
 const has = (g: Game, f: string) => !!g.flag(f);
 
@@ -178,11 +178,11 @@ const curb: Room = {
   ],
   draw(ctx, g, t) {
     backdrop(ctx, 'ch2-curb');
-    const cars = [EGA.white, EGA.lgray, EGA.dgray, EGA.white];
-    for (let i = 0; i < 4; i++) {
-      const cx = ((t * 20 + i * 90) % 400) - 60;
-      rect(ctx, cars[i], cx, 190, 36, 8);
-      rect(ctx, EGA.lcyan, cx + 10, 188, 14, 3);
+    // rideshare traffic crawling past the curb
+    const cars = ['car-prius', 'car-taxi', 'car-shuttle', 'car-red', 'car-suv'];
+    for (let i = 0; i < cars.length; i++) {
+      const cx = ((t * 20 + i * 96) % 480) - 80;
+      prop(ctx, cars[i], cx, 201);
     }
     // the family
     person(ctx, 93, 164, KRIS);
@@ -193,7 +193,7 @@ const curb: Room = {
     person(ctx, 241, 168, PAPARAZZO, 'left');
     rect(ctx, EGA.black, 228, 142, 8, 6);
     if (has(g, 'viral') && Math.floor(t * 3) % 4 === 0) rect(ctx, EGA.white, 224, 140, 6, 6);
-    person(ctx, 304, 168, { hair: EGA.black, top: EGA.black, pants: EGA.black, accent: EGA.white, bald: true });
+    person(ctx, 304, 168, { sprite: 'security', hair: EGA.black, top: EGA.black, pants: EGA.black, accent: EGA.white, bald: true });
   },
   handle(g, cmd) {
     if (cmd.is(['talk', 'ask', 'pose'], 'paparazzo', 'photographer', 'pap', 'camera') || cmd.is('pose') || cmd.is(['show'], 'suit', 'outfit')) {

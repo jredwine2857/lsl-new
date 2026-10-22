@@ -10,14 +10,14 @@ import { pamSave } from './pam';
 
 const CONEY = 225;
 
-const WAITRESS = { hair: EGA.red, top: EGA.lblue, pants: EGA.blue, accent: EGA.yellow, longHair: true, dress: true };
-const MORANIS = { hair: EGA.dgray, top: EGA.lgray, pants: EGA.brown, accent: EGA.white, glasses: true };
-const BARRY = { hair: EGA.black, skin: SKIN_DARK, top: EGA.lblue, pants: EGA.white, accent: EGA.white };
-const ALICIA = { hair: EGA.yellow, top: EGA.yellow, pants: EGA.lgray, accent: EGA.white, longHair: true, dress: true };
-const WILLOW = { hair: EGA.lmagenta, top: EGA.green, pants: EGA.blue, accent: EGA.yellow, longHair: true };
-const BRAYDEN = { hair: EGA.yellow, top: EGA.black, pants: EGA.lgray, accent: EGA.lred, glasses: true };
-const FARKUS = { hair: EGA.red, top: EGA.brown, pants: EGA.dgray, accent: EGA.yellow };
-const GROVER = { hair: EGA.brown, top: EGA.green, pants: EGA.dgray, accent: EGA.lgreen };
+const WAITRESS = { sprite: 'dottie', hair: EGA.red, top: EGA.lblue, pants: EGA.blue, accent: EGA.yellow, longHair: true, dress: true };
+const MORANIS = { sprite: 'moranis', hair: EGA.dgray, top: EGA.lgray, pants: EGA.brown, accent: EGA.white, glasses: true };
+const BARRY = { sprite: 'barry', hair: EGA.black, skin: SKIN_DARK, top: EGA.lblue, pants: EGA.white, accent: EGA.white };
+const ALICIA = { sprite: 'alicia', hair: EGA.yellow, top: EGA.yellow, pants: EGA.lgray, accent: EGA.white, longHair: true, dress: true };
+const WILLOW = { sprite: 'willow', hair: EGA.lmagenta, top: EGA.green, pants: EGA.blue, accent: EGA.yellow, longHair: true };
+const BRAYDEN = { sprite: 'brayden', hair: EGA.yellow, top: EGA.black, pants: EGA.lgray, accent: EGA.lred, glasses: true };
+const FARKUS = { sprite: 'farkus', hair: EGA.red, top: EGA.brown, pants: EGA.dgray, accent: EGA.yellow };
+const GROVER = { sprite: 'grover', hair: EGA.brown, top: EGA.green, pants: EGA.dgray, accent: EGA.lgreen };
 
 const has = (g: Game, f: string) => !!g.flag(f);
 
@@ -215,7 +215,7 @@ const park: Room = {
     person(ctx, 62, 166, ALICIA);
     // Barry and the kids
     person(ctx, 232, 166, BARRY, 'left', Math.floor(t) % 2);
-    person(ctx, 276, 168, { hair: EGA.black, top: EGA.lred, pants: EGA.blue }, 'left');
+    person(ctx, 276, 168, { sprite: 'kid', hair: EGA.black, top: EGA.lred, pants: EGA.blue }, 'left');
     const sx = ((t * 30) % 520) - 140;
     rect(ctx, EGA.red, sx, 178, 90, 16);
     rect(ctx, EGA.lcyan, sx + 6, 181, 78, 5);
@@ -475,7 +475,6 @@ const checkpoint: Room = {
       } else {
         person(ctx, 262, 170, FARKUS, 'left', Math.floor(t * 2) % 2);
       }
-      if (!has(g, 'farkusDown')) { rect(ctx, EGA.brown, 255, 128, 14, 5); rect(ctx, EGA.brown, 268, 130, 3, 9); }
       person(ctx, 290, 172, GROVER, 'left');
     }
     if (has(g, 'willowWoke')) person(ctx, 30, 168, WILLOW, 'right');

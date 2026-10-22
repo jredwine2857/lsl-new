@@ -39,7 +39,7 @@ for tx, c in ((30, '#FF60E0'), (80, '#F8E040')):
     r.poly([(tx, 128), (tx + 18, 104), (tx + 36, 128)], r.floor_d(130), mat(c, rough=0.8), thick=24, name='tent')
 
 # G-Wagon with a QR code and a COEXIST sticker
-r.car(205, 82, 112, 158, '#F4F4F4', cabin=(0.04, 0.9), deep=36, name='gwagon')
+r.car(205, 82, 112, 158, '#F4F4F4', kind='gwagon', name='gwagon')
 r.panel(246, 120, 16, 16, r.floor_d(158) - 0.08, mat('#0A0A0A'), thick=0.5)
 for (qx, qy) in [(249, 123), (255, 129), (249, 129), (255, 123)]:
     r.panel(qx, qy, 4, 4, r.floor_d(158) - 0.1, mat('#FFFFFF'), thick=0.3)

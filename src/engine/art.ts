@@ -12,6 +12,7 @@ import type { Facing } from './types';
 const urls = {
   ...import.meta.glob('../art/rooms/*.png', { eager: true, query: '?url', import: 'default' }),
   ...import.meta.glob('../art/chars/*.png', { eager: true, query: '?url', import: 'default' }),
+  ...import.meta.glob('../art/props/*.png', { eager: true, query: '?url', import: 'default' }),
 } as Record<string, string>;
 
 const images = new Map<string, HTMLImageElement>();
@@ -59,4 +60,21 @@ export function charSprite(ctx: CanvasRenderingContext2D, name: string, x: numbe
     ctx.drawImage(img, sx, sy, CELL_W, CELL_H, left, top, CELL_W, CELL_H);
   }
   return true;
+}
+
+/** Draw a prop sprite (src/art/props) with its bottom-left at (x, bottom); flip mirrors it. */
+export function prop(ctx: CanvasRenderingContext2D, name: string, x: number, bottom: number, flip = false): number {
+  const img = images.get(name);
+  if (!img?.complete || !img.naturalWidth) return 0;
+  const top = Math.round(bottom - img.naturalHeight);
+  if (flip) {
+    ctx.save();
+    ctx.translate(Math.round(x) + img.naturalWidth, top);
+    ctx.scale(-1, 1);
+    ctx.drawImage(img, 0, 0);
+    ctx.restore();
+  } else {
+    ctx.drawImage(img, Math.round(x), top);
+  }
+  return img.naturalWidth;
 }

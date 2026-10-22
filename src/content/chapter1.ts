@@ -4,7 +4,7 @@
 // Goal: get a phone, get an idea, get out of Lost Wages.
 
 import { EGA, SKIN_DARK, dither, person, rect, text } from '../engine/gfx';
-import { backdrop } from '../engine/art';
+import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
@@ -15,13 +15,13 @@ const PHONE_PRICE = 99900;
 const SQ_PRICE = 99;
 
 // Shared look-ups for NPCs, so the same character looks the same everywhere.
-const BARTENDER = { hair: EGA.lgreen, top: EGA.black, pants: EGA.dgray, accent: EGA.lmagenta, longHair: true };
-const BONDS = { hair: EGA.dgray, top: EGA.blue, pants: EGA.blue, accent: EGA.yellow, glasses: true };
-const CANVASSER = { hair: EGA.brown, top: EGA.lgreen, pants: EGA.blue, accent: EGA.white, longHair: true };
-const KEN = { hair: EGA.lgray, top: EGA.lred, pants: EGA.brown, bald: true, glasses: true };
-const ROBERTA = { hair: EGA.lgray, top: EGA.lblue, pants: EGA.blue, longHair: true, dress: true };
-const GUS = { hair: EGA.lgray, top: EGA.red, pants: EGA.black, accent: EGA.white, bald: true };
-const GENIUS = { hair: EGA.black, skin: SKIN_DARK, top: EGA.lblue, pants: EGA.dgray, accent: EGA.white };
+const BARTENDER = { sprite: 'sage', hair: EGA.lgreen, top: EGA.black, pants: EGA.dgray, accent: EGA.lmagenta, longHair: true };
+const BONDS = { sprite: 'bonds', hair: EGA.dgray, top: EGA.blue, pants: EGA.blue, accent: EGA.yellow, glasses: true };
+const CANVASSER = { sprite: 'canvasser', hair: EGA.brown, top: EGA.lgreen, pants: EGA.blue, accent: EGA.white, longHair: true };
+const KEN = { sprite: 'ken', hair: EGA.lgray, top: EGA.lred, pants: EGA.brown, bald: true, glasses: true };
+const ROBERTA = { sprite: 'roberta', hair: EGA.lgray, top: EGA.lblue, pants: EGA.blue, longHair: true, dress: true };
+const GUS = { sprite: 'gus', hair: EGA.lgray, top: EGA.red, pants: EGA.black, accent: EGA.white, bald: true };
+const GENIUS = { sprite: 'deshawn', hair: EGA.black, skin: SKIN_DARK, top: EGA.lblue, pants: EGA.dgray, accent: EGA.white };
 
 const wearingPin = (g: Game) => !!g.flag('pinWorn');
 const phoneReady = (g: Game) => g.has('phone') && !!g.flag('phoneOnline');
@@ -216,8 +216,8 @@ const lounge: Room = {
     rect(ctx, EGA.red, 255, 52, 46, 5);
     text(ctx, 'AIDS: OVER', 257, 34, EGA.white, 6);
     // patrons on laptops, the bartender behind the bar
-    person(ctx, 52, 150, { hair: EGA.yellow, top: EGA.lgreen, pants: EGA.blue });
-    person(ctx, 82, 150, { hair: EGA.black, top: EGA.lgray, pants: EGA.dgray, glasses: true, longHair: true });
+    person(ctx, 52, 150, { sprite: 'patron1', hair: EGA.yellow, top: EGA.lgreen, pants: EGA.blue });
+    person(ctx, 82, 150, { sprite: 'patron2', hair: EGA.black, top: EGA.lgray, pants: EGA.dgray, glasses: true, longHair: true });
     person(ctx, 241, 138, BARTENDER);
     backdrop(ctx, 'ch1-lounge-fg');
     if (!g.has('pin')) {
@@ -314,11 +314,7 @@ const street: Room = {
     for (let x = (t * 30) % 30 - 30; x < 320; x += 30) rect(ctx, EGA.yellow, x, 190, 14, 2);
     // a robotaxi cruising by
     const cx = ((t * 70) % 520) - 100;
-    rect(ctx, EGA.white, cx, 182, 34, 10);
-    rect(ctx, EGA.lcyan, cx + 8, 178, 18, 6);
-    rect(ctx, EGA.black, cx + 4, 190, 6, 4);
-    rect(ctx, EGA.black, cx + 24, 190, 6, 4);
-    rect(ctx, EGA.lgray, cx + 14, 175, 6, 3);
+    prop(ctx, 'car-robotaxi', cx, 197);
     // the PC Police cruiser's rainbow light bar
     const lights = [EGA.lred, EGA.yellow, EGA.lgreen, EGA.lblue, EGA.lmagenta];
     for (let i = 0; i < 5; i++) rect(ctx, lights[(i + Math.floor(t * 6)) % 5], 222 + i * 5, 161, 4, 3);

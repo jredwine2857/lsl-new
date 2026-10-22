@@ -424,26 +424,24 @@ class Room:
             o.location = crown + Vector((math.cos(a) * h * 0.18, math.sin(a) * h * 0.18, -0.04 * h))
             self._obj(f'frond{i}', frond, fg)
 
-    def car(self, x, w, top, front, body, glass='#9AD8F0', cabin=None, deep=None, name='car', fg=False):
-        """A side-on car whose wheels touch the floor at row `front`, spanning
-        x..x+w and with its roof at row `top`. Cabin is the upper 45%."""
-        h = front - top
-        deep = deep or w * 0.4
-        bm = mat(body, rough=0.25, metal=0.4) if isinstance(body, str) else body
-        r = h * 0.16
-        self.block(x, w, top + h * 0.42, front, deep, bm, name, fg, lift=r * 0.9)
-        cx0 = x + w * (cabin[0] if cabin else 0.22)
-        cw = w * (cabin[1] if cabin else 0.52)
-        self.block(cx0, cw, top, front, deep * 0.9, bm, name + '_cab', fg, lift=h * 0.5)
-        self.block(cx0 + 2, cw - 4, top + 2, front + 0.3, deep * 0.92, mat(glass, rough=0.05, metal=0.5), name + '_glass', fg, lift=h * 0.55)
+    def car(self, x, w, top, front, body, glass='#2A3848', kind='sedan', facing='right', deep=None, name='car',
+            fg=False, trim=None, **_):
+        """A side-on car (see vehicle.py) whose tyres touch the floor at row
+        `front`, spanning x..x+w with its roof at row `top`."""
+        from vehicle import build
         d = self.floor_d(front)
         m = self.m(d)
-        tyre = mat('#141414', rough=0.8)
-        for wx in (x + w * 0.18, x + w * 0.82):
-            c = self.P(wx, front, d)
-            c.z = r * m
-            c.y -= 0.05
-            self.cyl(c, r * m, 0.3, tyre, name + '_wheel', fg, rot=(math.radians(90), 0, 0), verts=24)
+        root, size = build(kind, body, glass=glass, name=name, trim=trim)
+        sx = w * m / size['length']
+        sz = (front - top) * m / size['height']
+        sy = (deep * m / size['depth']) if deep else sx
+        flip = facing == 'left'
+        root.scale = (-sx if flip else sx, sy, sz)
+        c = self.P(x + w if flip else x, front, d)
+        root.location = (c.x, c.y, 0)
+        if fg:
+            self.fg.extend(o for o in root.children)
+        return root
 
     def theme_building(self, cx, base, top, span, d, mt=None, saucer=None):
         """LAX's Theme Building: two crossed parabolic arches under a flying

@@ -2,6 +2,7 @@
 // character-map sprites. Real art (pixel sprites / Blender renders) replaces
 // the room draw functions later; everything else stays the same.
 
+import { charSprite } from './art';
 import type { Facing } from './types';
 
 export const EGA = {
@@ -164,6 +165,8 @@ export interface Look {
   bald?: boolean;
   glasses?: boolean;
   pin?: boolean;
+  /** Blender sprite sheet in src/art/chars; the blocky sprite is the fallback. */
+  sprite?: string;
 }
 
 export const PERSON_W = 12 * PX;
@@ -171,6 +174,8 @@ export const PERSON_H = 22 * PX;
 
 /** Draw a person with feet centered at (x, y). */
 export function person(ctx: Ctx, x: number, y: number, look: Look, facing: Facing = 'down', step = 0) {
+  // NPCs toggle step 0/1 to fidget, which would make a sprite march in place, so they stand.
+  if (look.sprite && charSprite(ctx, look.sprite, x, y, facing)) return;
   const head = facing === 'up' ? BACK_HEAD : facing === 'left' || facing === 'right' ? SIDE_HEAD : BODY.slice(0, 6);
   const legs = look.dress ? DRESS_LEGS : step % 2 ? LEGS_STRIDE : LEGS_STILL;
   const art = [...head, ...BODY.slice(6), ...legs];

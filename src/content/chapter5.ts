@@ -10,14 +10,14 @@ import { pamSave } from './pam';
 
 const LUBBER_PRICE = 500000000;
 
-const STEVE = { hair: EGA.white, top: EGA.white, pants: EGA.white, accent: EGA.black };
-const CURATOR = { hair: EGA.dgray, top: EGA.black, pants: EGA.black, accent: EGA.lred, glasses: true, longHair: true, dress: true };
-const MORANIS = { hair: EGA.dgray, top: EGA.lcyan, pants: EGA.brown, accent: EGA.white, glasses: true };
-const GATES = { hair: EGA.brown, top: EGA.lblue, pants: EGA.dgray, accent: EGA.white, glasses: true };
-const ELON = { hair: EGA.brown, top: EGA.black, pants: EGA.black, accent: EGA.dgray };
-const JEFFREY = { hair: EGA.lgray, top: EGA.blue, pants: EGA.white, accent: EGA.yellow };
-const HEFNER = { hair: EGA.lgray, top: EGA.red, pants: EGA.black, accent: EGA.black };
-const GUARD = { hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.blue, bald: true };
+const STEVE = { sprite: 'steve', hair: EGA.white, top: EGA.white, pants: EGA.white, accent: EGA.black };
+const CURATOR = { sprite: 'curator', hair: EGA.dgray, top: EGA.black, pants: EGA.black, accent: EGA.lred, glasses: true, longHair: true, dress: true };
+const MORANIS = { sprite: 'moranis-basel', hair: EGA.dgray, top: EGA.lcyan, pants: EGA.brown, accent: EGA.white, glasses: true };
+const GATES = { sprite: 'gates', hair: EGA.brown, top: EGA.lblue, pants: EGA.dgray, accent: EGA.white, glasses: true };
+const ELON = { sprite: 'elon', hair: EGA.brown, top: EGA.black, pants: EGA.black, accent: EGA.dgray };
+const JEFFREY = { sprite: 'jeffrey', hair: EGA.lgray, top: EGA.blue, pants: EGA.white, accent: EGA.yellow };
+const HEFNER = { sprite: 'hefner', hair: EGA.lgray, top: EGA.red, pants: EGA.black, accent: EGA.black };
+const GUARD = { sprite: 'guard', hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.blue, bald: true };
 
 const has = (g: Game, f: string) => !!g.flag(f);
 

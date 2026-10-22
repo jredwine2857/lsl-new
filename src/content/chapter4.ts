@@ -11,17 +11,17 @@ import { pamSave } from './pam';
 
 const SEED = 1000000;
 
-const AFFLECK = { hair: EGA.brown, top: EGA.dgray, pants: EGA.blue, accent: EGA.lred };
-const COUSIN = { hair: EGA.black, skin: SKIN_DARK, top: EGA.blue, pants: EGA.blue, accent: EGA.white, bald: true };
-const SNOOP = { hair: EGA.black, skin: SKIN_DARK, top: EGA.lblue, pants: EGA.lblue, accent: EGA.yellow, longHair: true };
-const DRE = { hair: EGA.black, skin: SKIN_DARK, top: EGA.black, pants: EGA.black, accent: EGA.white, bald: true, glasses: true };
-const SANDLER = { hair: EGA.dgray, top: EGA.lred, pants: EGA.blue, accent: EGA.white };
-const FILTR = { hair: EGA.yellow, top: EGA.lmagenta, pants: EGA.black, accent: EGA.lcyan, glasses: true };
-const KAYDENCE = { hair: EGA.yellow, top: EGA.white, pants: EGA.lmagenta, longHair: true };
-const BARKLEY = { hair: EGA.black, skin: SKIN_DARK, top: EGA.dgray, pants: EGA.dgray, accent: EGA.white, bald: true };
-const JORDAN = { hair: EGA.black, skin: SKIN_DARK, top: EGA.black, pants: EGA.black, accent: EGA.red, bald: true };
-const MORANIS = { hair: EGA.dgray, top: EGA.lmagenta, pants: EGA.yellow, accent: EGA.white, glasses: true };
-const DREW = { hair: EGA.yellow, top: EGA.lred, pants: EGA.white, longHair: true, dress: true };
+const AFFLECK = { sprite: 'affleck', hair: EGA.brown, top: EGA.dgray, pants: EGA.blue, accent: EGA.lred };
+const COUSIN = { sprite: 'cousin', hair: EGA.black, skin: SKIN_DARK, top: EGA.blue, pants: EGA.blue, accent: EGA.white, bald: true };
+const SNOOP = { sprite: 'snoop', hair: EGA.black, skin: SKIN_DARK, top: EGA.lblue, pants: EGA.lblue, accent: EGA.yellow, longHair: true };
+const DRE = { sprite: 'dre', hair: EGA.black, skin: SKIN_DARK, top: EGA.black, pants: EGA.black, accent: EGA.white, bald: true, glasses: true };
+const SANDLER = { sprite: 'sandler', hair: EGA.dgray, top: EGA.lred, pants: EGA.blue, accent: EGA.white };
+const FILTR = { sprite: 'filtr', hair: EGA.yellow, top: EGA.lmagenta, pants: EGA.black, accent: EGA.lcyan, glasses: true };
+const KAYDENCE = { sprite: 'kaydence', hair: EGA.yellow, top: EGA.white, pants: EGA.lmagenta, longHair: true };
+const BARKLEY = { sprite: 'barkley', hair: EGA.black, skin: SKIN_DARK, top: EGA.dgray, pants: EGA.dgray, accent: EGA.white, bald: true };
+const JORDAN = { sprite: 'jordan', hair: EGA.black, skin: SKIN_DARK, top: EGA.black, pants: EGA.black, accent: EGA.red, bald: true };
+const MORANIS = { sprite: 'moranis-lakers', hair: EGA.dgray, top: EGA.lmagenta, pants: EGA.yellow, accent: EGA.white, glasses: true };
+const DREW = { sprite: 'drew', hair: EGA.yellow, top: EGA.lred, pants: EGA.white, longHair: true, dress: true };
 
 const has = (g: Game, f: string) => !!g.flag(f);
 
@@ -384,7 +384,7 @@ const arena: Room = {
     person(ctx, 170, 168, JORDAN, 'left');
     person(ctx, 240, 168, MORANIS);
     rect(ctx, EGA.yellow, 248, 136, 4, 12);
-    person(ctx, 280, 168, { hair: EGA.yellow, top: EGA.magenta, pants: EGA.blue, longHair: true });
+    person(ctx, 280, 168, { sprite: 'fan', hair: EGA.yellow, top: EGA.magenta, pants: EGA.blue, longHair: true });
   },
   handle(g, cmd) {
     if (cmd.is('flirt')) {

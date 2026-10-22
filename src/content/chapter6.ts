@@ -8,15 +8,15 @@ import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
 
-const GRACE = { hair: EGA.black, top: EGA.lblue, pants: EGA.blue, accent: EGA.white, longHair: true };
-const WILLOW = { hair: EGA.lmagenta, top: EGA.green, pants: EGA.blue, accent: EGA.yellow, longHair: true };
-const CRUISE = { hair: EGA.brown, top: EGA.white, pants: EGA.white, accent: EGA.lred, glasses: true };
-const DAD = { hair: EGA.dgray, top: EGA.white, pants: EGA.dgray, accent: EGA.blue, glasses: true };
-const MOM = { hair: EGA.black, top: EGA.lmagenta, pants: EGA.dgray, accent: EGA.yellow, dress: true };
-const KRIS = { hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.yellow, glasses: true };
-const SNOOP = { hair: EGA.black, skin: '#AA6633', top: EGA.yellow, pants: EGA.yellow, accent: EGA.black, longHair: true };
-const ASHLEIGH = { hair: EGA.brown, top: EGA.lmagenta, pants: EGA.blue, longHair: true, glasses: true };
-const SPACEY = { hair: EGA.dgray, top: EGA.dgray, pants: EGA.dgray, accent: EGA.red };
+const GRACE = { sprite: 'grace', hair: EGA.black, top: EGA.lblue, pants: EGA.blue, accent: EGA.white, longHair: true };
+const WILLOW = { sprite: 'willow', hair: EGA.lmagenta, top: EGA.green, pants: EGA.blue, accent: EGA.yellow, longHair: true };
+const CRUISE = { sprite: 'cruise', hair: EGA.brown, top: EGA.white, pants: EGA.white, accent: EGA.lred, glasses: true };
+const DAD = { sprite: 'mrcho', hair: EGA.dgray, top: EGA.white, pants: EGA.dgray, accent: EGA.blue, glasses: true };
+const MOM = { sprite: 'mrscho', hair: EGA.black, top: EGA.lmagenta, pants: EGA.dgray, accent: EGA.yellow, dress: true };
+const KRIS = { sprite: 'kris', hair: EGA.black, top: EGA.white, pants: EGA.white, accent: EGA.yellow, glasses: true };
+const SNOOP = { sprite: 'snoop-gold', hair: EGA.black, skin: '#AA6633', top: EGA.yellow, pants: EGA.yellow, accent: EGA.black, longHair: true };
+const ASHLEIGH = { sprite: 'ashleigh', hair: EGA.brown, top: EGA.lmagenta, pants: EGA.blue, longHair: true, glasses: true };
+const SPACEY = { sprite: 'spacey', hair: EGA.dgray, top: EGA.dgray, pants: EGA.dgray, accent: EGA.red };
 
 const has = (g: Game, f: string) => !!g.flag(f);
 

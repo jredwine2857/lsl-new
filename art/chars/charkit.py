@@ -210,7 +210,7 @@ class Char:
         self.top = m
         self.capsule(self.chest, 0.21 * b, 0.19 * b * waist * belly, 0.40 * h * length, m, 'torso',
                      offset=(0, 0, 0.18 * h), sy=0.72)
-        self.box(self.chest, (0, 0, 0.17 * h), (0.5 * b, 0.22 * b, 0.1 * h), m, 'shoulders', bevel=0.045)
+        self.box(self.chest, (0, 0, 0.17 * h), (0.42 * b, 0.22 * b, 0.1 * h), m, 'shoulders', bevel=0.05)
         if belly > 1.05:
             self.ball(self.chest, (0, -0.03 * b, -0.13 * h), (0.19 * b * belly, 0.15 * b * belly, 0.14 * h), m, 'belly')
 
@@ -237,8 +237,8 @@ class Char:
 
     def skirt(self, color, length=0.5, flare=1.6):
         h, b = self.h, self.b
-        self.capsule(self.pelvis, 0.16 * b, 0.16 * b * flare, length * h, mat(color, rough=0.6), 'skirt',
-                     offset=(0, 0, 0.08), sy=0.75)
+        self.capsule(self.pelvis, 0.21 * b, 0.2 * b * flare, length * h, mat(color, rough=0.6), 'skirt',
+                     offset=(0, 0, 0.1), sy=0.8)
 
     def suit_front(self, shirt, lapels=None, chain=None, tie=None):
         """Open collar V, lapels and an optional gold chain or tie on the chest."""
@@ -262,11 +262,12 @@ class Char:
                         mat(tie, rough=0.5), 'tie')
 
     def _wedge(self, parent, pts, m, name):
-        """A flat triangle (x, z, y) on the front of the body, given a little thickness."""
+        """A flat triangle (x, z, y) on the front of the body, facing the front."""
         bm = bmesh.new()
         vs = [bm.verts.new((x, y, z)) for x, z, y in pts]
         f = bm.faces.new(vs)
-        bmesh.ops.solidify(bm, geom=[f], thickness=0.01)
+        if f.normal.y > 0:
+            f.normal_flip()
         me = bpy.data.meshes.new(name)
         bm.to_mesh(me)
         obj = bpy.data.objects.new(name, me)
@@ -279,7 +280,7 @@ class Char:
         r = self.head_r
         c = Vector((0, 0, r * 0.95))
         fm = mat(frame, rough=0.3)
-        lm = mat('#101010' if shades else lens, rough=0.1, metal=0.3 if shades else 0)
+        lm = mat('#101010' if shades and lens == '#88AACC' else lens, rough=0.1, metal=0.3 if shades else 0)
         for sx in (1, -1):
             self.ball(self.headj, c + Vector((sx * r * 0.36, -r * 0.96, r * 0.1)), (r * 0.2, r * 0.03, r * 0.16), lm, 'lens')
         self.box(self.headj, c + Vector((0, -r * 0.98, r * 0.18)), (r * 1.2, r * 0.04, r * 0.05), fm, 'bridge', bevel=0)

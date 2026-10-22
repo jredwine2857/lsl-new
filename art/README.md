@@ -48,4 +48,5 @@ columns (standing, then a 4-frame walk) by 3 rows (facing down, up, right;
 the game mirrors right for left), 32x48 pixels per cell with the feet on row
 46. Sheets go in `src/art/chars/` and are drawn with `charSprite()`.
 
-    python3 art/chars/larry.py art/out/chars && cp art/out/chars/larry.png src/art/chars/
+    python3 art/chars/build.py              # every character (recipes in cast.py)
+    python3 art/chars/build.py larry gates  # just a few
