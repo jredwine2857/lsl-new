@@ -112,6 +112,7 @@ const hangar: Room = {
       if (!has(g, 'talkedGrace')) { g.say('You listen. It whines. You don\'t know what you\'re listening for yet. Maybe ask the engineer.'); return true; }
       g.set('engineFixed');
       g.award('listenEngine');
+      g.sfx('tuned');
       g.say('Grace fires up a test. You close your eyes and listen. Not to fix it. Just to listen.\n\nThirty-four years running a karaoke bar. You have heard "My Way" sung flat by four thousand drunk men. You know flat.\n\n"It\'s flat," you say. "About a quarter-tone. Right at the top. Like a guy who can\'t hit the last note of \'Sweet Caroline.\'"\n\nGrace stares at you. She grabs a laptop, checks the injector frequency, and slowly turns around. "It\'s a quarter-tone flat. At the top. Nobody else could hear that." She adjusts a valve. The whine resolves into a clean, perfect note.\n\nFor the first time, Grace Cho looks at you like you\'re worth listening to.');
       return true;
     }
@@ -231,6 +232,7 @@ const norae: Room = {
       }
       g.set('duet');
       g.award('singDuet');
+      g.sfx('applause');
       g.say('You hand the second mic to Grace. "Islands in the Stream." Her eyes go wide. She looks at her mom. Her mom has a hand over her mouth.\n\nYou take Kenny. Grace takes Dolly. Thirty-four years of karaoke-bar nights pour out of you, and for the first time, you aren\'t performing. You\'re listening to her, matching her, leaving room for her. It\'s the best you have ever sung.\n\nAt the chorus, Mr. Cho stands up, takes your mic, and sings Kenny himself, terribly. Mrs. Cho joins in on Dolly. It turns into a four-part disaster. Grace laughs so hard she has to sit on the floor.\n\nWhen it ends, Mr. Cho hands you back the mic. "Okay," he says. "You listen. Good."');
       return true;
     }
@@ -345,6 +347,7 @@ const control: Room = {
       if (!has(g, 'refusedSpacey')) { g.say('The gray man puts one manicured finger on the cover. "No license, no launch. Unless you sign." He offers you the pen again.'); g.set('heardDeal'); return true; }
       g.set('launched');
       g.award('launch');
+      g.sfx('rocket');
       g.s.cash += 40000000000;
       g.say('Grace looks at you. "Now."\n\nYou flip up the cover and press LAUNCH. The whole building shakes. On the screen, the LaffX Laffer One climbs on a column of fire, singing a perfect A, all the way up.\n\nStage separation. Then, eight minutes later, the booster comes back down, flips, and lands upright on the drone ship. The drone ship is named TRY LISTENING THIS TIME.\n\nMission Control goes insane. Snoop is yelling. Ashleigh is crying into her phone. Kris finally puts down all three phones and hugs you.\n\nYour Pear phone buzzes. FORBES ALERT: "LARRY LAFFER, 68, IS NOW THE RICHEST MAN IN AMERICA." Elon texts: "congrats lol. rematch."\n\nGrace takes off her headset. She\'s looking at you. Now would be a good time to say something.');
       return true;
@@ -490,6 +493,7 @@ export const chapter6: Content = {
   handle(g, cmd) {
     if (cmd.is('call', 'maricel', 'ex', 'philippines')) {
       g.award('callMaricel');
+      g.sfx('phone');
       g.say(cycle(g, 'maricel', [
         'Maricel picks up from the bar in the Philippines. You can hear someone murdering "My Way" in the background.\n\n"Larry! I saw you on the news. Twice. Once good." She laughs. "So. There\'s a girl. I can hear it. Okay, listen to me, because you never do.\n\nAsk her what SHE loves. Then shut up until she\'s done. Then remember it, Larry. Write it on your hand if you have to.\n\nBe respectful to her parents. Bow. You\'re not in Lefty\'s.\n\nAnd when somebody is scared, don\'t fix it, don\'t yell. Just listen. That\'s all anybody wants."',
         '"I already told you everything, Larry. Ask, shut up, remember. Bow. Listen. Go. I love you. Platonically. Go!"',

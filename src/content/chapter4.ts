@@ -82,6 +82,7 @@ function rap(g: Game, cmd: Command) {
   }
   g.set('wonBattle');
   g.award('winBattle');
+  g.sfx('applause');
   g.give('tickets');
   g.s.cash += SEED;
   g.say(`${r.verse}\n\nSilence. Then the backyard ERUPTS. Young Filtr takes off his sunglasses, says "...that was beautiful, man," and hugs you.\n\nSnoop stands up for the first time all night. "Nephew. That was REAL. Nobody raps about listening." He hands you an envelope. "Seed money. ${money(SEED)}. And two courtside seats for the Lakers tomorrow. Call me if you need anything. ANYTHING."\n\nDre nods once. That's worth more than the money.`);
@@ -392,6 +393,7 @@ const arena: Room = {
         if (has(g, 'kissCam')) { g.say('"Once was enough, Larry! Twice is a relationship!"'); return true; }
         g.set('kissCam');
         g.award('kissCam');
+        g.sfx('smooch');
         g.say('The kiss cam swings onto you and Charles Barkley. Twenty thousand people scream.\n\nYou don\'t panic. You lean over and plant one right on top of Chuck\'s gleaming bald head.\n\nThe arena LOSES it. Barkley leaps up, arms in the air. "That was TURRIBLE, Larry! TURRIBLE! Do it AGAIN!"\n\nTwo seats down, Michael Jordan slowly lowers his sunglasses. "...I took that personally."\n\nFor one beautiful minute, nobody is talking about #LarryToo.');
         return true;
       }
@@ -483,6 +485,7 @@ const studio: Room = {
       if (has(g, 'affleckExposed')) { g.say('Drew has already watched it twice. She says the part where you rap about Maricel makes her cry every time.'); return true; }
       g.set('affleckExposed');
       g.award('exposeAffleck');
+      g.sfx('scratch');
       g.say('You hand Drew Snoop\'s party footage. She puts it on the big screen.\n\nThere you are, rapping your heart out about Maricel. And there, in the corner of every single shot, is Ben Affleck, eating a Dunkin\' donut with the saddest face in Hollywood. He is not writing. He is not even holding a pen. At one point he drops the donut and stares at it for eleven seconds.\n\nThe audience howls. Ben stands up, says "I was writing it in my HEAD," picks up his Dunkin\' and walks off the set.');
       finish();
       return true;
@@ -492,6 +495,7 @@ const studio: Room = {
       if (has(g, 'cleared')) { g.say('The audience asks for an encore. Kaydence\'s "HE got HANDSY, okay from the top" is already a ringtone.'); return true; }
       g.set('cleared');
       g.award('clearName');
+      g.sfx('applause');
       g.say('You play Rick\'s doorbell-cam video. Timestamped 11:42 p.m., Snoop\'s gate.\n\nKaydence, in front of her ring light: "He got handsy. No, wait. HE got HANDSY. Okay, from the top, but with tears." In the background, through the gate, you can clearly see yourself twenty feet away, rapping, with both hands on the mic.\n\nThe audience gasps. Then they start chanting: "RE-CEIPTS! RE-CEIPTS!"');
       finish();
       return true;
@@ -574,6 +578,7 @@ export const chapter4: Content = {
       if (g.has('footage')) { g.say('"Already sent it, nephew. Go show the world."'); return true; }
       g.give('footage');
       g.award('getFootage');
+      g.sfx('phone');
       g.say('Snoop picks up on the first ring. "I saw the hashtag. Told you, nephew. I film EVERYTHING." Your phone dings. "That\'s the whole party. Every minute. You twenty feet from that girl the whole time, rapping your heart out. Oh, and peep Ben in the corner."');
       return true;
     }

@@ -33,6 +33,8 @@ export class Game {
   private undoSnap: string | null = null;
   /** Called after each scored event, so the UI can beep. */
   onScore?: (points: number) => void;
+  /** Called with a sound effect name; the browser plays it, tests ignore it. */
+  onSfx?: (name: string) => void;
 
   constructor(content: Content) {
     this.content = content;
@@ -133,8 +135,17 @@ export class Game {
   // ---- inventory, flags, money ----
 
   has(id: string) { return this.s.inv.includes(id); }
-  give(id: string) { if (!this.has(id)) this.s.inv.push(id); }
-  drop(id: string) { this.s.inv = this.s.inv.filter((i) => i !== id); }
+  give(id: string) {
+    if (this.has(id)) return;
+    this.s.inv.push(id);
+    this.sfx('pickup');
+  }
+  drop(id: string) {
+    if (!this.has(id)) return;
+    this.s.inv = this.s.inv.filter((i) => i !== id);
+    this.sfx('give');
+  }
+  sfx(name: string) { this.onSfx?.(name); }
   flag(k: string) { return this.s.flags[k]; }
   set(k: string, v: number | boolean | string = true) { this.s.flags[k] = v; }
   /** Increments a counter flag and returns the value before incrementing. */
@@ -178,6 +189,7 @@ export class Game {
   goto(roomId: string, x: number, y: number) {
     if (!this.rooms.has(roomId)) throw new Error(`Unknown room ${roomId}`);
     this.stop();
+    if (roomId !== this.s.room) this.sfx('door');
     this.s.room = roomId;
     this.s.x = x;
     this.s.y = y;

@@ -111,6 +111,7 @@ const basel: Room = {
       g.s.cash += LUBBER_PRICE;
       g.set('soldLubber');
       g.award('sellLubber');
+      g.sfx('cash');
       g.say(`You hold up the 1987 lubber. "Ma'am. This has been in my wallet since the Reagan administration. I carried it through the whole epidemic. I never needed it. Now nobody does."\n\nDr. Pike puts on white gloves. Her hands shake. "Unopened? With the original wallet ring? Do you know what this IS? This is the END of an ERA."\n\nShe makes three phone calls. A Smithsonian lawyer arrives. A check arrives. The check is for ${money(LUBBER_PRICE)}.\n\nThe lubber will hang next to Archie Bunker's chair. You finally have money. Real, American, richest-man money. Well, a start.`);
       return true;
     }
@@ -263,6 +264,7 @@ const yacht: Room = {
       if (!g.needNear('deckchair', 40)) return true;
       g.set('jumpedYacht');
       g.award('jumpYacht');
+      g.sfx('boing');
       g.say('"Let an old man try," you say.\n\nThe deck goes quiet. You crouch. Since 1992 you\'ve been training on the rim of a hot tub in the Philippines, hopping in and out three hundred times a night. Your knees have the springs of a man who refused to use the steps.\n\nYou clear the deck chair by a full foot, land in a perfect disco split, and pop back up.\n\nThe deck goes wild. Bill Gates turns the color of a blue screen. "That jump was not supported," he hisses. "Enjoy your little victory. Tomorrow at nine a.m. the Mandatory Update ships. Every device on Earth. Reboot. Forever. Please do not turn off your planet."\n\nHe storms off to his tender, which sputters toward the Brickell skyline.');
       return true;
     }
@@ -356,6 +358,7 @@ const tower: Room = {
       g.drop('chair');
       g.set('chairPlaced');
       g.award('placeChair');
+      g.sfx('thud');
       g.s.x = Math.min(g.s.x, 90);
       g.say('You unfold Rick Moranis\'s lawn chair in the middle of the Mandatory Update Command Center.\n\nBill Gates freezes mid-monologue. He stares at the chair. A chair. In HIS room. His right eye twitches. His knees bend slightly, on their own.');
       return true;
@@ -371,6 +374,7 @@ const tower: Room = {
     if (cmd.is('jump') || cmd.is(['go'], 'chair', 'over chair')) {
       if (!has(g, 'challenged')) { g.say(has(g, 'chairPlaced') ? 'You hop over the chair. Nobody is watching. Challenge Gates first.' : 'You jump in place. Bill Gates sighs and adds you to a spreadsheet.'); return true; }
       g.award('jumpTower');
+      g.sfx('crash');
       g.award('ending');
       g.set('won');
       g.win(`You plant your feet. You think of every hot tub rim in the Philippines. You SPRING.\n\nYou clear the lawn chair, the podium AND the big red button, landing in a disco split so perfect that the floor-to-ceiling Window rattles.\n\n"That jump was NOT SUPPORTED," Gates screams, and right then Elon yanks the plug. The server rack whines down to silence. The countdown flickers: UPDATE CANCELED.\n\nGates spins around. "You... you can't just TURN IT OFF AND ON AGAIN—"\n\n"Sorry. Sorry, Bill. So sorry." Elon picks Bill Gates up by the sweater, still apologizing, and tosses him straight out the giant four-pane Window.\n\nGates bounces off a striped awning, does a full somersault, and lands face-first in the hedge shaped like a paperclip. He stands up covered in leaves, shakes his fist at the sky and yells, "It looks like you're trying to RUIN MY LIFE!"\n\nThe world is saved. Elon tweets about it before anyone can stop him: "just threw bill out a window lol. he's fine. hedge is fine. larry is cool."\n\nIt gets 400 million likes. LaffX gets 400 million dollars in investment by lunchtime. The richest man in America list has a new name at number two.\n\nYour phone buzzes. Kris: "Larry. Houston. NASA wants to talk about LaffX. And Ashleigh says there's a karaoke bar there you need to see. LISTEN this time."\n\nCONTINUED IN CHAPTER 6: LARRY TO MARS.\n\nFinal score: ${g.s.score} of ${g.maxScore}.`);

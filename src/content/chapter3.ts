@@ -134,6 +134,7 @@ const skyline: Room = {
         g.s.cash -= CONEY;
         g.give('coney');
         g.award('buyConey');
+        g.sfx('cash');
         g.say(`Dottie slides a cheese coney down the counter like a bartender in a western. It stops exactly in front of you.\n\n${money(CONEY)}. You have ${money(g.s.cash)} left, and four pounds of cheddar.`);
         return true;
       }
@@ -226,6 +227,7 @@ const park: Room = {
       if (!g.needNear('fountain', 30)) return true;
       g.give('football');
       g.award('getFootball');
+      g.sfx('splash');
       g.say('You wade into the splash fountain in your leisure suit. A geyser fires straight up your pant leg. The kids cheer.\n\nYou come out soaked, triumphant, holding a football.');
       return true;
     }
@@ -320,6 +322,7 @@ const zone: Room = {
         if (has(g, 'chanted')) { g.say('"VIBES! EVENTUALLY!" The drummers nod at you. You\'re one of them now. Mostly.'); return true; }
         g.set('chanted');
         g.award('chant');
+        g.sfx('applause');
         g.say('You read the banner and bellow, in your best lounge-singer baritone:\n\n"WHAT DO WE WANT?"\nThe whole zone: "VIBES!"\n"WHEN DO WE WANT THEM?"\n"EVENTUALLY!"\n\nThe drum circle finds a rhythm for the first time in nine days. Sky (or Skyy) weeps. The pink-haired girl with the donation bucket turns and looks at you like you\'re a stray dog who just did a trick.');
         return true;
       }
@@ -488,6 +491,7 @@ const checkpoint: Room = {
       if (has(g, 'farkusDown')) { g.say('Never make the same cut twice. Barry said so. He\'s already down, finish it.'); return true; }
       g.set('farkusDown');
       g.award('jukeFarkus');
+      g.sfx('whoosh');
       g.say('Farkus lunges for you. You plant. You look left. You go right.\n\nFor one glorious second, there are two Larry Laffers. Farkus tackles the one that isn\'t there, sails through the air like a WKRP turkey, and lands face-first in a puddle.\n\nGrover stops giggling. Farkus sits up, dripping, and opens his mouth to call you something truly unforgivable.');
       return true;
     }
@@ -501,6 +505,7 @@ const checkpoint: Room = {
       g.drop('soap');
       g.set('farkusGone');
       g.award('soapFarkus');
+      g.sfx('thud');
       g.say('Before he can finish the word, you jam the bar of Lifebuoy right in there, the way every mother in Indiana did in 1940.\n\nFarkus gags. He sputters. Bubbles come out of his nose. "You... you\'re not ALLOWED! That\'s... that\'s..."\n"Hygiene," you say.\n\nScut Farkus bursts into tears, shouts "I\'m TELLING," and runs off down Vine Street with Grover behind him. The Security Council has been dissolved.\n\nWillow slow-claps. So do the drummers. Somewhere, a man in glasses nods once and does not know why.');
       return true;
     }

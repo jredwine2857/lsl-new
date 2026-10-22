@@ -208,6 +208,7 @@ const curb: Room = {
       g.give('kriscard');
       g.give('wristband');
       g.award('viral');
+      g.sfx('scratch');
       g.award('krisCard');
       g.say('You strike the pose you perfected at Lefty\'s in 1979: one hand on hip, one finger pointed at the sky.\n\nThe paparazzo goes off like a strobe light. Within four minutes your photo is everywhere. #VintageKing. A Gen Z fashion account calls you "unironically iconic."\n\nKris Jenner hangs up both phones and walks over. "You. White suit. I don\'t know who you are, but you\'ve got fifty million views and no management. That changes now."\n\nShe hands you her business card and slaps a VIP wristband on your arm. "Theme Building, tonight. You\'re on the list. And Larry? Call me before you do anything stupid."');
       return true;
@@ -339,6 +340,7 @@ const theme: Room = {
       if (g.has('wristband') && (cmd.about('wristband', 'band', 'vip') || g.near('waiter', 70))) {
         g.set('paid');
         g.award('comp');
+        g.sfx('cash');
         g.say(`The waiter sees the gold wristband and bows slightly. "Kardashian guest list. Of course. Everything is comped, sir. Including the gratitude."\n\nYou just ate a ${money(BILL)} dinner for ${money(0)}. Larry Laffer is finally living in America.`);
         return true;
       }
