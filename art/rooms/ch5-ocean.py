@@ -34,20 +34,8 @@ r.floor(mat('#2A2A30', rough=0.6))
 r.slab(150, 128, tiles('#C8C4C0', '#A09C98', scale=1.2, rough=0.8), height=1, name='sidewalk')
 r.slab(186, 150, tiles('#FFC8A0', '#E0A880', scale=1.0, rough=0.8), height=1.2, name='promenade')
 
-# Cybertruck: one big steel wedge
-d = r.floor_d(158)
-STEEL = mat('#B8BCC0', metal=0.9, rough=0.35)
-for off in (0.0, 1.2):
-    r.poly([(120, 152), (120, 146), (150, 133), (190, 145), (190, 152)], d + off, STEEL, thick=2, name='cyber_side')
-from kit import Vector  # noqa: E402
-a = r.P(120, 146, d)
-b = r.P(190, 152, d)
-r.box(((a.x + b.x) / 2, d + 0.6, (a.z + b.z) / 2), (b.x - a.x, 1.2, a.z - b.z), STEEL, 'cyber_body')
-r.poly([(140, 140), (150, 136), (168, 141), (164, 143)], d - 0.05, mat('#101418', metal=0.6, rough=0.1), thick=0.5, name='cyber_glass')
-for wx in (132, 178):
-    c = r.P(wx, 158, d)
-    c.z = 6 * r.m(d)
-    r.cyl(c, 6 * r.m(d), 0.3, mat('#141414'), 'wheel', rot=(1.5708, 0, 0))
+# Cybertruck
+r.car(116, 78, 133, 158, '#B8BCC0', kind='cybertruck', name='cyber', glass='#101418')
 
 # dock gate
 r.post(292, 154, 2, 118, mat('#F4F4F4'), 'gatepost')

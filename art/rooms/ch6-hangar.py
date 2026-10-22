@@ -24,18 +24,15 @@ for x in (60, 160, 260):
     r.panel(x - 12, -10, 24, 4, D - 4, glow('#F0F8FF', 3), thick=4, name='highbay')
     r.lamp(x, 0, D - 4, color='#F0F8FF', energy=500, radius=1)
 
-# Willow's food truck (fg) with its serving window cut out
-TR = mat('#F4F4F4', rough=0.4)
+# Willow's step-van food truck (fg) with its serving window cut out
 d = r.floor_d(152)
-r.block(10, 70, 110, 152, 26, TR, 'truck', fg=True, lift=4)
-r.panel(10, 110, 70, 6, d - 0.03, mat('#FF50D0'), thick=0.5, name='stripe', fg=True)
-r.panel(24, 120, 34, 12, d - 0.03, mat('#151515'), thick=0.5, name='window')
-r.panel(22, 132, 38, 2.5, d - 0.06, mat('#E8E8E8', metal=0.6), thick=4, name='ledge', fg=True)
-r.text("WILLOW'S", 45, 142, 4.5, d - 0.05, mat('#C020B0'), fg=True)
-for wx in (22, 66):
-    c = r.P(wx, 152, d)
-    c.z = 5 * r.m(d)
-    r.cyl(c, 5 * r.m(d), 0.3, mat('#141414'), 'wheel', fg=True, rot=(1.5708, 0, 0))
+# serving window at x 24..58, rows 120..132, in model metres (6.5 x 2.95)
+hole = (16 / 72 * 6.5, 50 / 72 * 6.5, 20 / 42 * 2.95, 32 / 42 * 2.95)
+r.car(8, 72, 110, 152, '#F4F4F4', kind='stepvan', name='truck', fg=True, hole=hole)
+r.fg_holes.append((24, 120, 34, 12))  # Willow shows through the window
+r.panel(10, 112, 62, 4, d - 0.05, mat('#FF50D0'), thick=0.5, name='stripe', fg=True)
+r.panel(22, 132, 38, 2.5, d - 0.08, mat('#E8E8E8', metal=0.6), thick=4, name='ledge', fg=True)
+r.text("WILLOW'S", 41, 142, 4.5, d - 0.06, mat('#C020B0'), fg=True)
 
 # the engine on its stand
 r.block(150, 60, 140, 154, 18, mat('#5A5E64', metal=0.6), 'stand')

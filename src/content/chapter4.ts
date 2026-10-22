@@ -3,7 +3,7 @@
 // beats with receipts and a Drew Barrymore hug.
 
 import { EGA, SKIN_DARK, ellipse, person, rect, text } from '../engine/gfx';
-import { backdrop } from '../engine/art';
+import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import type { Command } from '../engine/parser';
@@ -181,7 +181,7 @@ const street: Room = {
     // smoke from the backyard
     if (Math.floor(t * 4) % 2) { rect(ctx, EGA.white, 14, 88, 2, 6); rect(ctx, EGA.white, 11, 93, 4, 2); }
     const lx = ((t * 40) % 420) - 80;
-    rect(ctx, EGA.lmagenta, lx, 188 + (Math.floor(t * 4) % 2) * -2, 48, 8);
+    prop(ctx, 'car-lowrider', lx, 198 - (Math.floor(t * 4) % 2) * 3); // hitting the hydraulics
     person(ctx, 38, 166, COUSIN);
     person(ctx, 120, 168, AFFLECK, has(g, 'wonBattle') ? 'down' : 'left');
     rect(ctx, EGA.white, 128, 150, 4, 6);

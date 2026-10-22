@@ -30,17 +30,9 @@ r.floor(mat('#34343A', rough=0.7))
 r.slab(186, 150, tiles('#C0BCB4', '#9A968E', scale=1.0, rough=0.8), height=1.5, name='sidewalk')
 r.block(-200, 720, 184.5, 186.5, 1, mat('#E8E8E8'), 'curb')
 
-# the RV
-RV = mat('#F4F2EA', rough=0.4)
-r.block(170, 90, 110, 154, 30, RV, 'rv', lift=5)
-r.block(170, 90, 127, 154.2, 30.5, mat('#9A5A2A'), 'rvstripe', lift=23)
-r.panel(176, 116, 20, 10, r.floor_d(154) - 0.03, mat('#80C8E0', rough=0.05, metal=0.4), thick=0.5)
-r.panel(236, 116, 10, 25, r.floor_d(154) - 0.03, mat('#2A2A2A'), thick=0.5)
-r.panel(248, 120, 3, 3, r.floor_d(154) - 0.05, glow('#FF4040', 1.5), thick=0.5)
-for wx in (186, 244):
-    c = r.P(wx, 154, r.floor_d(154))
-    c.z = 4 * r.m(r.floor_d(154))
-    r.cyl(c, 4 * r.m(r.floor_d(154)), 0.3, mat('#141414'), 'wheel', rot=(1.5708, 0, 0))
+# the RV: a 1980s Winnebago with Snoop's red light in the back window
+r.car(166, 98, 110, 156, '#F4F2EA', kind='winnebago', name='rv', glass='#80C8E0')
+r.panel(248, 120, 3, 3, r.floor_d(156) - 0.08, glow('#FF4040', 1.5), thick=0.5)
 
 # bus stop
 r.post(297, 152, 0.8, 100, mat('#666666', metal=0.7), 'busstop')

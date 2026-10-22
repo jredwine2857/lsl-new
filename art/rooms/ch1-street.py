@@ -54,7 +54,9 @@ for x in (20, 300):
     r.lamp(x, 100, r.floor_d(158) - 0.3, color='#FFD8A0', energy=90, radius=0.3)
 
 # PC Police cruiser (light bar drawn by the game)
-r.car(204, 64, 164, 184, '#F0F0F0', kind='police', name='cruiser', trim='#2040C0')
+r.car(204, 64, 164, 184, '#16161A', kind='explorer', name='cruiser', twotone='#F0F0F0',
+      glass='#4A5C7A', lightbar=False)
+r.spot(236, 120, r.floor_d(184) - 5, r.P(236, 172, r.floor_d(184)), color='#FFE8C8', energy=700, size=50)
 r.text('PC POLICE', 238, 170, 4.2, r.floor_d(184) - 0.12, mat('#1830B0'))
 
 # canvasser's sign

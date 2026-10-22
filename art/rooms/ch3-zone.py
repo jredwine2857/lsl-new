@@ -40,9 +40,9 @@ for tx, c in ((30, '#FF60E0'), (80, '#F8E040')):
 
 # G-Wagon with a QR code and a COEXIST sticker
 r.car(205, 82, 112, 158, '#F4F4F4', kind='gwagon', name='gwagon')
-r.panel(246, 120, 16, 16, r.floor_d(158) - 0.08, mat('#0A0A0A'), thick=0.5)
-for (qx, qy) in [(249, 123), (255, 129), (249, 129), (255, 123)]:
-    r.panel(qx, qy, 4, 4, r.floor_d(158) - 0.1, mat('#FFFFFF'), thick=0.3)
+r.panel(212, 114, 12, 12, r.floor_d(158) - 0.08, mat('#0A0A0A'), thick=0.5)
+for (qx, qy) in [(214, 116), (219, 121), (214, 121), (219, 116)]:
+    r.panel(qx, qy, 3, 3, r.floor_d(158) - 0.1, mat('#FFFFFF'), thick=0.3)
 r.text('COEXIST', 277, 142, 3.5, r.floor_d(158) - 0.08, mat('#2030C0'))
 
 # hoodie rack

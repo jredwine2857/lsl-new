@@ -98,7 +98,13 @@ const hangar: Room = {
   ],
   draw(ctx, g, t) {
     backdrop(ctx, 'ch6-hangar');
-    person(ctx, 42, 138, WILLOW);
+    // Willow behind the serving window
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(24, 118, 34, 14);
+    ctx.clip();
+    person(ctx, 42, 162, WILLOW);
+    ctx.restore();
     backdrop(ctx, 'ch6-hangar-fg');
     rect(ctx, has(g, 'engineFixed') ? EGA.lgreen : EGA.yellow, 176, 104, 8, 8);
     if (Math.floor(t * 3) % 2) ellipse(ctx, EGA.lcyan, 180, 146, 10, 3);

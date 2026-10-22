@@ -208,6 +208,7 @@ class Room:
         # Camera height so the back wall meets the floor at floor_y.
         self.H = (floor_y - 100 - 320 * shift) * self.k * depth / 320
         self.fg = []
+        self.fg_holes = []  # pixel rects kept out of the fg layer
         self.crisp = []
         self.samples = samples
         bpy.ops.object.camera_add(location=(0, 0, self.H), rotation=(math.radians(90), 0, 0))
@@ -425,22 +426,29 @@ class Room:
             self._obj(f'frond{i}', frond, fg)
 
     def car(self, x, w, top, front, body, glass='#2A3848', kind='sedan', facing='right', deep=None, name='car',
-            fg=False, trim=None, **_):
+            fg=False, trim=None, **extra):
         """A side-on car (see vehicle.py) whose tyres touch the floor at row
-        `front`, spanning x..x+w with its roof at row `top`."""
+        `front`, spanning x..x+w with its roof at row `top`. extra goes to
+        vehicle.build (lidar, twotone, hole)."""
         from vehicle import build
-        d = self.floor_d(front)
+        root, size = build(kind, body, glass=glass, name=name, trim=trim, **extra)
+        return self.vehicle(root, size, x, w, front, top=top, facing=facing, deep=deep, fg=fg)
+
+    def vehicle(self, root, size, x, w, front, top=None, facing='right', deep=None, fg=False, d=None):
+        """Place a model from vehicle.py spanning x..x+w with its wheels on row
+        `front` (the floor there, or depth d). Without `top` it keeps its
+        proportions."""
+        d = d if d is not None else self.floor_d(front)
         m = self.m(d)
-        root, size = build(kind, body, glass=glass, name=name, trim=trim)
         sx = w * m / size['length']
-        sz = (front - top) * m / size['height']
+        sz = (front - top) * m / size['height'] if top is not None else sx
         sy = (deep * m / size['depth']) if deep else sx
         flip = facing == 'left'
         root.scale = (-sx if flip else sx, sy, sz)
         c = self.P(x + w if flip else x, front, d)
-        root.location = (c.x, c.y, 0)
-        if fg:
-            self.fg.extend(o for o in root.children)
+        root.location = (c.x, c.y, c.z)
+        if fg:  # a cut-out's interior stays behind whoever stands in it
+            self.fg.extend(o for o in root.children if not o.name.endswith('_interior'))
         return root
 
     def theme_building(self, cx, base, top, span, d, mt=None, saucer=None):
@@ -551,6 +559,8 @@ class Room:
         if self.fg or self.crisp:
             r, g = self._render_masks(out_dir)
             fg_mask = r if self.fg else None
+            for x, y, w, h in self.fg_holes if fg_mask else ():
+                fg_mask.paste(0, (x, y, x + w, y + h))
             if self.crisp:
                 img.paste(sharp(raw), (0, 0), g.filter(ImageFilter.MaxFilter(3)))
         # 255 colours, keeping index 255 free to be the fg layer's transparency.

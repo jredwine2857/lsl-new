@@ -31,7 +31,7 @@ r.slab(186, 150, tiles('#9A9A9E', '#6A6A6E', scale=0.9, rough=0.7), height=1.5, 
 r.block(-200, 720, 184.5, 186.5, 1, mat('#F0D020'), 'curb')
 
 # Kardashian SUV
-r.car(52, 88, 152, 186, '#181A24', glass='#3A4C6A', kind='suv', facing='left', name='suv')
+r.car(52, 88, 152, 186, '#181A24', glass='#3A4C6A', kind='escalade', facing='left', name='suv')
 r.spot(70, 110, r.floor_d(186) - 4, r.P(96, 168, r.floor_d(186) + 0.5), color='#FFE8C8', energy=900, size=50)
 r.text('MOM', 92, 176, 4.5, r.floor_d(186) - 0.05, mat('#F0F0F0'))
 

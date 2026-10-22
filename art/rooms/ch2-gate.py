@@ -26,10 +26,8 @@ r.sky('#3A8AE0', '#BCE0F4', d=90)
 r.panel(-100, 80, 520, 200, 60, mat('#6A6A6A', rough=0.9), thick=4, name='tarmac')
 r.theme_building(186, 98, 52, 70, 40)
 dp = 30
-r.cyl(r.P(108, 84, dp), 5 * r.m(dp), 62 * r.m(dp), mat('#F4F4F4', rough=0.3), 'fuselage', rot=(0, 1.5708, 0), verts=24)
-r.poly([(80, 86), (86, 66), (94, 66), (92, 84)], dp - 0.1, mat('#F4F4F4'), name='tail')
-r.panel(80, 84, 58, 2, dp - 0.3, mat('#D02020'), thick=0.5)
-r.poly([(100, 86), (124, 86), (112, 92)], dp - 0.4, mat('#D8D8D8'), name='wing')
+from vehicle import airliner  # noqa: E402
+r.vehicle(*airliner(), 80, 92, 98, d=dp)
 
 # gate sign
 r.panel(10, 24, 50, 20, D - 0.1, mat('#0A0A0A', rough=0.3), thick=3)

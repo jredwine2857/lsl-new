@@ -3,7 +3,7 @@
 // away from the wrong party, and helps Elon stop the Mandatory Update.
 
 import { EGA, person, poly, rect, text } from '../engine/gfx';
-import { backdrop } from '../engine/art';
+import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
@@ -197,8 +197,8 @@ const ocean: Room = {
   draw(ctx, g, t) {
     backdrop(ctx, 'ch5-ocean');
     const lx = ((t * 12) % 420) - 80;
-    rect(ctx, EGA.yellow, lx, 189, 40, 7);
-    rect(ctx, EGA.lgreen, lx + 120, 189, 40, 7);
+    prop(ctx, 'car-lambo-yellow', lx, 197);
+    prop(ctx, 'car-lambo-green', lx + 120, 197);
     if (has(g, 'elonAlly')) person(ctx, 158, 150, ELON, 'left');
     person(ctx, 304, 166, GUARD, 'left');
   },

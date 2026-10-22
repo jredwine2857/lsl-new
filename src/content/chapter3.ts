@@ -3,7 +3,7 @@
 // Ashleigh's niece Willow, and has to get them both out past Scut Farkus.
 
 import { EGA, SKIN_DARK, ellipse, person, poly, rect, text } from '../engine/gfx';
-import { backdrop } from '../engine/art';
+import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
@@ -216,10 +216,8 @@ const park: Room = {
     // Barry and the kids
     person(ctx, 232, 166, BARRY, 'left', Math.floor(t) % 2);
     person(ctx, 276, 168, { sprite: 'kid', hair: EGA.black, top: EGA.lred, pants: EGA.blue }, 'left');
-    const sx = ((t * 30) % 520) - 140;
-    rect(ctx, EGA.red, sx, 178, 90, 16);
-    rect(ctx, EGA.lcyan, sx + 6, 181, 78, 5);
-    text(ctx, 'CONNECTOR', sx + 20, 188, EGA.white, 5);
+    // the Connector streetcar
+    prop(ctx, 'streetcar', ((t * 30) % 520) - 140, 196);
   },
   handle(g, cmd) {
     if (cmd.is('get', 'football', 'ball', 'pigskin')) {
@@ -294,7 +292,7 @@ const zone: Room = {
     { id: 'willow', names: ['willow', 'girl', 'woman', 'pink hair', 'niece', 'her', 'nose ring'], rect: { x: 143, y: 130, w: 14, h: 40 }, look: (g) => (has(g, 'willowWoke') ? 'Willow, red-eyed but determined, rolling up her own banner: "WILLOW\'S KITCHEN: ACTUALLY FREE FOOD."' : 'Willow: pink hair, a nose ring, a tote bag that says "SHE/HER/HOPEFUL," and the biggest heart in Ohio. She is holding a donation bucket and beaming at everyone.') },
     { id: 'brayden', names: ['brayden', 'guy', 'man', 'merch guy', 'founder', 'seller'], rect: { x: 183, y: 128, w: 14, h: 40 }, look: 'Brayden, founder of the Love Collective. Tousled hair, $400 sunglasses, a T-shirt reading "EAT THE RICH" in a font that costs money. He calls everyone "fam."' },
     { id: 'gwagon', names: ['gwagon', 'g wagon', 'g', 'mercedes', 'truck', 'car', 'suv'], rect: { x: 205, y: 112, w: 82, h: 44 }, look: 'A white Mercedes G-Wagon with a "COEXIST" bumper sticker and a QR code taped to the back window: "DONATE TO THE MOVEMENT."' },
-    { id: 'qr', names: ['qr', 'qr code', 'code', 'donation', 'donations', 'app', 'fine print', 'page'], rect: { x: 246, y: 120, w: 16, h: 16 }, look: 'A QR code labeled "DONATE TO THE MOVEMENT." You could scan it with your phone.' },
+    { id: 'qr', names: ['qr', 'qr code', 'code', 'donation', 'donations', 'app', 'fine print', 'page'], rect: { x: 212, y: 114, w: 12, h: 12 }, look: 'A QR code labeled "DONATE TO THE MOVEMENT." You could scan it with your phone.' },
     { id: 'hoodies', names: ['hoodie', 'hoodies', 'merch', 'rack', 'shirts'], rect: { x: 290, y: 118, w: 24, h: 32 }, look: 'A rack of black hoodies: "ABOLISH CAPITALISM. $90. Card only."' },
     { id: 'cardboard', names: ['cardboard', 'pile', 'boxes', 'signs'], rect: { x: 112, y: 160, w: 22, h: 10 }, visible: (g) => !g.has('cardboard'), look: 'A pile of blank cardboard and a community Sharpie on a string. "MAKE YOUR OWN SIGN!"' },
   ],
