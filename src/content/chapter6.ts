@@ -300,7 +300,12 @@ const control: Room = {
     rect(ctx, EGA.white, 154, 30, 12, 50);
     poly(ctx, EGA.white, [[154, 30], [160, 18], [166, 30]]);
     text(ctx, 'LaffX', 160, 50, EGA.blue, 5, 'center');
-    if (!has(g, 'cruiseDown')) person(ctx, 170, 70 - Math.abs(Math.sin(t)) * 20, CRUISE, 'up');
+    if (!has(g, 'cruiseDown')) {
+      // a tiny Tom clinging to the side of the rocket on the monitor
+      const ty = Math.round(66 - Math.abs(Math.sin(t)) * 20);
+      rect(ctx, EGA.brown, 166, ty, 2, 2);
+      rect(ctx, EGA.white, 166, ty + 2, 2, 4);
+    }
     if (has(g, 'launched')) { rect(ctx, EGA.blue, 60, 74, 200, 10); rect(ctx, EGA.white, 200, 58, 6, 16); }
     for (let i = 0; i < 3; i++) {
       for (let x = 16; x < 300; x += 18) rect(ctx, (x + i + Math.floor(t * 3)) % 3 ? EGA.lgreen : EGA.lred, x, 99 + i * 14, 2, 2);
@@ -409,7 +414,13 @@ const pad: Room = {
   ],
   draw(ctx, g, t) {
     backdrop(ctx, 'ch6-pad');
-    if (!has(g, 'cruiseDown')) person(ctx, 186, 94 + Math.sin(t * 2) * 2, CRUISE, 'up');
+    if (!has(g, 'cruiseDown')) {
+      // Tom hugs the right side of the rocket on suction cups
+      const ty = 98 + Math.round(Math.sin(t * 2) * 2);
+      person(ctx, 174, ty, CRUISE, 'up');
+      rect(ctx, EGA.dgray, 166, ty - 16, 3, 3);
+      rect(ctx, EGA.dgray, 180, ty - 19, 3, 3);
+    }
     else {
       rect(ctx, EGA.brown, 236, 160, 16, 8);
       person(ctx, 244, 166, CRUISE);
