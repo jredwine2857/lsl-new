@@ -1,5 +1,5 @@
-"""Chapter 5: Art Basel, Miami Beach. The neon, the duct-taped banana and
-the canvases are baked in; Moranis's chair and the people are drawn by the game."""
+"""Chapter 5: Art Basel, Miami Beach. The neon, the duct-taped banana, the
+goat painting behind its velvet rope and the canvases are baked in; Moranis's chair and the people are drawn by the game."""
 
 import os
 import sys
@@ -25,6 +25,28 @@ r.text('$6.2M', 55, 86.5, 4.5, D - 0.05, mat('#202020'))
 r.panel(100, 40, 40, 50, D - 0.06, mottled('#C01818', '#E02A20', scale=4), thick=2)
 r.panel(150, 46, 30, 30, D - 0.06, mat('#1830B0'), thick=2)
 r.oval(165, 61, 8, 8, D - 0.1, mat('#F8D820'), thick=1)
+
+# a painting of a goat, and next to it the letters SE. That's the whole joke.
+GOAT = mat('#8A7A68', rough=0.8)
+r.panel(222, 44, 76, 44, D - 0.05, mat('#C8A040', rough=0.3, metal=0.6), thick=3, name='goatframe')
+r.panel(225, 47, 70, 38, D - 0.08, mat('#FFFFFF', rough=0.9), thick=1)
+r.panel(227, 79, 42, 4, D - 0.1, mat('#5AA040', rough=0.9), thick=0.5, name='grass')
+r.oval(243, 68, 11, 6, D - 0.11, GOAT, thick=1, name='goatbody')
+r.poly([(252, 64), (257, 57), (262, 57), (265, 62), (262, 66), (256, 67)], D - 0.12, GOAT, thick=1, name='goathead')
+r.poly([(257, 57), (254, 50), (256, 50), (260, 57)], D - 0.13, mat('#3A3028'), thick=0.5, name='horn')
+r.poly([(259, 66), (262, 66), (261, 71)], D - 0.13, mat('#E8E0D0'), thick=0.5, name='beard')
+r.poly([(232, 66), (229, 62), (233, 64)], D - 0.12, GOAT, thick=0.5, name='goattail')
+r.ball(261, 60, D - 0.14, 0.8, mat('#101010'))
+for lx in (236, 240, 247, 251):
+    r.panel(lx, 72, 2, 9, D - 0.1, GOAT, thick=0.5, name='goatleg')
+r.text('SE', 282, 66, 15, D - 0.1, mat('#101010'))
+r.text('VIEWER DISCRETION ADVISED', 260, 92, 3, D - 0.05, mat('#C01818'))
+# velvet rope
+BRASS = mat('#D0A840', metal=0.9, rough=0.25)
+for px in (230, 290):
+    r.post(px, 152, 1, 132, BRASS, 'ropepost')
+    r.ball(px, 131, r.floor_d(152), 1.5, BRASS)
+r.panel(230, 134, 60, 1.5, r.floor_d(152) - 0.02, mat('#A01020', rough=0.6), thick=1, name='rope')
 
 # neon
 r.text('IS THIS ART?', 260, 35, 6.5, D - 0.08, mat('#F020B0', rough=0.3))

@@ -3,7 +3,7 @@
 // away from the wrong party, and helps Elon stop the Mandatory Update.
 
 import { EGA, person, poly, rect, text } from '../engine/gfx';
-import { backdrop, prop } from '../engine/art';
+import { backdrop, charSprite, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
@@ -82,8 +82,10 @@ const basel: Room = {
   title: 'Art Basel, Miami Beach',
   public: true,
   walk: { x: 4, y: 150, w: 312, h: 50 },
-  describe: 'Art Basel, Miami Beach: white walls, champagne and people pretending to understand things. A banana is duct-taped to one wall. A man in a white suit (not you, the other one) is examining it. A severe woman with a Smithsonian badge takes notes. A small man in glasses sits in a folding lawn chair in the middle of the floor. Ocean Drive is to the east.',
+  describe: 'Art Basel, Miami Beach: white walls, champagne and people pretending to understand things. A banana is duct-taped to one wall. A man in a white suit (not you, the other one) is examining it. A severe woman with a Smithsonian badge takes notes. A small man in glasses sits in a folding lawn chair in the middle of the floor. Behind a velvet rope hangs a painting of a goat, and a gallery-goer lies flat on the floor in front of it. Ocean Drive is to the east.',
   hotspots: [
+    { id: 'goat', names: ['goat', 'painting', 'goat painting', 'se', 'canvas', 'rope', 'velvet rope', 'discretion', 'placard'], rect: { x: 222, y: 44, w: 76, h: 44 }, look: (g) => { g.sfx('boing'); return 'Behind a velvet rope: an oil painting of a goat. Next to the goat, in letters two feet high, the word "SE." A placard reads VIEWER DISCRETION ADVISED. The card calls it "Untitled (Internet, 1999)."\n\nYou read it left to right. Goat. Se. Your brain finishes the word before you can stop it. You were on the internet in 1999. You have seen things.\n\nYou shudder. Somewhere in your soul a dial-up modem screams.'; } },
+    { id: 'fainted', names: ['fainted man', 'gallery goer', 'gallery-goer', 'guy on floor', 'man on floor', 'body', 'fainted', 'polo'], rect: { x: 262, y: 172, w: 40, h: 14 }, look: 'A gallery-goer in a lime polo, flat on his back in front of the goat painting, still holding his champagne perfectly upright. Someone has already put a card next to him: "REACTION (2026). Mixed media. $40,000."' },
     { id: 'banana', names: ['banana', 'art', 'tape', 'duct tape', 'wall', 'comedian'], rect: { x: 40, y: 50, w: 30, h: 30 }, look: (g) => { g.award('lookBanana'); return 'A banana, duct-taped to a white wall. The card reads: "COMEDIAN. Banana, duct tape. $6.2 million." A security guard watches it like it\'s the Mona Lisa.\n\nYou\'ve been carrying a historical artifact in your wallet for 39 years and nobody ever put it on a wall.'; } },
     { id: 'steve', names: ['steve', 'steve martin', 'martin', 'man', 'white suit', 'investor'], rect: { x: 113, y: 128, w: 14, h: 40 }, look: 'Steve Martin, in a white suit. He sees your white suit. You see his. A long moment passes between two men who have committed to the bit.' },
     { id: 'curator', names: ['curator', 'woman', 'smithsonian', 'lady', 'badge'], rect: { x: 183, y: 128, w: 14, h: 40 }, look: 'Dr. Ellen Pike, Smithsonian Curator of American Culture. Her badge says she\'s here "acquiring artifacts of the post-pandemic era." She has rejected four NFTs and a Bored Ape in the last hour.' },
@@ -95,6 +97,12 @@ const basel: Room = {
   ],
   draw(ctx, g) {
     backdrop(ctx, 'ch5-basel');
+    // the man who read the goat painting, out cold on the floor
+    ctx.save();
+    ctx.translate(304, 182);
+    ctx.rotate(-Math.PI / 2);
+    if (!charSprite(ctx, 'patron1', 0, 0, 'down')) rect(ctx, EGA.black, -6, -40, 12, 40);
+    ctx.restore();
     person(ctx, 120, 166, STEVE, 'left');
     person(ctx, 190, 166, CURATOR);
     if (!g.has('chair') && !has(g, 'chairPlaced')) {
@@ -113,6 +121,14 @@ const basel: Room = {
       g.award('sellLubber');
       g.sfx('cash');
       g.say(`You hold up the 1987 lubber. "Ma'am. This has been in my wallet since the Reagan administration. I carried it through the whole epidemic. I never needed it. Now nobody does."\n\nDr. Pike puts on white gloves. Her hands shake. "Unopened? With the original wallet ring? Do you know what this IS? This is the END of an ERA."\n\nShe makes three phone calls. A Smithsonian lawyer arrives. A check arrives. The check is for ${money(LUBBER_PRICE)}.\n\nThe lubber will hang next to Archie Bunker's chair. You finally have money. Real, American, richest-man money. Well, a start.`);
+      return true;
+    }
+    if (cmd.is(['talk', 'ask', 'wake', 'help', 'shake'], 'fainted man', 'gallery goer', 'gallery-goer', 'guy on floor', 'man on floor', 'body', 'fainted', 'polo')) {
+      g.say('You crouch down and pat his cheek. His eyes flutter open. "Was it... was it a goat?" he whispers. "And then..." His eyes drift to the wall. "...se." He faints again. His champagne does not spill.');
+      return true;
+    }
+    if (cmd.is(['get', 'take', 'buy', 'touch'], 'goat', 'painting', 'goat painting', 'canvas', 'se')) {
+      g.say('The curator steps in front of you. "That piece is not for sale, sir. It\'s for the Smithsonian\'s Hall of Things We Can Never Unsee."');
       return true;
     }
     if (cmd.is(['talk', 'ask'], 'curator', 'woman', 'smithsonian', 'lady', 'pike')) {
