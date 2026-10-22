@@ -5,6 +5,7 @@
 import { EGA, dither, ellipse, person, poly, rect, text } from '../engine/gfx';
 import { backdrop } from '../engine/art';
 import { money, type Game } from '../engine/game';
+import type { Command } from '../engine/parser';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
 
@@ -19,6 +20,12 @@ const ASHLEIGH = { sprite: 'ashleigh', hair: EGA.brown, top: EGA.lmagenta, pants
 const SPACEY = { sprite: 'spacey', hair: EGA.dgray, top: EGA.dgray, pants: EGA.dgray, accent: EGA.red };
 
 const has = (g: Game, f: string) => !!g.flag(f);
+
+/** Any way of asking Grace to marry you: PROPOSE, MARRY GRACE, WILL YOU MARRY ME, GET ON ONE KNEE, GIVE RING... */
+function isProposal(cmd: Command): boolean {
+  return /\b(propose|proposal|marry|marriage|kneel|one knee|pop the question|her hand|engaged)\b/i.test(cmd.raw) ||
+    cmd.is(['give', 'show', 'use', 'offer'], 'ring', 'engagement ring', 'grandma ring');
+}
 
 function cycle(g: Game, key: string, lines: string[]): string {
   const n = g.bump(key);
@@ -325,6 +332,19 @@ const control: Room = {
     person(ctx, 240, 168, GRACE, 'left');
   },
   handle(g, cmd) {
+    if (isProposal(cmd)) {
+      if (!g.has('ring')) { g.say(has(g, 'duet') ? 'With what? Mrs. Cho said she\'d been waiting to give something to the right man. Maybe ask her.' : 'You don\'t even know her parents yet.'); return true; }
+      if (!has(g, 'launched')) { g.say('You start to kneel. Grace doesn\'t even turn around. "Larry, if that\'s what I think it is, I am landing a ROCKET first."'); return true; }
+      g.drop('ring');
+      g.set('proposed');
+      g.award('ending');
+      g.win(`You get down on one knee, in Mission Control, in front of Snoop, Kris, Ashleigh, three million livestream viewers and a booster standing on a boat called TRY LISTENING THIS TIME.\n\nYou don't make a speech. For once in your life, you ask a question and then you shut up.\n\n"Grace Cho. Will you marry me?"\n\nShe looks at the ring. She knows it instantly. Her mom gave it to you. Her dad let her. She laughs, the real laugh from the noraebang, and says, "Yes. Obviously yes. Get up, your knees are 68."\n\nSnoop drops the beat to "Islands in the Stream." Kris is crying and denying it. Ashleigh's stream breaks Swipr.\n\n\nEPILOGUE\n\nThey are married in Cerritos, at the noraebang, in Room 3. Mr. Cho sings Kenny, terribly. Willow caters. Barry Sanders refuses to dance, then dances. Rick Moranis turns up, nobody knows how. Pam Anderson sends a card with a photo of a rescued bear, signed "The one who got away. Be happy, Larry." Maricel flies in from the Philippines, hugs Grace and whispers, "He listens now? Really?" Grace whispers back, "Mostly."\n\nThey live happily ever after in a house in Cerritos with a karaoke machine in every room and, on the mantel, in a glass case, a sealed copy of King's Quest V. Ken and Roberta send a note: "Never return it."\n\nEvery anniversary, they sing "Islands in the Stream." He does Kenny. She does Dolly. He's terrible. She's amazing.\n\nLarry Laffer: unscathed, the richest man in America, and finally, really, listening.\n\n\nTHE END\n\nThanks for playing LEISURE SUIT LARRY: WOKE UP BROKE.\n\nFinal score: ${g.s.score} of ${g.maxScore}.`, 'THE END');
+      return true;
+    }
+    if (has(g, 'launched') && g.has('ring') && /\b(love|grace|kiss|hug)\b/i.test(cmd.raw) && cmd.is(['say', 'tell', 'talk', 'kiss', 'hug', 'love'])) {
+      g.say('Grace is looking right at you. Your hand is in your pocket, on Grandma Cho\'s ring. There is exactly one right thing to do with it. (PROPOSE.)');
+      return true;
+    }
     if (cmd.is(['sign', 'accept', 'take', 'yes']) || (cmd.is('say') && cmd.about('yes', 'deal', 'sign', 'okay', 'ok'))) {
       if (has(g, 'refusedSpacey') || !has(g, 'heardDeal')) return false;
       g.die('You sign the gray man\'s contract without reading it. You have never read anything in your life except the fine print in Cincinnati, and you\'ve forgotten that already.\n\nThe contract says you work for Bill Gates now.\n\nThree weeks later you are sitting in front of a congressional hearing. Every stupid thing you have ever done is on the big screen: the King\'s Quest return, the six-way, the kiss cam, the banana. The gray man is running the hearing. He turns to the camera and winks at you, the player.\n\n"Some people listen," he says. "Some people sign."\n\nNo rocket. No Grace. No ending. This is how you lose.', 'CONGRESSIONAL HEARING', false);
@@ -356,16 +376,6 @@ const control: Room = {
       g.sfx('rocket');
       g.s.cash += 40000000000;
       g.say('Grace looks at you. "Now."\n\nYou flip up the cover and press LAUNCH. The whole building shakes. On the screen, the LaffX Laffer One climbs on a column of fire, singing a perfect A, all the way up.\n\nStage separation. Then, eight minutes later, the booster comes back down, flips, and lands upright on the drone ship. The drone ship is named TRY LISTENING THIS TIME.\n\nMission Control goes insane. Snoop is yelling. Ashleigh is crying into her phone. Kris finally puts down all three phones and hugs you.\n\nYour Pear phone buzzes. FORBES ALERT: "LARRY LAFFER, 68, IS NOW THE RICHEST MAN IN AMERICA." Elon texts: "congrats lol. rematch."\n\nGrace takes off her headset. She\'s looking at you. Now would be a good time to say something.');
-      return true;
-    }
-    if (cmd.is(['propose', 'marry', 'kneel']) || cmd.is(['give', 'show', 'use'], 'ring', 'engagement ring') || (cmd.is('ask') && cmd.about('marry', 'marriage'))) {
-      if (!g.has('ring')) { g.say(has(g, 'duet') ? 'With what? Mrs. Cho said she\'d been waiting to give something to the right man. Maybe ask her.' : 'You don\'t even know her parents yet.'); return true; }
-      if (!g.needNear('grace', 60)) return true;
-      if (!has(g, 'launched')) { g.say('You start to kneel. Grace doesn\'t even turn around. "Larry, if that\'s what I think it is, I am landing a ROCKET first."'); return true; }
-      g.drop('ring');
-      g.set('proposed');
-      g.award('ending');
-      g.win(`You get down on one knee, in Mission Control, in front of Snoop, Kris, Ashleigh, three million livestream viewers and a booster standing on a boat called TRY LISTENING THIS TIME.\n\nYou don't make a speech. For once in your life, you ask a question and then you shut up.\n\n"Grace Cho. Will you marry me?"\n\nShe looks at the ring. She knows it instantly. Her mom gave it to you. Her dad let her. She laughs, the real laugh from the noraebang, and says, "Yes. Obviously yes. Get up, your knees are 68."\n\nSnoop drops the beat to "Islands in the Stream." Kris is crying and denying it. Ashleigh's stream breaks Swipr.\n\n\nEPILOGUE\n\nThey are married in Cerritos, at the noraebang, in Room 3. Mr. Cho sings Kenny, terribly. Willow caters. Barry Sanders refuses to dance, then dances. Rick Moranis turns up, nobody knows how. Pam Anderson sends a card with a photo of a rescued bear, signed "The one who got away. Be happy, Larry." Maricel flies in from the Philippines, hugs Grace and whispers, "He listens now? Really?" Grace whispers back, "Mostly."\n\nThey live happily ever after in a house in Cerritos with a karaoke machine in every room and, on the mantel, in a glass case, a sealed copy of King's Quest V. Ken and Roberta send a note: "Never return it."\n\nEvery anniversary, they sing "Islands in the Stream." He does Kenny. She does Dolly. He's terrible. She's amazing.\n\nLarry Laffer: unscathed, the richest man in America, and finally, really, listening.\n\n\nTHE END\n\nThanks for playing LEISURE SUIT LARRY: WOKE UP BROKE.\n\nFinal score: ${g.s.score} of ${g.maxScore}.`, 'THE END');
       return true;
     }
     if (cmd.is(['talk', 'ask'], 'grace', 'grace cho', 'cho', 'flight director')) {
@@ -519,6 +529,13 @@ export const chapter6: Content = {
     if (cmd.is(['listen', 'hear'])) { g.say('You stop and listen. A forklift beeps. Your knees creak. Somewhere, a woman is saying something important. Try listening to someone specific.'); return true; }
     if (cmd.is('sing')) { g.say('You sing a few bars of "My Way." It is, as always, flat. Save it for the right room.'); return true; }
     if (cmd.is('flirt')) { g.say('There\'s nobody here worth losing her over.'); return true; }
+    if (isProposal(cmd)) {
+      if (has(g, 'proposed')) return false;
+      if (!g.has('ring')) g.say(has(g, 'duet') ? 'With what? Mrs. Cho said she\'d been waiting to give something to the right man. Maybe ask her.' : 'Easy, Larry. You haven\'t even met her parents.');
+      else if (g.s.room === 'norae') g.say('You start to kneel. Mrs. Cho catches your elbow and hauls you back up. "Not here. In a noraebang? No. Somewhere BIG. She deserves big."');
+      else g.say('Grace isn\'t here. She\'s at the flight director\'s console in Mission Control, which is about as big a room as a proposal gets.');
+      return true;
+    }
     return false;
   },
   hint(g) {

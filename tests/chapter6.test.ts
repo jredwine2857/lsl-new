@@ -181,4 +181,28 @@ describe('chapter 6 gates', () => {
     run(g, 'propose');
     expect(g.s.over).toBe(null);
   });
+
+  it.each(['propose', 'will you marry me', 'get on one knee', 'pop the question', 'ask grace for her hand', 'give ring to grace'])(
+    'after the launch, "%s" proposes from anywhere in Mission Control',
+    (phrase) => {
+      const g = newGame();
+      for (const f of ['duet', 'launched']) g.set(f);
+      g.give('ring');
+      g.goto('control', 40, 172);
+      g.queue = [];
+      g.command(phrase);
+      expect(g.flag('proposed')).toBe(true);
+    },
+  );
+
+  it('proposing anywhere else points you to Mission Control', () => {
+    const g = newGame();
+    g.set('duet');
+    g.give('ring');
+    g.goto('norae', 150, 174);
+    expect(run(g, 'propose to grace')).toMatch(/Somewhere BIG/);
+    g.goto('pad', 100, 172);
+    expect(run(g, 'will you marry me')).toMatch(/Mission Control/);
+    expect(g.flag('proposed')).toBeFalsy();
+  });
 });
