@@ -8,6 +8,7 @@ import { money, type Game } from '../engine/game';
 import type { Command } from '../engine/parser';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave } from './pam';
+import { CLIMB_HANDS, climbFrame, cup, launchButton, pullupFrame, stunt } from './props6';
 import { scenes6 } from './scenes6';
 
 const GRACE = { sprite: 'grace', hair: EGA.black, top: EGA.lblue, pants: EGA.blue, accent: EGA.white, longHair: true };
@@ -118,14 +119,12 @@ const hangar: Room = {
     rect(ctx, has(g, 'engineFixed') ? EGA.lgreen : EGA.yellow, 225, 100, 6, 6);
     if (Math.floor(t * 3) % 2) ellipse(ctx, EGA.lcyan, 180, 147, 12, 2);
     if (!has(g, 'invited')) person(ctx, 120, 166, GRACE, 'right');
-    // Tom doing pull-ups on the scaffold bar, arms up to the bar
-    const lift = Math.abs(Math.sin(t * 3)) * 8;
-    const feet = 162 - lift;
-    rect(ctx, EGA.white, 245, 112, 2, feet - 46 + 14 - 112);
-    rect(ctx, EGA.white, 253, 112, 2, feet - 46 + 14 - 112);
-    rect(ctx, '#EDB48C', 244, 111, 4, 2);
-    rect(ctx, '#EDB48C', 252, 111, 4, 2);
-    person(ctx, 250, feet, CRUISE, 'down');
+    // Tom doing pull-ups on a bar across the scaffold, counting out loud
+    rect(ctx, '#5A606A', 236, 111, 28, 3);
+    rect(ctx, '#C8CED8', 236, 111, 28, 1);
+    const pu = pullupFrame(t);
+    if (!stunt(ctx, pu.name, 250, 112)) person(ctx, 250, 162, CRUISE, 'down');
+    if (pu.top) text(ctx, String(47 + (pu.rep % 50)), 266, 100, EGA.white, 5);
   },
   handle(g, cmd) {
     if (cmd.is(['listen', 'hear']) && (cmd.about('engine', 'injector', 'whine', 'sound', 'motor', 'it') || (!cmd.words.length && g.near('engine', 50)))) {
@@ -311,7 +310,7 @@ const control: Room = {
     { id: 'ashleigh', names: ['ashleigh', 'date', 'livestream'], rect: { x: 113, y: 130, w: 14, h: 40 }, look: 'Ashleigh, your first Swipr date, livestreaming the launch. She waves. "Content, Larry! Finally, GOOD content!"' },
     { id: 'spacey', names: ['spacey', 'kevin', 'kevin spacey', 'gray man', 'fixer', 'man in gray', 'contract'], rect: { x: 173, y: 130, w: 14, h: 40 }, visible: (g) => !has(g, 'refusedSpacey'), look: 'A smooth Beltway fixer in a gray suit. He turns away from you, faces the player directly, and raises one eyebrow. "You\'re wondering what I\'m doing here. So am I. Let\'s find out together."' },
     { id: 'grace', names: ['grace', 'grace cho', 'cho', 'flight director'], rect: { x: 233, y: 130, w: 14, h: 40 }, look: 'Grace at the flight director\'s console, headset on, completely calm. She glances at you and does a tiny Dolly Parton shoulder shimmy. Nobody else sees it.' },
-    { id: 'button', names: ['button', 'launch button', 'launch', 'console', 'red button'], rect: { x: 196, y: 134, w: 24, h: 16 }, look: 'The LAUNCH button, under a plastic cover. A label on the cover, in Grace\'s handwriting: "LARRY: ONLY WHEN I SAY."' },
+    { id: 'button', names: ['button', 'launch button', 'launch', 'console', 'red button', 'cover', 'pedestal'], rect: { x: 192, y: 118, w: 32, h: 36 }, look: (g) => `The launch pedestal: a steel stand with a hazard-striped top, a key switch, SAFE and ARMED lamps, and a big domed red button under a flip-up clear cover. On the cover, in Grace's handwriting: "LARRY: ONLY WHEN I SAY."${has(g, 'launched') ? ' The cover is up and the button is still glowing.' : has(g, 'engineFixed') && has(g, 'cruiseDown') && has(g, 'refusedSpacey') ? ' The ARMED lamp is blinking.' : ' The SAFE lamp is lit.'}` },
     { id: 'screen', names: ['screen', 'rocket', 'pad', 'monitor'], rect: { x: 60, y: 16, w: 200, h: 70 }, look: (g) => (has(g, 'cruiseDown') ? 'The rocket on the pad, clean. No Tom Cruise on it anywhere. Engines green.' : 'The rocket on the pad. Wait. Zoom in. There is a man climbing up the OUTSIDE of the rocket with suction cups. It\'s Tom Cruise.') },
   ],
   zones: [
@@ -334,6 +333,8 @@ const control: Room = {
     for (let i = 0; i < 3; i++) {
       for (let x = 16; x < 300; x += 18) rect(ctx, (x + i + Math.floor(t * 3)) % 3 ? EGA.lgreen : EGA.lred, x, 99 + i * 14, 2, 2);
     }
+    const launched = has(g, 'launched');
+    launchButton(ctx, 208, 118, 1.25, { armed: has(g, 'engineFixed') && has(g, 'cruiseDown') && has(g, 'refusedSpacey'), cover: launched ? 1 : 0, press: launched ? 1 : 0 }, t);
     person(ctx, 40, 168, KRIS);
     person(ctx, 80, 168, SNOOP, 'down', Math.floor(t * 2) % 2);
     person(ctx, 120, 168, ASHLEIGH);
@@ -433,7 +434,7 @@ const pad: Room = {
   describe: (g) =>
     `The launch pad. The LaffX Laffer One towers over you, white and humming. ${has(g, 'cruiseDown') ? 'Tom Cruise is down on the ground, sitting on a crate, drinking a juice box.' : 'Halfway up the outside of the rocket, clinging on with suction cups, is Tom Cruise.'} A flame trench runs along the front of the pad. Mission Control is west.`,
   hotspots: [
-    { id: 'cruise', names: ['cruise', 'tom', 'tom cruise', 'man', 'astronaut'], rect: { x: 162, y: 40, w: 24, h: 60 }, look: (g) => (has(g, 'cruiseDown') ? 'Tom Cruise, on a crate, in a foil blanket, drinking a juice box like a kid after a swim meet. He looks happier than you\'ve ever seen him in a movie.' : 'Tom Cruise, forty feet up the side of the rocket on suction cups, shouting "I do my own STUNTS!" at nobody. His knuckles are white. His eyes are scared. He is not coming down on his own.') },
+    { id: 'cruise', names: ['cruise', 'tom', 'tom cruise', 'man', 'astronaut'], rect: { x: 150, y: 40, w: 30, h: 62 }, look: (g) => (has(g, 'cruiseDown') ? 'Tom Cruise, on a crate, in a foil blanket, drinking a juice box like a kid after a swim meet. He looks happier than you\'ve ever seen him in a movie.' : 'Tom Cruise, forty feet up the side of the rocket on suction cups, shouting "I do my own STUNTS!" at nobody. His knuckles are white. His eyes are scared. He is not coming down on his own.') },
     { id: 'rocket', names: ['rocket', 'laffer one', 'laffx'], rect: { x: 140, y: 14, w: 40, h: 140 }, look: 'The LaffX Laffer One. On the side, in tiny letters near the bottom, Grace has painted: "FOR THE GUY WHO HEARD THE WHINE."' },
     { id: 'trench', names: ['trench', 'flame trench', 'pit', 'flames'], rect: { x: 0, y: 186, w: 320, h: 14 }, look: 'The flame trench. During launch it carries a few thousand degrees of exhaust away from the pad. Right now it is just a very deep ditch with warning signs.' },
   ],
@@ -444,27 +445,27 @@ const pad: Room = {
   draw(ctx, g, t) {
     backdrop(ctx, 'ch6-pad');
     if (!has(g, 'cruiseDown')) {
-      // Tom hugs the right side of the rocket on suction cups
-      const ty = 98 + Math.round(Math.sin(t * 2) * 2);
-      const reach = Math.round(Math.sin(t * 2 + 1) * 2);
-      // arms stretched up to two suction-cup handles, plus one cup on each knee
-      rect(ctx, EGA.white, 167, ty - 50 + reach, 2, 14 - reach);
-      rect(ctx, EGA.white, 178, ty - 48 - reach, 2, 12 + reach);
-      for (const [cx, cy] of [[168, ty - 52 + reach], [179, ty - 50 - reach]]) {
-        ellipse(ctx, EGA.lgray, cx, cy, 4, 2);
-        rect(ctx, EGA.dgray, cx - 2, cy - 1, 4, 1);
-        rect(ctx, '#EDB48C', cx - 1, cy + 1, 3, 2);
+      // Tom scrambling up the side of the rocket on suction cups, and slipping back
+      const c = climbFrame(t);
+      const shake = c.pop ? Math.round(Math.sin(t * 40)) : 0;
+      const fx = 165 + shake;
+      const fy = Math.round(98 - c.rise);
+      if (stunt(ctx, c.name, fx, fy)) {
+        for (const [hx, hy] of CLIMB_HANDS[c.name]) cup(ctx, fx + hx, fy + hy);
+      } else {
+        person(ctx, fx, fy, CRUISE, 'up');
       }
-      person(ctx, 173, ty, CRUISE, 'up');
-      for (const [cx, cy] of [[168, ty - 12], [179, ty - 14]]) {
-        ellipse(ctx, EGA.lgray, cx, cy, 3, 2);
-        rect(ctx, EGA.dgray, cx - 1, cy - 1, 2, 1);
+      if (c.pop) {
+        cup(ctx, fx + 22, fy - 30 + Math.round((t % 5 - 2.8) * 30));
+        text(ctx, 'SHHLOOP!', fx + 14, fy - 50, EGA.white, 4);
       }
-      if (Math.floor(t * 1.5) % 4 === 0) text(ctx, 'SHHLOOP', 186, ty - 56, EGA.white, 4);
-    }
-    else {
+    } else {
+      // down safe, on a crate, with his juice box
       rect(ctx, EGA.brown, 236, 160, 16, 8);
       person(ctx, 244, 166, CRUISE);
+      rect(ctx, '#F0E040', 250, 146, 3, 4);
+      rect(ctx, '#40A0E0', 250, 148, 3, 1);
+      rect(ctx, EGA.white, 252, 144, 1, 2);
     }
   },
   handle(g, cmd) {
@@ -473,7 +474,8 @@ const pad: Room = {
       if (!has(g, 'yelledAtCruise')) { g.say('You listen. Up there, Tom Cruise is shouting, but you can\'t make out more than "STUNTS!" Talk to him first.'); return true; }
       g.set('cruiseDown');
       g.award('listenCruise');
-      g.say('You don\'t yell. You don\'t argue. You just stand at the bottom of the rocket and listen.\n\nAfter a while Tom stops shouting about stunts. His voice gets small. "Everybody always says I\'m crazy. Nobody asks why I keep climbing things. I\'m 64, Larry. If I\'m not on the poster, I\'m nobody. I just want to be in the shot."\n\n"Tom," you say. "You don\'t have to be ON the rocket to be in the shot. Ashleigh\'s got three million people watching. Come stand next to me at the button."\n\nA long pause. Then, very carefully, one suction cup at a time, Tom Cruise climbs down. At the bottom, he hugs you. "Thanks for listening, man. Nobody listens." Somebody gives him a juice box.');
+      g.cutscene('talkdown');
+      g.say('You didn\'t yell. You didn\'t argue. You just stood at the bottom of the rocket and listened until Tom ran out of shouting.\n\n"Everybody always says I\'m crazy," he told you. "Nobody asks why I keep climbing things. I\'m 64, Larry. If I\'m not on the poster, I\'m nobody."\n\n"You don\'t have to be ON the rocket to be in the shot," you said. "Ashleigh\'s got three million people watching. Come stand next to me at the button."\n\nNow he\'s on a crate in a foil blanket, working on a juice box, telling a pad technician about the time he held his breath for six minutes.');
       return true;
     }
     if (cmd.is(['talk', 'ask', 'say', 'yell', 'shout', 'call'], 'cruise', 'tom', 'tom cruise', 'down') || cmd.is(['yell', 'shout'])) {

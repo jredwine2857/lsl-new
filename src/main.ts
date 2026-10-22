@@ -200,6 +200,10 @@ dialog.addEventListener('click', () => { if (!dButtons.childElementCount) dismis
 
 // ---- render ----
 
+const FADE = 0.3;
+let shownRoom = '';
+let roomAt = -FADE;
+
 function draw(t: number) {
   ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0);
   ctx.imageSmoothingEnabled = false;
@@ -222,6 +226,14 @@ function draw(t: number) {
     if (game.flag('pinWorn') && s.facing !== 'up') rect(ctx, EGA.lmagenta, s.x + (s.facing === 'left' ? 1 : -4), s.y - 27, 1, 1);
   } else {
     person(ctx, s.x, s.y, { ...LARRY, pin: !!game.flag('pinWorn') }, s.facing, step);
+  }
+  // a quick fade in when Larry walks into a new room, so the cut doesn't jolt
+  if (game.s.room !== shownRoom) { shownRoom = game.s.room; roomAt = t; }
+  if (t - roomAt < FADE) {
+    ctx.save();
+    ctx.globalAlpha = 1 - (t - roomAt) / FADE;
+    rect(ctx, EGA.black, 0, 10, 320, 190);
+    ctx.restore();
   }
   // status bar
   rect(ctx, EGA.white, 0, 0, 320, 10);

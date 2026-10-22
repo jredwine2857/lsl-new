@@ -4,7 +4,8 @@
 // screen shake and sparkle. Click (or Enter) skips.
 
 import { EGA, ellipse, rect, text } from '../engine/gfx';
-import { backdrop, sceneArt } from '../engine/art';
+import { backdrop, charSprite, sceneArt } from '../engine/art';
+import { CLIMB_HANDS, cup, launchButton, stunt } from './props6';
 import type { Game } from '../engine/game';
 import type { Cutscene } from '../engine/types';
 
@@ -156,9 +157,47 @@ const karaoke: Cutscene = {
 const IGNITE = 3;
 const LIFT = 4.6;
 
+/** Shot 0: close on the pedestal. The cover flips up and Larry's finger comes down. */
+function pressShot(ctx: Ctx, t: number, g: Game) {
+  cues('press', t, g, [[0.3, 'boing'], [1.35, 'thud']]);
+  const bg = ctx.createRadialGradient(160, 90, 10, 160, 100, 200);
+  bg.addColorStop(0, '#2A2E3A');
+  bg.addColorStop(1, '#06070A');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, 320, 200);
+  const cover = Math.min(1, Math.max(0, (t - 0.2) / 0.6));
+  const press = t < 1.25 ? 0 : t < 1.45 ? (t - 1.25) / 0.2 : 1;
+  launchButton(ctx, 160, 34, 5, { armed: true, cover, press }, t);
+  // Larry's finger, in a white polyester sleeve, coming down from the top right
+  const reach = Math.min(1, Math.max(0, (t - 0.7) / 0.55)) - (t > 1.7 ? (t - 1.7) * 2 : 0);
+  if (reach > 0) {
+    const fx = 172 - reach * 12;
+    const fy = -40 + reach * 98 + press * 6;
+    ctx.save();
+    ctx.translate(fx, fy);
+    ctx.rotate(-0.5);
+    rect(ctx, '#F4F2EA', -14, -80, 28, 64);
+    rect(ctx, '#D8D4C4', 8, -80, 6, 64);
+    rect(ctx, '#202020', -14, -18, 28, 4);
+    ellipse(ctx, '#F0B890', 0, -6, 12, 10);
+    rect(ctx, '#F0B890', -4, -4, 8, 18);
+    ellipse(ctx, '#F0B890', 0, 14, 4, 4);
+    rect(ctx, '#C88860', -4, -2, 1, 14);
+    ctx.restore();
+  }
+  if (press >= 1) fade(ctx, '#FF4020', 0.5 - (t - 1.45) * 0.8);
+  if (t > 0.4) shout(ctx, '"Now."', 62, 70, EGA.white, 14);
+  shout(ctx, 'GRACE:', 62, 50, '#80C8FF', 7);
+  edges(ctx, t, 0, 2, 0.25);
+}
+
+const PRESS = 2;
+
 const launch: Cutscene = {
-  duration: 11.5,
-  draw(ctx, t, g) {
+  duration: PRESS + 11.5,
+  draw(ctx, t0, g) {
+    if (t0 < PRESS) { pressShot(ctx, t0, g); return; }
+    const t = t0 - PRESS;
     cues('launch', t, g, [[0.05, 'blip'], [1, 'blip'], [2, 'blip'], [IGNITE, 'rocket'], [IGNITE + 3.5, 'rocket'], [9.5, 'applause']]);
     const burn = t >= IGNITE;
     const rise = t > LIFT ? 7 * (t - LIFT) ** 2 + 6 * (t - LIFT) : 0;
@@ -337,4 +376,96 @@ const proposal: Cutscene = {
   },
 };
 
-export const scenes6: Record<string, Cutscene> = { karaoke, launch, proposal };
+// ---------------------------------------------------------------- talking Tom down
+
+const TOP = 82; // Tom's feet on the rocket at the start
+const DOWN = 4.5; // starts climbing down
+const STEPS = 10;
+const STEP = 0.45;
+const DROP = DOWN + STEPS * STEP; // lets go
+const LAND = DROP + 0.6;
+const WALK = LAND + 1;
+const HUG = WALK + 1.4;
+const JUICE = HUG + 2;
+
+const CAPTIONS: [number, number, string, string][] = [
+  [0.4, 2.4, 'Tom\'s voice gets small.', '#C0C8D8'],
+  [2.4, 4.6, '"I just want to be in the shot, Larry."', EGA.white],
+  [4.8, 8.4, '"Come stand next to me at the button, Tom."', '#F0E0B0'],
+  [HUG + 0.2, JUICE, '"Thanks for listening, man. Nobody listens."', EGA.white],
+  [JUICE + 0.2, JUICE + 2, 'Somebody hands him a juice box.', '#C0C8D8'],
+];
+
+/** Larry talks Tom Cruise down off the rocket, one suction cup at a time. */
+const talkdown: Cutscene = {
+  duration: JUICE + 2,
+  draw(ctx, t, g) {
+    const steps: [number, string][] = [[DROP + 0.5, 'thud'], [HUG + 0.1, 'smooch']];
+    for (let i = 0; i < STEPS; i++) steps.push([DOWN + i * STEP + 0.05, 'blip']);
+    cues('talkdown', t, g, steps);
+    backdrop(ctx, 'ch6-pad');
+    const larryX = 116;
+    // Tom
+    if (t < DOWN) {
+      // still clinging up top, flailing every so often
+      const flail = Math.floor(t * 1.6) % 3 === 0;
+      const name = flail ? 'cruise-flail' : 'cruise-climb-1';
+      const fx = 165 + (flail ? Math.round(Math.sin(t * 40)) : 0);
+      stunt(ctx, name, fx, TOP);
+      for (const [hx, hy] of CLIMB_HANDS[name]) cup(ctx, fx + hx, TOP + hy);
+    } else if (t < DROP) {
+      // one cup at a time: hand, hand, foot, down a notch
+      const n = Math.min(STEPS - 1, Math.floor((t - DOWN) / STEP));
+      const name = `cruise-climb-${[1, 2, 1, 0][n % 4]}`;
+      const fy = TOP + n * 4 + Math.min(4, ((t - DOWN) % STEP) / STEP * 8);
+      stunt(ctx, name, 165, Math.round(fy));
+      for (const [hx, hy] of CLIMB_HANDS[name]) cup(ctx, 165 + hx, Math.round(fy) + hy);
+      if ((t - DOWN) % STEP < 0.2) text(ctx, 'shloop', 178, Math.round(fy) - 48, '#E0E8F0', 4);
+    } else if (t < LAND) {
+      // lets go and drops the last few feet
+      const u = (t - DROP) / (LAND - DROP);
+      const from = TOP + STEPS * 4;
+      stunt(ctx, 'cruise-climb-1', 165 + u * 3, Math.round(from + (172 - from) * u * u));
+    } else if (t < WALK) {
+      // superhero landing, of course
+      stunt(ctx, 'cruise-land', 168, 172);
+      const u = (t - LAND) / (WALK - LAND);
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, 0.7 - u * 0.7);
+      for (const dx of [-1, 1]) ellipse(ctx, '#C8C4B8', 168 + dx * (10 + u * 24), 170 - u * 4, 6 + u * 8, 3 + u * 2);
+      ctx.restore();
+      if (u < 0.6) shout(ctx, 'TA-DA!', 194, 126, EGA.yellow, 6);
+    } else if (t < HUG) {
+      // walks over to Larry
+      const u = (t - WALK) / (HUG - WALK);
+      const x = 168 - u * 36;
+      charSprite(ctx, 'cruise', x, 172, 'left', 1 + Math.floor(t * 6));
+    }
+    // Larry watches, then hugs him back
+    if (t >= HUG && t < JUICE) {
+      stunt(ctx, 'larry-hug', larryX + 4, 172, true);
+      stunt(ctx, 'cruise-hug', larryX + 16, 172, true);
+      for (let i = 0; i < 4; i++) {
+        const life = ((t - HUG) * 0.7 + i / 4) % 1;
+        heart(ctx, larryX + 10 + Math.sin(life * 6 + i) * 8, 128 - life * 40, 2 + (i % 2), i % 2 ? '#FF4080' : '#FF90C0');
+      }
+    } else {
+      charSprite(ctx, 'larry', larryX, 172, t < LAND ? 'up' : 'right', 0);
+      if (t >= JUICE) {
+        charSprite(ctx, 'cruise', larryX + 24, 172, 'down', 0);
+        rect(ctx, '#F0E040', larryX + 31, 146, 3, 4);
+        rect(ctx, '#40A0E0', larryX + 31, 148, 3, 1);
+        rect(ctx, EGA.white, larryX + 33, 144, 1, 2);
+      }
+    }
+    for (const [a, b, line, c] of CAPTIONS) {
+      if (t >= a && t < b) {
+        rect(ctx, '#000000', 0, 6, 320, 18);
+        shout(ctx, line, 160, 18, c, 7);
+      }
+    }
+    edges(ctx, t, 0, JUICE + 2, 0.5);
+  },
+};
+
+export const scenes6: Record<string, Cutscene> = { karaoke, launch, proposal, talkdown };

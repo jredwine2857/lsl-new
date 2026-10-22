@@ -292,9 +292,17 @@ export class Game {
       if (inside && !this.inZones.has(z.id)) {
         this.inZones.add(z.id);
         if (!z.when || z.when(this)) {
+          const { x, y } = this.s;
           z.enter(this);
           // An exit may have moved us to another room; stop processing this one.
           if (this.room !== room || this.s.over) return;
+          // A locked exit nudges Larry back. Stop there, or he walks straight
+          // back into it and the same message repeats forever.
+          if (this.s.x !== x || this.s.y !== y) {
+            this.stop();
+            this.syncZones();
+            return;
+          }
         }
       } else if (!inside) {
         this.inZones.delete(z.id);
