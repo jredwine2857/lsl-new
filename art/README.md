@@ -39,3 +39,13 @@ loads them) and scratch renders to `art/out/` (ignored).
 - `floor_y` is the screen row where the back wall meets the floor. Rows above
   it are farther away than the wall, so put things that stand on the floor
   at rows below it.
+
+## Characters
+
+`art/chars/charkit.py` builds a jointed caricature body (big head, big nose)
+that each `art/chars/<name>.py` dresses and renders as a sprite sheet: 5
+columns (standing, then a 4-frame walk) by 3 rows (facing down, up, right;
+the game mirrors right for left), 32x48 pixels per cell with the feet on row
+46. Sheets go in `src/art/chars/` and are drawn with `charSprite()`.
+
+    python3 art/chars/larry.py art/out/chars && cp art/out/chars/larry.png src/art/chars/

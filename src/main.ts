@@ -4,7 +4,7 @@ import { chapter3 } from './content/chapter3';
 import { chapter4 } from './content/chapter4';
 import { chapter5 } from './content/chapter5';
 import { chapter6 } from './content/chapter6';
-import { preloadArt } from './engine/art';
+import { charSprite, preloadArt } from './engine/art';
 import { Game } from './engine/game';
 import { EGA, LARRY, SCALE, person, rect, text } from './engine/gfx';
 
@@ -203,7 +203,12 @@ function draw(t: number) {
   rect(ctx, EGA.black, 0, 0, 320, 200);
   game.room.draw(ctx, game, t);
   const s = game.s;
-  person(ctx, s.x, s.y, { ...LARRY, pin: !!game.flag('pinWorn') }, s.facing, game.moving ? Math.floor(game.walkFrame) : 0);
+  const step = game.moving ? 1 + Math.floor(game.walkFrame) : 0;
+  if (charSprite(ctx, 'larry', s.x, s.y, s.facing, step)) {
+    if (game.flag('pinWorn') && s.facing !== 'up') rect(ctx, EGA.lmagenta, s.x + (s.facing === 'left' ? 1 : -4), s.y - 27, 1, 1);
+  } else {
+    person(ctx, s.x, s.y, { ...LARRY, pin: !!game.flag('pinWorn') }, s.facing, step);
+  }
   // status bar
   rect(ctx, EGA.white, 0, 0, 320, 10);
   text(ctx, `Score: ${s.score} of ${game.maxScore}`, 3, 2, EGA.black, 6);
