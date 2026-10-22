@@ -44,7 +44,7 @@ describe('chapter 6 walkthrough', () => {
     walk(g, 120, 172);
     run(g, 'give chili to grace');
     expect(g.flag('invited')).toBe(true);
-    walk(g, 316, 172);
+    walk(g, 2, 172);
     expect(g.s.room).toBe('norae');
 
     run(g, 'bow');
@@ -57,7 +57,15 @@ describe('chapter 6 walkthrough', () => {
     expect(g.has('ring')).toBe(true);
     walk(g, 2, 174);
     expect(g.s.room).toBe('hangar');
+    walk(g, 316, 172);
+    expect(g.s.room).toBe('control');
+    walk(g, 316, 172);
+    expect(g.s.room).toBe('pad');
     walk(g, 2, 172);
+    expect(g.s.room).toBe('control');
+    walk(g, 2, 172);
+    expect(g.s.room).toBe('hangar');
+    walk(g, 316, 172);
     expect(g.s.room).toBe('control');
 
     walk(g, 40, 172);
@@ -139,9 +147,9 @@ describe('chapter 6 gates', () => {
 
   it('the jet waits for an invitation, and Mission Control waits for the duet', () => {
     const g = newGame();
-    walk(g, 316, 172);
-    expect(g.s.room).toBe('hangar');
     walk(g, 2, 172);
+    expect(g.s.room).toBe('hangar');
+    walk(g, 316, 172);
     expect(g.s.room).toBe('hangar');
   });
 

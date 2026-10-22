@@ -70,7 +70,7 @@ const hangar: Room = {
   public: true,
   walk: { x: 4, y: 150, w: 312, h: 50 },
   describe: (g) =>
-    `The LaffX hangar in Houston, next door to Mission Control. A rocket engine the size of a minivan sits on a test stand. ${has(g, 'invited') ? '' : 'A woman in a blue LaffX jacket is glaring at it with a wrench. '}Willow's Kitchen has parked a food truck by the door. A man in aviator sunglasses is doing pull-ups on the scaffolding for no one. The LaffX jet to California is out the east door. Mission Control is west.`,
+    `The LaffX hangar in Houston, next door to Mission Control. A rocket engine the size of a minivan sits on a test stand. ${has(g, 'invited') ? '' : 'A woman in a blue LaffX jacket is glaring at it with a wrench. '}Willow's Kitchen has parked a food truck by the door. A man in aviator sunglasses is doing pull-ups on the scaffolding for no one. The LaffX jet to California is out the west door. Mission Control is east.`,
   hotspots: [
     { id: 'grace', names: ['grace', 'grace cho', 'cho', 'woman', 'engineer'], rect: { x: 113, y: 128, w: 14, h: 40 }, visible: (g) => !has(g, 'invited'), look: (g) => { g.award('lookGrace'); return 'Grace Cho, LaffX\'s lead propulsion engineer. Cerritos born, Caltech trained, safety glasses pushed up into her hair. She has the specific glare of a brilliant person surrounded by people who are not listening to her.\n\nSomething in your chest does a thing it hasn\'t done since 1987. You decide, for once, not to say anything about it.'; } },
     { id: 'engine', names: ['engine', 'rocket engine', 'stand', 'test stand', 'injector', 'motor'], rect: { x: 150, y: 96, w: 60, h: 56 }, look: 'The LaffX Raptor-Ish engine. During every test fire it makes a long, rising whine. Grace says the whine is "wrong." Nobody else can hear what she means.' },
@@ -80,17 +80,17 @@ const hangar: Room = {
   zones: [
     {
       id: 'toControl',
-      rect: { x: 0, y: 150, w: 8, h: 50 },
+      rect: { x: 308, y: 150, w: 12, h: 50 },
       enter: (g) => {
-        if (!has(g, 'duet')) { g.s.x = 20; g.say('Mission Control is locked down until launch week. Kris\'s text: "Meet the parents first. Then rockets."'); return; }
-        g.goto('control', 296, 172);
+        if (!has(g, 'duet')) { g.s.x = 296; g.say('Mission Control is locked down until launch week. Kris\'s text: "Meet the parents first. Then rockets."'); return; }
+        g.goto('control', 20, 172);
       },
     },
     {
       id: 'toJet',
-      rect: { x: 308, y: 150, w: 12, h: 50 },
+      rect: { x: 0, y: 150, w: 8, h: 50 },
       enter: (g) => {
-        if (!has(g, 'invited')) { g.s.x = 296; g.say('The LaffX jet is fueled and ready to go to California. You have no reason to go to California. Yet.'); return; }
+        if (!has(g, 'invited')) { g.s.x = 20; g.say('The LaffX jet is fueled and ready to go to California. You have no reason to go to California. Yet.'); return; }
         g.say('The LaffX jet takes you to Long Beach. A car takes you to Cerritos. Grace is already there, because she drove like an engineer.');
         g.goto('norae', 30, 174);
       },
@@ -159,7 +159,7 @@ const hangar: Room = {
       g.drop('chili');
       g.set('invited');
       g.award('giveFood');
-      g.say('You set the bowl down next to her wrench and walk away without a word, like a man who has finally learned what "Don\'t make it weird" means.\n\nYou\'re halfway across the hangar when she calls after you. "Larry." She\'s eating. "This is really good." A pause. "My family\'s doing karaoke night in Cerritos tomorrow. You owned a karaoke bar, right?" Another pause. "If you come, you have to actually sing. And you have to be nice to my dad. He\'s read your hearing transcripts too."\n\nShe heads out the east door to the jet.');
+      g.say('You set the bowl down next to her wrench and walk away without a word, like a man who has finally learned what "Don\'t make it weird" means.\n\nYou\'re halfway across the hangar when she calls after you. "Larry." She\'s eating. "This is really good." A pause. "My family\'s doing karaoke night in Cerritos tomorrow. You owned a karaoke bar, right?" Another pause. "If you come, you have to actually sing. And you have to be nice to my dad. He\'s read your hearing transcripts too."\n\nShe heads out the west door to the jet.');
       return true;
     }
     if (cmd.is('flirt')) {
@@ -198,7 +198,7 @@ const norae: Room = {
     { id: 'screen', names: ['screen', 'tv', 'machine', 'karaoke machine', 'disco ball'], rect: { x: 90, y: 20, w: 140, h: 70 }, look: 'A karaoke screen showing a man running along a beach in slow motion for reasons the video never explains. You feel right at home. You haven\'t been in a karaoke room since you left the Philippines.' },
   ],
   zones: [
-    { id: 'toHangar', rect: { x: 0, y: 152, w: 8, h: 47 }, enter: (g) => g.goto('hangar', 296, 172) },
+    { id: 'toHangar', rect: { x: 0, y: 152, w: 8, h: 47 }, enter: (g) => g.goto('hangar', 20, 172) },
   ],
   draw(ctx, g, t) {
     backdrop(ctx, 'ch6-norae');
@@ -299,7 +299,7 @@ const control: Room = {
     { id: 'screen', names: ['screen', 'rocket', 'pad', 'monitor'], rect: { x: 60, y: 16, w: 200, h: 70 }, look: (g) => (has(g, 'cruiseDown') ? 'The rocket on the pad, clean. No Tom Cruise on it anywhere. Engines green.' : 'The rocket on the pad. Wait. Zoom in. There is a man climbing up the OUTSIDE of the rocket with suction cups. It\'s Tom Cruise.') },
   ],
   zones: [
-    { id: 'toHangar', rect: { x: 0, y: 152, w: 8, h: 47 }, enter: (g) => g.goto('hangar', 20, 172) },
+    { id: 'toHangar', rect: { x: 0, y: 152, w: 8, h: 47 }, enter: (g) => g.goto('hangar', 296, 172) },
     { id: 'toPad', rect: { x: 308, y: 152, w: 12, h: 47 }, enter: (g) => g.goto('pad', 20, 174) },
   ],
   draw(ctx, g, t) {
@@ -528,7 +528,7 @@ export const chapter6: Content = {
     if (!has(g, 'heardSong')) return 'Grace wants to be asked about herself. ASK GRACE ABOUT MUSIC.';
     if (!has(g, 'invited')) return g.has('chili') ? 'GIVE CHILI to Grace. Then leave her alone.' : 'Grace hasn\'t eaten since Tuesday. Willow\'s food truck is right there. GET CHILI.';
     if (!has(g, 'duet')) {
-      if (g.s.room !== 'norae') return 'Take the jet east to Cerritos.';
+      if (g.s.room !== 'norae') return 'Take the jet to Cerritos. It\'s out the hangar\'s west door.';
       if (!has(g, 'bowed')) return 'Greet her parents properly. BOW.';
       return 'Sing the song she told you about: SING ISLANDS IN THE STREAM.';
     }
