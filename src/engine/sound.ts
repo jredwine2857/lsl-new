@@ -413,6 +413,17 @@ export class Sound {
         seq('brass', [['E4', 0.12], ['G4', 0.12], ['C5', 0.12], ['E5', 0.5]]);
         seq('kick', [[0, 0.12], [0, 0.12], [0, 0.12], [0, 0.5]]);
         break;
+      case 'bride':
+        // "Here Comes the Bride," on the noraebang's church-organ setting
+        seq('ep', [['C5', 0.5], ['F5', 0.38], ['F5', 0.12], ['F5', 0.9], ['C5', 0.5], ['G5', 0.38], ['E5', 0.12], ['F5', 1.1]]);
+        seq('strings', [['F3', 1.0], ['F3', 0.9], ['C3', 1.0], ['F3', 1.1]]);
+        break;
+      case 'reveal':
+        // dun dun DUNNN
+        seq('brass', [['C4', 0.22], ['C4', 0.22], ['F#3', 1.2]]);
+        seq('strings', [['C3', 0.22], ['C3', 0.22], ['F#2', 1.2]]);
+        seq('kick', [[0, 0.22], [0, 0.22], [0, 1.2]]);
+        break;
       case 'phone':
         for (let i = 0; i < 2; i++) {
           for (let k = 0; k < 8; k++) seq('bell', [[k % 2 ? 'E6' : 'G6', 0.04]], t + i * 0.6 + k * 0.045);

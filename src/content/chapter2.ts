@@ -2,6 +2,7 @@
 // Larry lands at LAX, gets his first real Swipr date, and meets the family
 // that will keep saving his bacon for the rest of the game.
 
+import { drawWatcher, watcherHotspot, WATCH_LOOK, WATCH_SPOTS } from './watcher';
 import { EGA, SKIN_DARK, ellipse, person, rect } from '../engine/gfx';
 import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
@@ -91,12 +92,14 @@ const gate: Room = {
     { id: 'attendant', names: ['attendant', 'flight attendant', 'stewardess', 'woman', 'crew'], rect: { x: 52, y: 128, w: 16, h: 40 }, look: 'A flight attendant who has already been awake for 19 hours and does not want your feedback about the cookie.' },
     { id: 'windows', names: ['window', 'windows', 'theme building', 'saucer', 'plane', 'airport'], rect: { x: 80, y: 20, w: 200, h: 80 }, look: (g) => { g.award('lookTheme'); return 'The Theme Building: a 1961 flying saucer on four giant arches, the most Space Quest thing ever built by humans. A banner on it reads "GRAND REOPENING TONIGHT."'; } },
     { id: 'walkway', names: ['walkway', 'moving walkway', 'travelator', 'belt'], rect: { x: 120, y: 150, w: 90, h: 10 }, look: 'The moving walkway has been "temporarily out of service" since 2019. A sign apologizes for the inconvenience in nine languages.' },
+    watcherHotspot(WATCH_SPOTS['ch2-gate'], WATCH_LOOK),
   ],
   zones: [
     { id: 'toCurb', rect: { x: 306, y: 146, w: 14, h: 53 }, enter: (g) => g.goto('curb', 20, 166) },
   ],
   draw(ctx, _g, t) {
     backdrop(ctx, 'ch2-gate');
+    drawWatcher(ctx, WATCH_SPOTS['ch2-gate'], t);
     person(ctx, 60, 166, ATTENDANT);
     person(ctx, 232, 168, ROGER, 'left', Math.floor(t * 2) % 2);
     // mop and bucket

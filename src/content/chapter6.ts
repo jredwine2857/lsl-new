@@ -8,6 +8,7 @@ import { money, type Game } from '../engine/game';
 import type { Command } from '../engine/parser';
 import type { Content, Item, Room } from '../engine/types';
 import { pamSave, pamScenes } from './pam';
+import { wedding } from './wedding';
 import { CLIMB_HANDS, climbFrame, cup, launchButton, pullupFrame, stunt } from './props6';
 import { scenes6 } from './scenes6';
 
@@ -349,7 +350,8 @@ const control: Room = {
       g.set('proposed');
       g.award('ending');
       g.cutscene('proposal');
-      g.win(`You get down on one knee, in Mission Control, in front of Snoop, Kris, Ashleigh, three million livestream viewers and a booster standing on a boat called TRY LISTENING THIS TIME.\n\nYou don't make a speech. For once in your life, you ask a question and then you shut up.\n\n"Grace Cho. Will you marry me?"\n\nShe looks at the ring. She knows it instantly. Her mom gave it to you. Her dad let her. She laughs, the real laugh from the noraebang, and says, "Yes. Obviously yes. Get up, your knees are 68."\n\nSnoop drops the beat to "Islands in the Stream." Kris is crying and denying it. Ashleigh's stream breaks Swipr.\n\n\nEPILOGUE\n\nThey are married in Cerritos, at the noraebang, in Room 3. Mr. Cho sings Kenny, terribly. Willow caters. Barry Sanders refuses to dance, then dances. Rick Moranis turns up, nobody knows how. Pam Anderson sends a card with a photo of a rescued bear, signed "The one who got away. Be happy, Larry." Maricel flies in from the Philippines, hugs Grace and whispers, "He listens now? Really?" Grace whispers back, "Mostly."\n\nThey live happily ever after in a house in Cerritos with a karaoke machine in every room and, on the mantel, in a glass case, a sealed copy of King's Quest V. Ken and Roberta send a note: "Never return it."\n\nEvery anniversary, they sing "Islands in the Stream." He does Kenny. She does Dolly. He's terrible. She's amazing.\n\nLarry Laffer: unscathed, the richest man in America, and finally, really, listening.\n\n\nTHE END\n\nThanks for playing LEISURE SUIT LARRY: WOKE UP BROKE.\n\nFinal score: ${g.s.score} of ${g.maxScore}.`, 'THE END');
+      g.cutscene('wedding');
+      g.win(`You get down on one knee, in Mission Control, in front of Snoop, Kris, Ashleigh, three million livestream viewers and a booster standing on a boat called TRY LISTENING THIS TIME.\n\nYou don't make a speech. For once in your life, you ask a question and then you shut up.\n\n"Grace Cho. Will you marry me?"\n\nShe looks at the ring. She knows it instantly. Her mom gave it to you. Her dad let her. She laughs, the real laugh from the noraebang, and says, "Yes. Obviously yes. Get up, your knees are 68."\n\nSnoop drops the beat to "Islands in the Stream." Kris is crying and denying it. Ashleigh's stream breaks Swipr.\n\n\nEPILOGUE\n\nThey are married in Cerritos, at the noraebang, in Room 3. Donald Trump officiates, uninvited and unstoppable, and calls it the greatest wedding in the history of weddings, maybe ever. Elon is best man; the ring arrives by rocket on the third try. Then the twist: the big man in the red cap and sunglasses who kept peeking at you in every city, through binoculars, was Trump. He's been watching over you since the day you landed at LAX. He's the one who kept sending Pam. "Somebody had to," he says. "You're a disaster, Larry. A beautiful disaster."\n\nMr. Cho sings Kenny, terribly. Willow caters. Barry Sanders refuses to dance, then dances. Rick Moranis turns up, nobody knows how. Pam Anderson sends a card with a photo of a rescued bear, signed "The one who got away. Be happy, Larry." Maricel flies in from the Philippines, hugs Grace and whispers, "He listens now? Really?" Grace whispers back, "Mostly."\n\nThey live happily ever after in a house in Cerritos with a karaoke machine in every room and, on the mantel, in a glass case, a sealed copy of King's Quest V. Ken and Roberta send a note: "Never return it."\n\nEvery anniversary, they sing "Islands in the Stream." He does Kenny. She does Dolly. He's terrible. She's amazing.\n\nLarry Laffer: unscathed, the richest man in America, and finally, really, listening.\n\n\nTHE END\n\nThanks for playing LEISURE SUIT LARRY: WOKE UP BROKE.\n\nFinal score: ${g.s.score} of ${g.maxScore}.`, 'THE END');
       return true;
     }
     if (has(g, 'launched') && g.has('ring') && /\b(love|grace|kiss|hug)\b/i.test(cmd.raw) && cmd.is(['say', 'tell', 'talk', 'kiss', 'hug', 'love'])) {
@@ -505,7 +507,7 @@ export const chapter6: Content = {
   startCash: 40000000000,
   startFlags: { phoneOnline: true, hasIdea: true },
   rooms: [hangar, norae, control, pad],
-  scenes: { ...scenes6, ...pamScenes },
+  scenes: { ...scenes6, ...pamScenes, wedding },
   items,
   points: {
     lookGrace: 2, talkGrace: 3, askMusic: 5, listenEngine: 8, getFood: 2, giveFood: 5, talkCruise: 2, callMaricel: 5,

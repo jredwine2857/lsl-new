@@ -2,6 +2,7 @@
 // Snoop's backyard rap battle, a Lakers kiss-cam, and #LarryToo, which Larry
 // beats with receipts and a Drew Barrymore hug.
 
+import { drawWatcher, watcherHotspot, WATCH_LOOK, WATCH_SPOTS } from './watcher';
 import { EGA, SKIN_DARK, ellipse, person, rect, text } from '../engine/gfx';
 import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
@@ -153,6 +154,7 @@ const street: Room = {
     { id: 'rv', names: ['rv', 'camper', 'motorhome', 'winnebago', 'doorbell'], rect: { x: 170, y: 108, w: 90, h: 44 }, look: (g) => { g.award('lookRv'); return 'A 1987 Winnebago with Canadian plates. Somebody has installed a doorbell camera on the RV\'s door, pointed straight at Snoop\'s gate. A bumper sticker: "I BRAKE FOR MARSHMALLOW MEN."'; } },
     { id: 'busstop', names: ['bus', 'bus stop', 'stop', 'sign', 'los angeles'], rect: { x: 286, y: 100, w: 24, h: 50 }, look: 'A Long Beach Transit stop. The sign says LOS ANGELES and, under it in Sharpie, "EVENTUALLY."' },
     { id: 'traffic', names: ['street', 'road', 'traffic', 'ocean'], rect: { x: 0, y: 186, w: 320, h: 14 }, look: 'Ocean Boulevard. Lowriders, a Tesla and a guy on a unicycle, all doing exactly 25.' },
+    watcherHotspot(WATCH_SPOTS['ch4-street'], WATCH_LOOK),
   ],
   zones: [
     {
@@ -178,6 +180,7 @@ const street: Room = {
   ],
   draw(ctx, g, t) {
     backdrop(ctx, 'ch4-street');
+    drawWatcher(ctx, WATCH_SPOTS['ch4-street'], t);
     // smoke from the backyard
     if (Math.floor(t * 4) % 2) { rect(ctx, EGA.white, 14, 88, 2, 6); rect(ctx, EGA.white, 11, 93, 4, 2); }
     const lx = ((t * 40) % 420) - 80;

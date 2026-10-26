@@ -104,6 +104,16 @@ CAST = {
     # recurring: Pam, in the red lifeguard one-piece
     'pam': dict(skin='#F0C098', hair=('#F4D878', 'long'), build=0.86, top='#D81E28', sleeve='#F0C098', pants='#F0C098',
                 shoes='#F0C098', swimsuit='#D81E28'),
+    # the wedding: the officiant, in his own words the greatest officiant ever, and
+    # the same man in the "disguise" he has been watching Larry from all game
+    'trump': dict(skin='#F0A468', hair=('#F2D27A', 'short'), swoop='#F2D27A', build=1.18, belly=1.3, head=1.05,
+                  top='#1E2A4A', pants='#1E2A4A', front=dict(shirt=WHITE, lapels='#1E2A4A', tie='#C81E1E', tie_len=0.24)),
+    'watcher': dict(skin='#F0A468', hair=('#F2D27A', 'short'), build=1.18, belly=1.3, head=1.05, glasses='shades',
+                    hat=('#C81E1E', 'cap'), top='#B89A68', pants='#1E2A4A', front=dict(shirt=WHITE, lapels='#9A7E50')),
+    'elon-tux': dict(skin=FAIR, hair=('#5A4030', 'short'), height=1.05, top=BLACK, pants=BLACK,
+                     front=dict(shirt=WHITE, lapels='#2A2A2A', tie=BLACK, tie_len=-0.2)),
+    'grace-bride': dict(skin='#E8BC94', hair=(BLACK, 'long'), build=0.86, top=WHITE, sleeve='#E8BC94',
+                        skirt=(WHITE, 0.95), pants=WHITE, shoes=WHITE, veil=True),
     'spacey': dict(skin=LIGHT, hair=('#6A6A6A', 'short'), top='#6A6A6A', pants='#6A6A6A',
                    front=dict(shirt=WHITE, lapels='#5A5A5A', tie='#B02020')),
 }
@@ -121,6 +131,13 @@ def make(name):
     hair, style = r['hair']
     c.head(hair=hair, hair_style=style, nose=r.get('nose', 1.0), chin=r.get('chin', 1.0), brows=r.get('brows'),
            beard=r.get('beard'), moustache=r.get('moustache'))
+    if 'swoop' in r:
+        # the famous forward sweep of hair, sitting up off the forehead
+        from charkit import mat
+        from mathutils import Vector
+        hr = c.head_r
+        c.ball(c.headj, Vector((0, -hr * 0.4, hr * 1.82)), (hr * 1.0, hr * 0.68, hr * 0.32), mat(r['swoop'], rough=0.45), 'swoop')
+        c.ball(c.headj, Vector((0, hr * 0.1, hr * 1.78)), (hr * 1.02, hr * 0.9, hr * 0.32), mat(r['swoop'], rough=0.45), 'swoop2')
     c.torso(r['top'], belly=r.get('belly', 1.0))
     if 'front' in r:
         c.suit_front(**r['front'])
@@ -132,6 +149,12 @@ def make(name):
         c.capsule(c.pelvis, 0.2 * b, 0.19 * b, 0.13, mat(r['swimsuit'], rough=0.5), 'suit', offset=(0, 0, 0.075), sy=0.74)
     if 'skirt' in r:
         c.skirt(r['skirt'][0], length=r['skirt'][1])
+    if r.get('veil'):
+        from charkit import mat
+        from mathutils import Vector
+        hr = c.head_r
+        c.ball(c.headj, Vector((0, hr * 0.85, hr * 0.5)), (hr * 1.3, hr * 0.6, hr * 2.0), mat('#F8F8FF', rough=0.8), 'veil')
+        c.ball(c.headj, Vector((0, -hr * 0.1, hr * 1.85)), (hr * 0.8, hr * 0.5, hr * 0.14), mat('#E8E0F0', rough=0.3, metal=0.4), 'tiara')
     g = r.get('glasses')
     if g:
         c.glasses(shades=g != 'clear', lens='#88AACC' if g in ('clear', 'shades') else g)
