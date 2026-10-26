@@ -113,7 +113,17 @@ const LINES: [number, string, string][] = [
   [ENTER + 10.6, 'GRACE:', 'I do. Obviously.'],
   [ENTER + 12, 'ELON:', 'The ring. Delivered by rocket. Third try.'],
 ];
-const PRONOUNCE = ENTER + 14.6;
+// the close-up: Trump, straight to camera, on the marriage he is officiating
+const CLOSE = ENTER + 14.6;
+const BOASTS: [number, string][] = [
+  [0, 'Larry, you\'re the best.'],
+  [2.2, 'And your marriage will be the best, because I\'m officiating it.'],
+  [5.4, 'No one ever in history will ever have a better marriage than this.'],
+  [8.6, 'Because I\'m officiating.'],
+  [10.6, 'God bless. And you\'re welcome!'],
+];
+const CLOSE_LEN = 13.4;
+const PRONOUNCE = CLOSE + CLOSE_LEN;
 const KISS = PRONOUNCE + 3;
 const WHY = KISS + 3.6;
 const FLASH = WHY + 2.8;
@@ -160,11 +170,44 @@ function flashback(ctx: Ctx, room: string, place: string, u: number) {
   for (let i = 0; i < 30; i++) rect(ctx, '#F8E8C8', (i * 97 + Math.floor(u * 40) * 31) % 320, (i * 53 + Math.floor(u * 40) * 17) % 200, 1, 1);
 }
 
+/** Straight to camera, mouth flapping while the words type out, slow push in. */
+function closeUp(ctx: Ctx, u: number) {
+  // the hall behind him, close and soft
+  ctx.save();
+  ctx.filter = 'blur(2px) brightness(0.6)';
+  const hall = sceneArt('wed-hall');
+  if (hall) ctx.drawImage(hall, 160 - 320, 40 - 200, 640, 400);
+  ctx.restore();
+  let i = 0;
+  while (i + 1 < BOASTS.length && u >= BOASTS[i + 1][0]) i++;
+  const [at, words] = BOASTS[i];
+  const typing = (u - at) * 40 < words.length;
+  const mouth = typing ? [1, 2, 1, 0][Math.floor(u * 10) % 4] : 0;
+  const z = 1 + u * 0.012;
+  ctx.save();
+  ctx.translate(160, 200);
+  ctx.scale(z, z);
+  ctx.translate(-160, -200);
+  pic(ctx, `wed-trump-close-${mouth}`, 60, 4);
+  ctx.restore();
+  // a twinkle on "you're welcome"
+  if (u >= BOASTS[4][0]) {
+    const k = u - BOASTS[4][0];
+    for (let j = 0; j < 8; j++) {
+      const a = j * 0.8 + k * 2;
+      if (Math.sin(k * 8 + j) > 0) rect(ctx, '#FFF4C0', Math.round(160 + Math.cos(a) * (70 + j * 4)), Math.round(70 + Math.sin(a) * (40 + j * 3)), 2, 2);
+    }
+  }
+  line(ctx, 'TRUMP:', words, u - at);
+}
+
 export const wedding: Cutscene = {
   duration: END,
   draw(ctx, t, g) {
     cues(t, g, [[0.2, 'bride'], [PRONOUNCE + 1.2, 'win'], [KISS, 'smooch'], [KISS + 0.3, 'applause'], [WHY + 0.2, 'scratch'], [REVEAL, 'reveal'], [THUMBS + 3.5, 'applause']]);
-    if (t < FLASH || t >= REVEAL) {
+    if (t >= CLOSE && t < PRONOUNCE) {
+      closeUp(ctx, t - CLOSE);
+    } else if (t < FLASH || t >= REVEAL) {
       // the hall
       ctx.save();
       const z = t < TITLE ? 1.1 - t * 0.033 : 1;
@@ -188,7 +231,7 @@ export const wedding: Cutscene = {
         stand(ctx, t < THUMBS ? 'wed-trump-binoculars' : 'wed-trump-thumbs', TRUMP_X, BACK);
       }
       // best man
-      const ring = t >= LINES[6][0] && t < PRONOUNCE;
+      const ring = t >= LINES[6][0] && t < CLOSE;
       stand(ctx, ring ? 'wed-elon-ring' : 'wed-elon', ring ? ELON_X + 22 : ELON_X);
       // the couple
       const kiss = t >= KISS && t < WHY;
@@ -221,7 +264,7 @@ export const wedding: Cutscene = {
       if (t >= TITLE + 0.3 && t < ENTER) line(ctx, 'SNOOP:', 'Y\'all, please rise for... your officiant.', said(t, TITLE + 0.3));
       for (let i = 0; i < LINES.length; i++) {
         const [at, who, s] = LINES[i];
-        const next = i + 1 < LINES.length ? LINES[i + 1][0] : PRONOUNCE;
+        const next = i + 1 < LINES.length ? LINES[i + 1][0] : CLOSE;
         if (t >= at && t < next) line(ctx, who, s, said(t, at));
       }
       if (t >= PRONOUNCE && t < KISS) line(ctx, 'TRUMP:', 'I now pronounce you husband and wife. Kiss the bride!', said(t, PRONOUNCE));
@@ -249,6 +292,6 @@ export const wedding: Cutscene = {
       line(ctx, 'TRUMP:', 'And who do you think kept sending Pam?', said(t, PAM));
     }
     const cut = (a: number) => Math.max(0, 1 - Math.abs(t - a) / 0.25);
-    fade(ctx, Math.max(1 - t / 0.4, 1 - (END - t) / 0.8, cut(FLASH), cut(PAM), cut(REVEAL)));
+    fade(ctx, Math.max(1 - t / 0.4, 1 - (END - t) / 0.8, cut(CLOSE), cut(PRONOUNCE), cut(FLASH), cut(PAM), cut(REVEAL)));
   },
 };

@@ -195,6 +195,26 @@ def elon_stand():
     shoot('wed-elon')
 
 
+def closeup():
+    """Head and shoulders, filling the screen: pointing at us, mid-boast. Three
+    mouth shapes (shut, open, wide) so the game can lip-flap it."""
+    import bpy
+    for f, (open_, wide) in enumerate(((1, 1), (2.6, 1.05), (4, 1.15))):
+        c = sk.character('trump')
+        c.j['shoulderR'].rotation_euler = rad(-80, 0, 10)
+        c.j['elbowR'].rotation_euler = rad(-15, 0, 0)
+        c.j['shoulderL'].rotation_euler = rad(-30, 0, 15)
+        c.j['elbowL'].rotation_euler = rad(-70, 0, 0)
+        c.neck.rotation_euler = rad(-6, 0, 0)
+        for o in bpy.data.objects:
+            if o.name.startswith('mouth'):
+                o.scale = (o.scale[0] * wide, o.scale[1], o.scale[2] * open_)
+                o.location.z -= c.head_r * 0.02 * (open_ - 1)
+        zc = 1.45
+        cam = (0, -20 * math.cos(TILT), zc + 20 * math.sin(TILT))
+        sk.shoot(f'wed-trump-close-{f}', 200, 200, cam=cam, target=(0, 0, zc), ppm=200 / 0.95)
+
+
 def poses():
     trump_read()
     trump_proclaim()
