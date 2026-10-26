@@ -7,7 +7,7 @@ import { EGA, SKIN_DARK, dither, person, rect, text } from '../engine/gfx';
 import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
-import { pamSave } from './pam';
+import { pamSave, pamScenes } from './pam';
 
 const BABBAGES_RECEIPT_PRICE = 4995; // King's Quest V, 1990 pricing
 const COLLECTOR_PRICE = 100000;
@@ -579,6 +579,7 @@ export const chapter1: Content = {
   title: 'Leisure Suit Larry: Woke Up Broke',
   chapter: 'Chapter 1: Rip Van Laffer',
   startRoom: 'backroom',
+  scenes: pamScenes,
   start: { x: 60, y: 178 },
   startInventory: ['wallet'],
   startCash: 342,

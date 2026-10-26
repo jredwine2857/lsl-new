@@ -7,7 +7,7 @@ import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
 import type { Command } from '../engine/parser';
-import { pamSave } from './pam';
+import { pamSave, pamScenes } from './pam';
 
 const SEED = 1000000;
 
@@ -542,6 +542,7 @@ export const chapter4: Content = {
   title: 'Leisure Suit Larry: Woke Up Broke',
   chapter: 'Chapter 4: The Long Beach Cypher',
   startRoom: 'street',
+  scenes: pamScenes,
   start: { x: 200, y: 176 },
   startInventory: ['wallet', 'phone', 'kriscard'],
   startCash: 118,

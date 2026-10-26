@@ -6,7 +6,7 @@ import { EGA, SKIN_DARK, ellipse, person, poly, rect, text } from '../engine/gfx
 import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
-import { pamSave } from './pam';
+import { pamSave, pamScenes } from './pam';
 
 const CONEY = 225;
 
@@ -541,6 +541,7 @@ export const chapter3: Content = {
   title: 'Leisure Suit Larry: Woke Up Broke',
   chapter: 'Chapter 3: Summer of Love',
   startRoom: 'skyline',
+  scenes: pamScenes,
   start: { x: 40, y: 176 },
   startInventory: ['wallet', 'phone', 'kriscard'],
   startCash: 343,

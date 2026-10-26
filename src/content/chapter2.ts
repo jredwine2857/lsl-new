@@ -6,7 +6,7 @@ import { EGA, SKIN_DARK, ellipse, person, rect } from '../engine/gfx';
 import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
-import { pamSave } from './pam';
+import { pamSave, pamScenes } from './pam';
 
 const BILL = 41200;
 
@@ -365,6 +365,7 @@ export const chapter2: Content = {
   title: 'Leisure Suit Larry: Woke Up Broke',
   chapter: 'Chapter 2: Filter Bubble',
   startRoom: 'gate',
+  scenes: pamScenes,
   start: { x: 40, y: 178 },
   startInventory: ['wallet', 'phone', 'sq'],
   startCash: 343,

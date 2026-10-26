@@ -101,6 +101,9 @@ CAST = {
                    front=dict(shirt=WHITE, chain=None)),
     'snoop-gold': dict(skin=BROWN, hair=(BLACK, 'long'), build=0.85, height=1.1, glasses='shades', top='#E8C030',
                        pants='#E8C030'),
+    # recurring: Pam, in the red lifeguard one-piece
+    'pam': dict(skin='#F0C098', hair=('#F4D878', 'long'), build=0.86, top='#D81E28', sleeve='#F0C098', pants='#F0C098',
+                shoes='#F0C098', swimsuit='#D81E28'),
     'spacey': dict(skin=LIGHT, hair=('#6A6A6A', 'short'), top='#6A6A6A', pants='#6A6A6A',
                    front=dict(shirt=WHITE, lapels='#5A5A5A', tie='#B02020')),
 }
@@ -123,6 +126,10 @@ def make(name):
         c.suit_front(**r['front'])
     c.arms(r.get('sleeve', r['top']))
     c.legs(r['pants'], shoes=r.get('shoes', BLACK), flare=r.get('flare', 1.0))
+    if 'swimsuit' in r:
+        from charkit import mat
+        b = r.get('build', 1.0)
+        c.capsule(c.pelvis, 0.2 * b, 0.19 * b, 0.13, mat(r['swimsuit'], rough=0.5), 'suit', offset=(0, 0, 0.075), sy=0.74)
     if 'skirt' in r:
         c.skirt(r['skirt'][0], length=r['skirt'][1])
     g = r.get('glasses')

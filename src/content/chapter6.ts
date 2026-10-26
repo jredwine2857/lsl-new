@@ -7,7 +7,7 @@ import { backdrop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Command } from '../engine/parser';
 import type { Content, Item, Room } from '../engine/types';
-import { pamSave } from './pam';
+import { pamSave, pamScenes } from './pam';
 import { CLIMB_HANDS, climbFrame, cup, launchButton, pullupFrame, stunt } from './props6';
 import { scenes6 } from './scenes6';
 
@@ -505,7 +505,7 @@ export const chapter6: Content = {
   startCash: 40000000000,
   startFlags: { phoneOnline: true, hasIdea: true },
   rooms: [hangar, norae, control, pad],
-  scenes: scenes6,
+  scenes: { ...scenes6, ...pamScenes },
   items,
   points: {
     lookGrace: 2, talkGrace: 3, askMusic: 5, listenEngine: 8, getFood: 2, giveFood: 5, talkCruise: 2, callMaricel: 5,

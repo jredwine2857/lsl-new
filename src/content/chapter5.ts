@@ -6,7 +6,7 @@ import { EGA, person, poly, rect, text } from '../engine/gfx';
 import { backdrop, charSprite, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
-import { pamSave } from './pam';
+import { pamSave, pamScenes } from './pam';
 
 const LUBBER_PRICE = 500000000;
 
@@ -438,6 +438,7 @@ export const chapter5: Content = {
   title: 'Leisure Suit Larry: Woke Up Broke',
   chapter: 'Chapter 5: Too Wild for Larry',
   startRoom: 'basel',
+  scenes: pamScenes,
   start: { x: 30, y: 176 },
   startInventory: ['wallet', 'lubber', 'phone', 'kriscard'],
   startCash: 1000118,
