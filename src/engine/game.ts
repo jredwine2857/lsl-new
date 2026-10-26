@@ -235,19 +235,25 @@ export class Game {
   get moving() { return !!(this.target || this.dir); }
 
   /** Play a full-screen action sequence before any messages that follow. */
+  /** Cutscenes waiting to play after the current one (the proposal, then the wedding). */
+  private sceneQueue: string[] = [];
+
   cutscene(name: string) {
-    if (this.content.scenes?.[name]) this.scene = { name, t: 0 };
+    if (!this.content.scenes?.[name]) return;
+    if (this.scene) this.sceneQueue.push(name);
+    else this.scene = { name, t: 0 };
   }
 
   skipScene() {
-    this.scene = null;
+    const next = this.sceneQueue.shift();
+    this.scene = next ? { name: next, t: 0 } : null;
   }
 
   /** Advance the world by dt seconds. Paused while a cutscene or message is showing. */
   update(dt: number) {
     if (this.scene) {
       this.scene.t += dt;
-      if (this.scene.t >= (this.content.scenes?.[this.scene.name]?.duration ?? 0)) this.scene = null;
+      if (this.scene.t >= (this.content.scenes?.[this.scene.name]?.duration ?? 0)) this.skipScene();
       return;
     }
     if (this.queue.length || this.s.over) return;

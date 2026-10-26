@@ -240,7 +240,7 @@ class Char:
         self.capsule(self.pelvis, 0.21 * b, 0.2 * b * flare, length * h, mat(color, rough=0.6), 'skirt',
                      offset=(0, 0, 0.1), sy=0.8)
 
-    def suit_front(self, shirt, lapels=None, chain=None, tie=None):
+    def suit_front(self, shirt, lapels=None, chain=None, tie=None, tie_len=0.0):
         """Open collar V, lapels and an optional gold chain or tie on the chest."""
         h, b = self.h, self.b
         y = -0.172 * b
@@ -258,7 +258,8 @@ class Char:
             self._link(t, self.chest, mat(chain, rough=0.2, metal=1.0))
             t.location = (0, y + 0.035, z1 - 0.06)
         if tie:
-            self._wedge(self.chest, [(-0.025, z1 - 0.01, y - 0.006), (0.025, z1 - 0.01, y - 0.006), (0, z0 - 0.08, y - 0.006)],
+            tw = 0.025 + max(0.0, tie_len) * 0.12
+            self._wedge(self.chest, [(-tw, z1 - 0.01, y - 0.02), (tw, z1 - 0.01, y - 0.02), (0, z0 - 0.08 - tie_len, y - 0.02)],
                         mat(tie, rough=0.5), 'tie')
 
     def _wedge(self, parent, pts, m, name):

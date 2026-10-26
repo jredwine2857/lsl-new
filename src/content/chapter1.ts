@@ -3,11 +3,12 @@
 // Jet-lagged, he crashes in Lefty's old hot tub and wakes up in a new world.
 // Goal: get a phone, get an idea, get out of Lost Wages.
 
+import { drawWatcher, watcherHotspot, WATCH_LOOK, WATCH_SPOTS } from './watcher';
 import { EGA, SKIN_DARK, dither, person, rect, text } from '../engine/gfx';
 import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
-import { pamSave } from './pam';
+import { pamSave, pamScenes } from './pam';
 
 const BABBAGES_RECEIPT_PRICE = 4995; // King's Quest V, 1990 pricing
 const COLLECTOR_PRICE = 100000;
@@ -395,16 +396,18 @@ const mall: Room = {
     { id: 'babbages', names: ['babbages', 'babbage', 'game store', 'left store'], rect: { x: 20, y: 40, w: 112, h: 84 }, look: "BABBAGE'S, the last one in America. The window display is all big boxes: King's Quest, Police Quest, Space Quest, Leisure Suit Larry. You blush." },
     { id: 'pear', names: ['pear', 'pear store', 'phone store', 'right store'], rect: { x: 190, y: 40, w: 112, h: 84 }, look: 'The Pear Store. White, silent, and full of tables. Nothing in the window has a price tag, which is how you know.' },
     { id: 'spirit', names: ['spirit', 'halloween', 'sears', 'spirit halloween'], rect: { x: 134, y: 40, w: 54, h: 30 }, look: 'SPIRIT HALLOWEEN, formerly Sears, formerly the place you bought this suit. One of the costumes on display is "Sexy 1992 Guy." It is your exact outfit.' },
+    watcherHotspot(WATCH_SPOTS['ch1-mall'], WATCH_LOOK),
   ],
   zones: [
     { id: 'toStreet', rect: { x: 0, y: 196, w: 320, h: 4 }, enter: (g) => g.goto('street', 270, 166) },
     { id: 'toBabbages', rect: { x: 56, y: 124, w: 40, h: 5 }, enter: (g) => g.goto('babbages', 160, 188) },
     { id: 'toPear', rect: { x: 226, y: 124, w: 40, h: 5 }, enter: (g) => g.goto('pear', 160, 188) },
   ],
-  draw(ctx, g) {
+  draw(ctx, g, t) {
     backdrop(ctx, 'ch1-mall');
     person(ctx, 149, 150, KEN);
     person(ctx, 171, 150, ROBERTA);
+    drawWatcher(ctx, WATCH_SPOTS['ch1-mall'], t);
     backdrop(ctx, 'ch1-mall-fg');
     rect(ctx, EGA.yellow, 158, 138, 6, 4);
     if (g.flag('soldBox')) rect(ctx, EGA.lblue, 162, 140, 8, 6);
@@ -579,6 +582,7 @@ export const chapter1: Content = {
   title: 'Leisure Suit Larry: Woke Up Broke',
   chapter: 'Chapter 1: Rip Van Laffer',
   startRoom: 'backroom',
+  scenes: pamScenes,
   start: { x: 60, y: 178 },
   startInventory: ['wallet'],
   startCash: 342,

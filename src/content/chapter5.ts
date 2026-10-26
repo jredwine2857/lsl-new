@@ -2,11 +2,12 @@
 // Miami during Art Basel week. Larry funds LaffX, out-jumps Bill Gates, walks
 // away from the wrong party, and helps Elon stop the Mandatory Update.
 
+import { drawWatcher, watcherHotspot, WATCH_LOOK, WATCH_SPOTS } from './watcher';
 import { EGA, person, poly, rect, text } from '../engine/gfx';
 import { backdrop, charSprite, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
-import { pamSave } from './pam';
+import { pamSave, pamScenes } from './pam';
 
 const LUBBER_PRICE = 500000000;
 
@@ -91,12 +92,14 @@ const basel: Room = {
     { id: 'curator', names: ['curator', 'woman', 'smithsonian', 'lady', 'badge'], rect: { x: 183, y: 128, w: 14, h: 40 }, look: 'Dr. Ellen Pike, Smithsonian Curator of American Culture. Her badge says she\'s here "acquiring artifacts of the post-pandemic era." She has rejected four NFTs and a Bored Ape in the last hour.' },
     { id: 'moranis', names: ['moranis', 'rick', 'rick moranis', 'small man', 'man in chair'], rect: { x: 243, y: 128, w: 14, h: 40 }, look: (g) => (g.has('chair') || has(g, 'chairPlaced') ? 'Rick Moranis, standing now, holding a plastic cup of white wine with both hands.' : 'Rick Moranis, in a folding lawn chair, in the middle of Art Basel. People keep photographing him. Someone has offered $40,000 for the piece.') },
     { id: 'neon', names: ['neon', 'sign', 'neon sign'], rect: { x: 220, y: 30, w: 80, h: 20 }, look: 'A neon sign: "IS THIS ART?" Under it, a smaller neon sign: "YES. $90,000."' },
+    watcherHotspot(WATCH_SPOTS['ch5-basel'], WATCH_LOOK),
   ],
   zones: [
     { id: 'toOcean', rect: { x: 308, y: 150, w: 12, h: 50 }, enter: (g) => g.goto('ocean', 20, 172) },
   ],
-  draw(ctx, g) {
+  draw(ctx, g, t) {
     backdrop(ctx, 'ch5-basel');
+    drawWatcher(ctx, WATCH_SPOTS['ch5-basel'], t);
     // the man who read the goat painting, out cold on the floor
     ctx.save();
     ctx.translate(304, 182);
@@ -438,6 +441,7 @@ export const chapter5: Content = {
   title: 'Leisure Suit Larry: Woke Up Broke',
   chapter: 'Chapter 5: Too Wild for Larry',
   startRoom: 'basel',
+  scenes: pamScenes,
   start: { x: 30, y: 176 },
   startInventory: ['wallet', 'lubber', 'phone', 'kriscard'],
   startCash: 1000118,

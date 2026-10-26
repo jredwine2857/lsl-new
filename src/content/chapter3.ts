@@ -2,11 +2,12 @@
 // Cincinnati. Larry follows a free-food sign into a protest zone, meets
 // Ashleigh's niece Willow, and has to get them both out past Scut Farkus.
 
+import { drawWatcher, watcherHotspot, WATCH_LOOK, WATCH_SPOTS } from './watcher';
 import { EGA, SKIN_DARK, ellipse, person, poly, rect, text } from '../engine/gfx';
 import { backdrop, prop } from '../engine/art';
 import { money, type Game } from '../engine/game';
 import type { Content, Item, Room } from '../engine/types';
-import { pamSave } from './pam';
+import { pamSave, pamScenes } from './pam';
 
 const CONEY = 225;
 
@@ -98,6 +99,7 @@ const skyline: Room = {
     { id: 'sign', names: ['sign', 'window', 'flyer', 'poster', 'free food'], rect: { x: 18, y: 24, w: 70, h: 60 }, look: (g) => { g.award('lookSign'); return 'A hand-painted flyer: "FREE FOOD! SUMMER OF LOVE! WASHINGTON PARK! ALL WELCOME (VIBES REQUIRED)."\n\nFree food AND love. Larry hasn\'t been this excited since the Carter administration.'; } },
     { id: 'logo', names: ['logo', 'oval', 'skyline sign', 'skyline', 'big sign'], rect: { x: 112, y: 13, w: 100, h: 42 }, look: 'The Skyline sign: a glowing oval with the Cincinnati skyline across the top, "Skyline" in neon lime script and "CHILI" on a red bar. It has looked down on a million 3-ways and judged none of them.' },
     { id: 'menu', names: ['menu', 'board', 'screens', 'ways', 'chili', 'vat'], rect: { x: 112, y: 58, w: 170, h: 16 }, look: `The menu screens: CHEESE CONEY ${money(CONEY)}. 3-WAY (spaghetti, chili, cheese). 4-WAY (add onions or beans). 5-WAY (add both). In smaller letters, underlined twice: "THERE IS NO 6-WAY."` },
+    watcherHotspot(WATCH_SPOTS['ch3-skyline'], WATCH_LOOK),
   ],
   zones: [
     { id: 'toPark', rect: { x: 306, y: 150, w: 14, h: 49 }, enter: (g) => g.goto('park', 20, 172) },
@@ -112,6 +114,7 @@ const skyline: Room = {
     // steam off the chili vat
     if (Math.floor(t * 2) % 2) rect(ctx, EGA.white, 44, 90, 2, 6);
     person(ctx, 90, 138, WAITRESS);
+    drawWatcher(ctx, WATCH_SPOTS['ch3-skyline'], t);
     backdrop(ctx, 'ch3-skyline-fg');
     person(ctx, 170, 160, MORANIS, 'up');
   },
@@ -541,6 +544,7 @@ export const chapter3: Content = {
   title: 'Leisure Suit Larry: Woke Up Broke',
   chapter: 'Chapter 3: Summer of Love',
   startRoom: 'skyline',
+  scenes: pamScenes,
   start: { x: 40, y: 176 },
   startInventory: ['wallet', 'phone', 'kriscard'],
   startCash: 343,
